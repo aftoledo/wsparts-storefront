@@ -1,0 +1,129 @@
+{{ ##
+    Description: Renders mini cart contents
+    Params:
+        - Uses SnippetQueries/mini_cart.graphql
+    Usage:
+        await client.snippet.render("mini_cart_snippet.html", ...);
+## }}
+{{~ 
+    checkoutUrl = ""
+    products_count = 0 
+    products = null
+    noImage = "https://" + store.store_name + ".fbitsstatic.net/img/p/produto-nao-possui-foto-no-momento/sem-foto.jpg?w=100"
+
+    if data.checkout 
+        if store.is_local
+            checkoutUrl = data.checkout.url
+        else 
+            index = data.checkout.url | string.index_of "/" startIndex: 8           #ignores the first 8 characters 'https://'
+            checkoutUrl = data.checkout.url | string.slice 0 lenght: (index + 1)    #removes the cart Id from the URL
+        end
+            products_count = data.checkout.products.size
+            products = data.checkout.products
+            subtotal = data.checkout.subtotal
+    else 
+        checkoutUrl = data.shop.checkout_url
+    end 
+~}}
+<input type="hidden" id="cart-products-qty" value="{{ products_count }}">
+<div class="flex h-full flex-col overflow-y-auto bg-mainBg shadow-xl">
+    <div class="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
+        <div class="flex items-start justify-between">
+            <h2 class="text-lg font-medium text-secondary-900" id="slide-over-title">Meu carrinho</h2>
+            <div class="ml-3 flex h-7 items-center">
+                <button type="button" class="-m-2 p-2 text-secondary-400 hover:text-secondary-500" onclick="setCartDivVisibility()">
+                <span class="sr-only">Close panel</span>
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                </button>
+            </div>
+        </div>
+        <div class="mt-8">
+            <div class="flow-root">
+                <ul role="list" class="-my-6 divide-y divide-secondary-200">                    
+                {{~ if products[0] ~}}
+                    {{~ for product in products ~}}
+                        <li class="flex py-6">
+                            <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-secondary-200">
+                                <img src="{{ product.image_url ? product.image_url : noImage }}" width="80px">
+                            </div>                                
+                            <div class="ml-4 flex flex-1 flex-col">
+                                <div class="flex justify-between text-base font-medium text-secondary-900">
+                                    <h3>
+                                    <a href="#">{{ product.name }}</a>
+                                    </h3>
+                                    <p class="ml-4">{{ product.price | math.format "c" "pt-BR" }}</p>
+                                </div>
+                                <p class="mt-1 text-sm text-secondary-500">
+                                    {{~ for attr in product.product_attributes ~}}
+                                        {{ attr.name }}: <b>{{ attr.value }}</b> {{type}}
+                                    {{~ end ~}}
+                                </p>
+                                {{~ customization_id = "" ~}}
+                                {{~ if product.customization ~}}
+                                    {{~ customization_id = product.customization.id ~}}
+                                    <u>Personalizações</u>
+                                    <p class="mt-1 text-sm text-secondary-500">
+                                        {{~ for custom in product.customization.values ~}}
+                                            <div>{{ custom.name }}: <b>{{ custom.value }}</b> ({{ custom.cost | math.format "c" "pt-BR" }})</div>
+                                        {{~ end ~}}
+                                    </p>
+                                {{~ end ~}}
+                                <div class="flex justify-between text-base font-medium text-secondary-900 mt-4">
+                                    <div class="flex justify-between">
+                                        <button onclick="miniCartSubtractQuantity('{{ product.product_variant_id }}', '{{ customization_id }}')" class="flex justify-center items-center rounded-sm mr-3 border">
+                                            <img src="{{- store.urls.static_img}}icons/minus-small.svg?theme={{store.theme}}&v={{store.last_modified}}" class="h-5 w-5">
+                                        </button>
+                                        {{ product.quantity }}
+                                        <button onclick="miniCartAddQuantity('{{ product.product_variant_id }}', '{{ customization_id }}')" class="flex justify-center items-center rounded-sm ml-3 border">
+                                            <img src="{{- store.urls.static_img}}icons/plus-small.svg?theme={{store.theme}}&v={{store.last_modified}}" class="h-5 w-5">
+                                        </button>
+                                    </div>
+                                    <p class="ml-4">
+                                        <button type="button" onclick="removeProductFromCart('{{ product.product_variant_id }}','{{ product.quantity }}', '{{ customization_id }}')">
+                                            <img src="{{- store.urls.static_img}}icons/remove.svg?theme={{store.theme}}&v={{store.last_modified}}" class="h-5 w-5">
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    {{~ end ~}}
+                {{~ else ~}}
+                    <div class="flex flex-col items-center justify-center py-60">
+                        <img src="{{- store.urls.static_img}}icons/empty-orders.svg?theme={{store.theme}}&v={{store.last_modified}}" class="w-40 mb-5">
+                        <p class="text-lg">O carrinho está vazio</p>
+                        <button type="button" class="font-medium text-primary-600 hover:text-primary-500" onclick="setCartDivVisibility()">
+                            Navegue pela loja e continue comprando
+                        </button>
+                    </div>           
+                {{~ end ~}}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-t border-secondary-200 py-6 px-4 sm:px-6">
+        {{~ if products[0] ~}}    
+            <div class="flex justify-between text-base font-medium text-secondary-900">
+                <p>Subtotal</p>
+                <p>{{subtotal | math.format "c" "pt-BR"}}</p>
+            </div>
+            <p class="mt-0.5 text-sm text-secondary-500">Frete e impostos calculados na finalização da compra.</p>
+            <div class="mt-6">
+                <a href="{{checkoutUrl}}" class="flex items-center justify-center rounded-md border border-transparent bg-primary-500 
+                px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-primary-900">Finalizar Compra</a>
+            </div>
+            <div class="mt-6 flex justify-center text-center text-sm text-secondary-500">
+                <p>
+                    ou
+                    <button type="button" class="font-medium text-primary-600 hover:text-primary-500" onclick="setCartDivVisibility()">
+                    Continue comprando
+                    <span aria-hidden="true"> &rarr;</span>
+                    </button>
+                </p>
+            </div>
+        {{~ end ~}}
+    </div>
+    {{ data_layer_cart_view checkout: data.checkout}}
+</div>

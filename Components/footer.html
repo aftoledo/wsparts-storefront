@@ -1,0 +1,102 @@
+<div class="flex flex-col w-full lg:flex-row lg:justify-center border-t-4 border-secondary-300 bg-mainBg">
+    <div class="flex flex-col items-start w-full lg:max-w-[1330px] px-2 relative">
+        <div class="flex flex-col md:flex-row lg:flex-row justify-between w-full mt-7 pb-4 border-b border-black">
+            <div class="border-b mb-4 md:border-none lg:m-0">
+                <h3 class="text-base lg:text-lg font-medium">Atendimento</h3>
+                <div class="flex justify-center items-center px-2 bg-secondary-300 rounded-full font-semibold shadow-lg my-4 cursor-pointer">
+                    <img src="{{- store.urls.static_img}}footer/whatsapp.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="whatsapp" class="w-4 h-4 m-2" loading="lazy" >
+                    WhatsApp
+                </div>
+                <div class="my-4">
+                    <span class="text-base lg:text-lg">Atendimento via Telefone</span>
+                    <ul class="my-4 text-sm lg:text-base">
+                        <li class="mb-2">(XX) XXXXX-XXXX</li>
+                        <li class="mb-2">(XX) XXXXX-XXXX</li>
+                        <li>(XX) XXXX-XXXX</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-b mb-4 md:border-none lg:m-0">
+                <h3 class="text-base lg:text-lg font-medium">Precisa de Ajuda?</h3>
+                <ul class="my-4 text-sm lg:text-lg">                    
+                    <li class="mb-4 cursor-pointer"><a href="/duvidasfrequentes">Dúvidas frequentes</a></li>
+                    <li class="mb-4 cursor-pointer"><a href="/trocasedevolucoes">Trocas e devoluções</a></li>
+                    <li class="mb-4 cursor-pointer"><a href="/formaspagamento">Formas de pagamento</a></li>
+                    <li class="mb-4 cursor-pointer"><a href="/entrega">Frete de entrega</a></li>
+                    <li class="cursor-pointer"><a href="/atendimento">Central de atendimento</a></li>
+                </ul>
+            </div>
+            <div class="border-b mb-4 md:border-none lg:m-0">
+                <h3 class="text-base lg:text-lg font-medium">Institucional</h3>
+                <ul class="my-4 text-sm lg:text-lg">
+                    <li class="mb-4 cursor-pointer"><a href="/quemsomos">Quem somos</a></li>
+                    <li class="mb-4 cursor-pointer"><a href="/comprasegura">Compra segura</a></li>
+                    <li class="mb-4 cursor-pointer"><a href="/comocomprar">Como comprar</a></li>
+                    <li class="mb-4 cursor-pointer"><a href="/politicadeprivacidade">Política de privacidade</a></li>
+                    <li class="cursor-pointer"><a href="/contratodecompraevenda">Termos de compra e venda</a></li>
+                </ul>
+            </div>
+            <div class="flex md:flex-col justify-between items-center">
+                <div>
+                    <h3 class="text-base lg:text-lg font-medium">Social</h3>
+                    <ul class="flex justify-between lg:justify-around items-center">
+                        <li class="cursor-pointer"><img src="{{- store.urls.static_img}}footer/facebook.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="facebook" class="w-8 md:w-10 h-8 md:h-10 m-2" loading="lazy"></li>
+                        <li class="cursor-pointer" ><img src="{{- store.urls.static_img}}footer/instagram.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="instagram" class="w-8 md:w-10 h-8 md:h-10 m-2" loading="lazy"></li>
+                        <li class="cursor-pointer"><img src="{{- store.urls.static_img}}footer/youtube.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="youtube" class="w-8 md:w-10 h-8 md:h-10 m-2" loading="lazy"></li>
+                        <li class="cursor-pointer"><img src="{{- store.urls.static_img}}footer/twitter.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="twitter" class="w-8 md:w-10 h-8 md:h-10 m-2" loading="lazy"></li>
+                    </ul>
+                </div>
+                <div class="flex mt-4 border-l-2 pl-7 md:border-l-0 md:pl-0">
+                    <img src="https://static.fbits.net/i/wake/logos/wake-commerce.svg" alt="Wake Commerce" loading="lazy" class="w-32 md:w-52" width="208px" height="88px"/>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <h3 class="text-base lg:text-lg font-medium">Formas de pagamento</h3>
+            <img src="{{- store.urls.static_img}}footer/payment.png?theme={{store.theme}}&v={{store.last_modified}}" alt="payment" class="" loading="lazy" width="362" height="70">
+        </div>
+    </div>
+</div>
+
+{{~ if is_preview ~}}
+    <button id="close-preview" class="flex justify-center items-center opacity-70 fixed bottom-0 left-0 w-full p-2 bg-black text-white z-20">Close Preview</button>
+    <script>
+        const fbitsPreviewButton = document.getElementById("close-preview");
+        fbitsPreviewButton.addEventListener("click", () => {
+            setCookie('preview-theme', '', -12);
+            refreshPage();
+        });
+    </script>
+{{~ end ~}}
+{{~ if store.default_template ~}}
+    <div>
+        <button id="close-default-template-button" onclick="closeDefaultTemplate()">Close default template</button>
+    </div>
+    <script>
+        function closeDefaultTemplate(){
+            setCookie('default-template', '', -12);
+            refreshPage();
+        }
+    </script>
+{{~ end ~}}
+<script>
+    function setCookie(cname, cvalue, ex_horas) {
+        const d = new Date();
+        d.setTime(d.getTime() + (ex_horas * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function refreshPage(){
+        const newUrl = 
+            window.location.protocol + "//" +
+            window.location.host +
+            window.location.pathname;
+
+        document.location.replace(newUrl);
+    }
+    
+    const visitorUuid = '{{ math.uuid }}';
+    document.cookie = "sf_storefront_access_token={{settings.access_token}}; path=/;"
+    
+</script>

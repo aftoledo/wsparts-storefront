@@ -1,0 +1,42 @@
+{{ ##
+    Description: Renders a spot carousel from a list of products
+    Params:
+      - products: list of products
+      - class: the html class for styling
+      - title: text to show on top
+    Usage:
+      spot_carousel products: data...products class:"best-sellers" title:"Mais Vendidos"
+## }}
+{{~ if products && products.size > 0 ~}}
+    <div class="flex flex-col my-4 w-full lg:flex-row lg:justify-center {{class}} bg-mainBg">
+        <div class="flex flex-col items-start w-full lg:max-w-[1330px] px-2 relative">
+            <h2 class="w-full text-lg lg:text-2xl uppercase mb-4 pb-4 border-b">{{ title | lang }}</h2>
+            <div class="swiffy-slider slider-nav-dark slider-nav-visible slider-nav-autoplay slider-nav-autopause slider-indicators-round 
+            slider-indicators-dark slider-indicators-highlight slider-indicators-sm slider-item-show4 slider-item-show2-sm slider-item-snapstart" data-slider-nav-autoplay-interval="5000">
+                <div class="slider-container">
+                    {{~ for product in products ~}}
+                        {{ img_priority = for.index >= 4 ? false : true }}
+                        {{ spot product: product img_priority: img_priority img_lazy_load: !img_priority}}
+                    {{~ end ~}}
+                </div>
+                <div class="{{if products.size < 4}} lg:hidden {{end}} {{if products.size <= 2}} hidden {{end}}">
+                    <div class="absolute bg-inherit 
+                    shadow-none rounded-none outline-none p-0 z-10 text-4xl left-auto 
+                    -top-12 right-16">
+                        <button type="button" class="slider-nav">
+                            <img src="{{- store.urls.static_img}}icons/arrow-left.svg?theme={{store.theme}}&v={{store.last_modified}}" 
+                        alt="arrow-left" class="w-6 h-6 m-2"/>
+                        </button>
+                    </div>
+                    <div class="absolute bg-inherit shadow-none 
+                    rounded-none outline-none p-0 z-10 text-4xl left-auto -top-12 right-0">
+                        <button type="button" class="slider-nav slider-nav-next">
+                            <img src="{{- store.urls.static_img}}icons/arrow-right.svg?theme={{store.theme}}&v={{store.last_modified}}" 
+    alt="arrow-right" class="w-6 h-6 m-2"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+{{~ end ~}}

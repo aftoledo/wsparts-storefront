@@ -1,0 +1,16 @@
+<div class="buybox-options flex-col hidden w-full" data-buybox-product-variant-id="{{ offer.product_variant_id }}">
+    <div class="quantity mb-4">
+        <p>Quantidade</p>
+        <input product-quantity type="number" class="form-control w-24" id="selected-quantity" 
+        name="selected-quantity" value="1" min="1" max="{{ offer.stock }}" aria-label="Quantidade">
+    </div>
+
+    <div class="mb-4">
+        {{ product_buy_button btn_value: btn_value add_to_cart_click: "buyBoxAddToCartClick(this.value)" buy_click: "buyBoxBuyClick(this.value)" }}
+    </div>
+
+    <div>
+        {{~ shipping_on_submit_click = "buyBoxShippingQuoteSubmit(event)" ~}}
+        {{ product_shipping_quotes on_submit_click: shipping_on_submit_click }}
+    </div>
+</div>

@@ -1,0 +1,56 @@
+[
+    {
+        "type": "search",
+        "path": "search.html",
+        "query": "search.graphql"
+    },
+    {
+        "type": "hotsite",
+        "path": "hotsite.html",
+        "query": "hotsite_with_cursor.graphql",
+        "customs": [
+            {
+                "urlMatch": "",
+                "path": "home.html",
+                "query": "home.graphql"
+            },
+            {
+                "urlMatch": "listadedesejos",
+                "path": "custom/wishlist.html"
+            },
+            {
+                "urlMatch": "buybox",
+                "path": "custom/buy_box_hotsite.html",
+                "query": "buy_box_hotsite.graphql"
+            },
+            {
+                "urlMatch": "formulario|quemsomos|comprasegura|comocomprar|politicadeprivacidade|duvidasfrequentes|trocasedevolucoes|formaspagamento|entrega|atendimento|contratodecompraevenda",
+                "path": "custom/about.html",
+                "query": "about.graphql"
+            }
+        ]
+    },
+    {
+        "type": "product",
+        "path": "product.html",
+        "query": "product.graphql",
+        "customs": [
+            {
+                "productIds": [100129],
+                "path": "custom/buy_box_product.html",
+                "query": "buy_box_product.graphql",
+                "priority": 11
+            }
+        ]
+    },
+    {
+        "type": "buy_list",
+        "path": "buy_list.html",
+        "query": "buy_list.graphql"
+    },
+    {
+        "type": "not_found",
+        "path": "not_found.html",
+        "query": "not_found.graphql"
+    }
+]

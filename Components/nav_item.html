@@ -1,0 +1,64 @@
+{{~ ##
+    Description: Renders nav item with links
+    Params:
+        - menus: all the menus from a group
+        - current_menu: the currnt menu being rendered
+        - is_submenu: if this is a menu already inside another one
+    Usage:
+        nav_item menus: menus current_menu: menu
+## ~}}
+{{~ 
+    is_submenu = is_submenu ?? false
+    children = menus | group.get current_menu.menu_id
+    link = current_menu.link 
+    
+    if link && !(link | string.starts_with "/") && !(link | string.starts_with "http")
+        link = link | string.prepend "/" 
+    end
+~}}
+{{~ if children.size == 0 && !is_submenu ~}}
+    <li class="lg:mr-4 px-4 py-3 hover:bg-secondary-900 hover:text-white border-b lg:border-none md:text-xl lg:text-base">
+        <a href="{{link ? link : '#'}}">{{-current_menu.name-}}</a>
+    </li>
+{{~ else if children.size == 0 && is_submenu ~}}
+    <li class="mt-4 lg:mt-2 ml-4 lg:mr-4 lg:ml-0 only:border-b md:text-xl lg:text-base">
+        <a href="{{link ? link : '#'}}">{{-current_menu.name-}}</a>
+    </li>
+{{~ else if !is_submenu ~}}
+    <li class="group lg:flex">            
+        <div class="flex-col" id="menu-button">
+            <div class="flex justify-between lg:group-hover:bg-secondary-900 lg:group-hover:text-white items-center px-4 py-3 border-b" 
+                {{- "onclick='showSubMenu(" + current_menu.menu_id + ")'" -}}>
+                <a {{if link}}href="{{link}}"{{end}} id="menu" class="md:text-xl lg:text-base">
+                    {{-current_menu.name-}}
+                </a>
+                <img src="{{- store.urls.static_img}}icons/arrow-down.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="arrow-down" class="mx-2 h-5 w-5 md:w-8 md:h-8 lg:h-5 lg:w-5" />
+            </div>
+            <div id="drop-nav-menu-{{ current_menu.menu_id }}" class="absolute top-0 lg:top-7 left-0 transition lg:group-hover:translate-y-5 
+            translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+            duration-500 ease-in-out group-hover:transform lg:z-50 w-full lg:min-w-[1300px] h-screen lg:h-auto bg-mainBg lg:bg-secondary-900 sm:max-lg:hidden
+            flex-wrap">
+                <ul class="flex flex-col lg:flex-row lg:flex-wrap relative w-full lg:top-4 items-start justify-start lg:justify-between 
+                lg:bg-secondary-900 lg:p-10 lg:shadow-2xl lg:z-50 lg:text-white" role="menu">
+                    <li class="flex flex-wrap lg:hidden px-4 py-3 justify-between items-center w-full border-b bg-secondary-200 md:text-xl lg:text-base" 
+                    {{- "onclick='hideSubMenu(" + current_menu.menu_id + ")'" -}}>
+                        <span>Voltar</span>
+                        <img src="{{- store.urls.static_img}}icons/arrow-back.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="arrow-back" class="mr-1 ml-2 h-4 w-4 md:w-6 md:h-6 lg:h-4 lg:w-4" />
+                    </li>
+                    {{~ for child in children ~}}
+                        {{ nav_item menus: menus current_menu: child is_submenu: true }}
+                    {{~ end ~}}
+                </ul>
+            </div>
+        </div>
+    </li>
+{{~ else ~}}
+    <li class="px-4 py-3 flex flex-col w-full lg:w-auto border-b lg:border-none last:border-b-0 md:text-xl lg:text-base" role="none">
+        <a href="{{link ? link : '#'}}" class="">{{-current_menu.name-}}</a>
+        <ul class="">
+            {{~ for child in children ~}}
+                {{ nav_item menus: menus current_menu: child is_submenu: true }}
+            {{~ end ~}}
+        </ul>
+    </li>
+{{~ end ~}}

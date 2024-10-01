@@ -1,0 +1,28 @@
+{{ ##
+    Description: Renders the product shipping quotes, the list of available shipping options with informations
+                regarding prices and deadlines.
+    Params:
+        - Uses shipping_quotes.graphql
+    Usage:
+        await client.snippet.render("product_shipping_quotes_snippet.html", ...);
+## }}
+{{ quotes = data.shipping_quotes }}
+{{~ if quotes?.size > 0 ~}}
+    {{~ for quote in quotes ~}}
+        <div class="product-shipping-quote container-fluid mb-1">
+            <strong>{{ quote.name }}</strong>
+            <br>
+            <span style="font-size: 20px;">{{ quote.value | math.format "c" "pt-BR" }}</span>
+            <br>
+            {{~ if quote.deadline_in_hours ~}}
+                <span style="font-size: 12px;">Em até {{ quote.deadline_in_hours }} horas</span>
+            {{~ else ~}}
+                <span style="font-size: 12px;">Em até {{ quote.deadline }} dias úteis</span>
+            {{~ end ~}}
+        </div>
+    {{~ end ~}}
+{{~ else ~}}
+    <div class="w-52">
+        Ops, por algum motivo não conseguimos calcular o frete para sua região. Por favor, entre em contato conosco para melhor atendê-lo.
+    </div>
+{{~ end ~}}

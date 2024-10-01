@@ -1,0 +1,18 @@
+<div class="mb-3 text-sm lg:text-base">
+    {{~ if settings.breadcrumb?.home_text ~}}
+        <a href="/" class="">{{ settings.breadcrumb.home_text }}</a>
+        {{~ if breadcrumbs.size > 0 ~}}
+            /
+        {{~ end ~}}
+    {{~ end ~}}
+    {{~ for breadcrumb in breadcrumbs ~}}
+        {{~ breadcrumbLink = "" ~}}
+        {{~ if breadcrumb.link | string.starts_with "/" ~}}
+            {{~ breadcrumbLink = breadcrumb.link ~}}
+        {{~ else ~}}
+            {{~ breadcrumbLink = "/" | string.append breadcrumb.link ~}}
+        {{~ end ~}}
+            <a href="{{ breadcrumbLink }}" class="font-semibold visited:text-secondary-500">{{ breadcrumb.text }}</a>
+        {{~ if !for.last ~}} / {{ end }}
+    {{~ end ~}}
+</div>

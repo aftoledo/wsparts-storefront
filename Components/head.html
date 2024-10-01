@@ -1,0 +1,6 @@
+<title>{{title}}</title>
+{{~ capture favicon_source ~}}
+    {{- store.urls.static_img}}{{settings.favicon_path}}?theme={{store.theme -}}&v={{store.last_modified}}
+{{~ end ~}}
+<link rel="icon" type="image/png" href="{{ favicon_source }}">
+

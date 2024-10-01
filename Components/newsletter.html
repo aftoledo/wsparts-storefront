@@ -1,0 +1,32 @@
+<div class="flex flex-col my-4 w-full lg:flex-row lg:justify-center">
+    <div class="flex flex-col items-start w-full lg:max-w-[1330px] min-h-[480px] relative">
+        <div class="flex flex-col items-center md:items-start mx-4 md:text-left justify-center md:justify-start z-20 py-9">
+            <h3 class="text-2xl text-center mt-4 mb-8 font-normal">Cadastre-se agora e receba ofertas exclusivas</h3>
+            <form class="newsletter-form flex flex-col w-full max-w-96 text-center" id="newsletter-form" onsubmit="newsletterSubmit(event);">
+                <input type="email" class="bg-secondary-50 border-secondary-50 my-2 border-none focus:ring-0" id="newsletter-form-email" placeholder="Insira seu e-mail" required>
+                <input type="text" class="bg-secondary-50 border-secondary-50 my-2 border-none focus:ring-0" id="newsletter-form-name" placeholder="Insira seu nome" required>
+                {{~ if information_groups ~}}
+                    {{~ for value in information_groups ~}}
+                        {{~ if value.display_type == 'TextoLivre' ~}}
+                            <input type="text" class="bg-secondary-50 border-secondary-50 my-2 border-none focus:ring-0" id="newsletter-form-{{ value.field_name }}" placeholder="{{ value.field_name }}"
+                            value-id="{{ value.id }}"
+                            {{~ if value.required ~}}
+                                required                           
+                            {{~ end ~}}
+                            >
+                        {{~ end ~}}
+                    {{~ end ~}}
+                {{~ end ~}}
+                <button type="submit" class="flex justify-center items-center p-2 bg-black text-white my-3">
+                    <img src="{{- store.urls.static_img}}icons/mail.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="mail" class="w-6 md:w-4 h-6 md:h-4 m-2 antialiased" loading="lazy" />    
+                    Cadastrar
+                </button>
+                <span class="text-sm my-4 font-semibold">*Não enviamos spam</span>
+            </form>
+            <div class="">
+                <div id="alert-newsletter"></div>
+            </div>
+        </div>
+        <div class="flex flex-col absolute w-full h-full bg-no-repeat opacity-50 md:opacity-100 bg-center lg:bg-right" style="background-image: url('{{- store.urls.static_img}}newletter.jpg?theme={{store.theme}}&v={{store.last_modified}}');"></div>
+    </div>
+</div>
