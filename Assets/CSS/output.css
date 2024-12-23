@@ -1640,7 +1640,7 @@ select {
 
 .bg-primary-500 {
   --tw-bg-opacity: 1;
-  background-color: rgb(196 14 239 / var(--tw-bg-opacity));
+  background-color: rgb(1000 0 0 / var(--tw-bg-opacity));
 }
 
 .bg-primary-600 {
