@@ -1650,7 +1650,7 @@ select {
 
 .bg-primary-700 {
   --tw-bg-opacity: 1;
-  background-color: rgb(107 4 131 / var(--tw-bg-opacity));
+  background-color: rgb(255 44 44 / var(--tw-bg-opacity));
 }
 
 .bg-primary-900 {
@@ -2817,10 +2817,11 @@ select {
     --tw-bg-opacity: 1;
     background-color: rgb(30 30 30 / var(--tw-bg-opacity));
   }
+/** Hover do botão do spot do produto no slider da home **/
 
   .lg\:hover\:bg-primary-600:hover {
     --tw-bg-opacity: 1;
-    background-color: rgb(148 7 181 / var(--tw-bg-opacity));
+    background-color: rgb(70 08 09 / var(--tw-bg-opacity));
   }
 
   .group:hover .lg\:group-hover\:visible {
