@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
+  {{ asset type: "css" paths: ["output_base","output_login"]}}
+  {{ wake_recaptcha_script }}
+  {{ head title: "Novo Cadastro" store: store }}
+  {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
+  <link rel="canonical" href="{{ store.urls.current }}" />
+</head>
+<body class="bg-mainBg">
+  {{ page_scripts position: "BODY_START" scripts: common.scripts }}
+  {{ wake_overlay }}
+<!-- Referencie o componente de header aqui -->
+  <div class="flex flex-col items-center w-full lg:w-[1330px] mx-auto my-10">
+    <div class="flex flex-col w-full">
+      {{ wake_login_signup }}
+    </div>
+  </div>
+  {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
+  <!-- Referencie o componente de footer aqui -->        
+  {{ sdk_client }}
+  {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
+  {{ wake_scripts scripts: ["wake_utils", "wake_login", "wake_signup"] }}
+  {{ asset type: "js" paths: ["mini_cart"] options: "async"}}
+  {{ page_scripts position: "BODY_END" scripts: common.scripts }}
+</body>
+</html>
