@@ -2612,7 +2612,7 @@
 .wake-cart-container-empty a {
   border-radius: 4px;
   --tw-bg-opacity: 1;
-  background-color: rgb(148 7 181 / var(--tw-bg-opacity));
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 0.5rem;
@@ -2726,7 +2726,7 @@
 .wake-cart-empty-continue-button {
   border-radius: 4px;
   --tw-bg-opacity: 1;
-  background-color: rgb(148 7 181 / var(--tw-bg-opacity));
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 0.5rem;
@@ -4145,7 +4145,7 @@
   height: 1rem;
   width: 1rem;
   cursor: pointer;
-  accent-color: #C40EEF;
+  accent-color: #ef4444;
 }
 
 .wake-flag {

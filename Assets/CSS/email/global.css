@@ -431,7 +431,7 @@ h3 {
 a.es-button,
 button.es-button {
     display: inline-block;
-    background: #C40EEF;
+    background: #ef4444;
     border-radius: 0px;
     font-size: 18px;
     font-family: Oswald, sans-serif;
@@ -448,7 +448,7 @@ button.es-button {
 .es-button-border {
     border-style: solid solid solid solid;
     border-color: #2cb543 #2cb543 #2cb543 #2cb543;
-    background: #C40EEF;
+    background: #ef4444;
     border-width: 0px 0px 0px 0px;
     display: inline-block;
     border-radius: 0px;

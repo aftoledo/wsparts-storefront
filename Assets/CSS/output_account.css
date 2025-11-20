@@ -2732,7 +2732,7 @@
 
 .wake-subscription-modal .content .subscription-products .add:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(148 7 181 / var(--tw-bg-opacity));
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 
 .wake-subscription-modal .content .subscription-products .remove {
