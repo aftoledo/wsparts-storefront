@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
   {{ asset type: "css" paths: ["output_base","output_account"]}}
+  {{ wake_recaptcha_script }}
   {{ head title: "Meus Endereços" store: store }}
   {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
   <link rel="canonical" href="{{ store.urls.current }}" />

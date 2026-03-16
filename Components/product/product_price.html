@@ -13,7 +13,7 @@
         {{~ if prices.discount_percentage > 0 ~}}
             <p class="text-base text-[#1E1E1E]"><s>{{ prices.list_price | math.format "c" "pt-BR" }}</s></p>
         {{~ end ~}}
-        <h2><b>{{ prices.price | math.format "c" "pt-BR" }}</b></h2>
+        <p><b>{{ prices.price | math.format "c" "pt-BR" }}</b></p>
     {{ else }}
     <p>{{ prices.price | math.format "c" "pt-BR" }}</p>
     {{ end }}

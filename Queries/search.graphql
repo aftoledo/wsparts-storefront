@@ -11,6 +11,7 @@ query Search($searchQuery: String,
     redirectUrl
     pageSize
     searchTime
+    searchQuery
     breadcrumbs{
       link
       text
@@ -31,7 +32,7 @@ query Search($searchQuery: String,
         productId
         productName
         productVariantId
-        alias : aliasComplete
+        alias: aliasComplete
         similarProducts{
           alias
           image
@@ -70,6 +71,7 @@ query Search($searchQuery: String,
         }
         addToCartFromSpot
         productCategories {
+          main
           name
         }
       }

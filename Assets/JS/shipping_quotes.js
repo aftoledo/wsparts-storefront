@@ -2,81 +2,26 @@
  * Fetches and renders shipping quotes when the form is submitted.
  * @param {Event} e - The event.
  * @param {string} productVariantId - The product variant ID to be quoted.
+ * @param {string} checkoutId - Checkout number ID.
 */
-async function shippingQuoteSubmit(e, productVariantId) {    
+async function ShippingQuoteSubmit(e, productVariantId) {
     e.preventDefault();
+    try {
+        const cep = document.getElementById('shipping-quote-cep').value;
 
-    const cep = document.getElementById('shipping-quote-cep').value;
+        let variables = {
+            cep,
+            productVariantId: Number(productVariantId)
+        }
 
-    let input = {
-        cep,
-        productVariantId: Number(productVariantId)
-    }
-
-    await fetchAndRenderShippingQuote(input);
-}
-
-/**
- * Fetches and renders shipping quotes for multi variants when the form is submitted.
- * @param {Event} e - The event.
- * @param {object} multiVariantsInput - The multi variants input array to be quoted, containing productVariantId and quantity.
-*/
-async function multiVariantsShippingQuoteSubmit(e, multiVariantsInput) {    
-    e.preventDefault();
-
-    if (multiVariantsInput.length == 0){
-        showOverlay('Selecione ao menos uma variação para cotar frete!', '', true);
-        return;
-    }
-
-    const cep = document.getElementById('shipping-quote-cep').value;
-
-    let input = {
-        cep,
-        products: []
-    }
-
-    multiVariantsInput.forEach(element => {
-        input.products.push({
-            productVariantId: element.productVariantId,
-            quantity: element.quantity
-        })
-    });
-
-    await fetchAndRenderShippingQuote(input);
-}
-
-/**
- * Applies a mask to the CEP field.
- * @param {string} t - CEP input value.
-*/
-function cepMask(t){
-    const mask = "#####-###"
-    let i = t.value.length;
-    let out = mask.substring(1,0);
-    let text = mask.substring(i)
-    
-    if (text.substring(0,1) != out)
-       t.value += text.substring(0,1);
-}
-
-/**
- * Fetches and renders shipping quotes.
- * @param {object} input - The query input variables.
-*/
-async function fetchAndRenderShippingQuote(input, div) {    
-    try {    
-        let snippetResponse = await client.snippet.render("product_shipping_quotes_snippet.html", 
-                              "SnippetQueries/shipping_quotes.graphql", input);
+        let snippetResponse = await client.snippet.render("product_shipping_quotes_snippet.html",
+            "SnippetQueries/shipping_quotes.graphql", variables);
 
         snippetResponse ??= '<span style="font-size:15px">CEP inválido!</span>';
-        if(div) {
-            setInnerHtml(snippetResponse, div);
-        } else {
-            setInnerHtmlById(snippetResponse, "shipping-quotes-snippet-div");
-        }
+        const div = "shipping-quotes-snippet-div-" + productVariantId;
+        setInnerHtmlById(snippetResponse, div);
     }
-    catch(error) {
+    catch (error) {
         console.log(error);
     }
 }

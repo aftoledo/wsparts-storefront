@@ -10,6 +10,7 @@
     {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
     {{ wake_recaptcha_script }}
     {{ data_layer_config }}
+    {{ wake_meta_pixel_script }}
     <link rel="canonical" href="{{ store.urls.current }}" />
 </head>
 
@@ -17,6 +18,7 @@
     {{ page_scripts position: "BODY_START" scripts: common.scripts }}
     {{ wake_checkout_header }}
     {{ wake_overlay }}
+    {{ wake_meta_pixel_content checkout: data.checkout }}
     <div class="wake-checkout-wrapper">
         <div class="wake-checkout-column">
             <div class="wake-checkout-data-information">

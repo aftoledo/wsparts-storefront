@@ -1,17 +1,15 @@
-query (
-  $searchQuery: String
-  $partnerAccessToken: String
-  $sortKey: ProductSearchSortKeys
-  $sortDirection: SortDirection
-  $filters: [ProductFilterInput]
-  $minimumPrice: Decimal
-  $maximumPrice: Decimal
-  $after: String
-  $before: String
-  $resultSize: Int = 12
-  $last: Int
-  $onlyMainVariant: Boolean
-) {
+query ($searchQuery: String, 
+  $partnerAccessToken: String, 
+  $sortKey: ProductSearchSortKeys, 
+  $sortDirection: SortDirection, 
+  $filters: [ProductFilterInput],
+  $minimumPrice: Decimal,
+  $maximumPrice: Decimal,
+	$after: String,
+	$before: String,
+  $resultSize: Int = 12,
+  $last: Int,
+	$onlyMainVariant: Boolean) {
   search(query: $searchQuery, partnerAccessToken: $partnerAccessToken) {
     redirectUrl
     pageSize
@@ -20,41 +18,31 @@ query (
       content
       height
       title
-      width
+      width 
       position
     }
-    breadcrumbs {
+    breadcrumbs{
       link
       text
     }
-    products(
-      after: $after
-      before: $before
-      filters: $filters
-      first: $resultSize
-      last: $last
-      minimumPrice: $minimumPrice
-      maximumPrice: $maximumPrice
-      onlyMainVariant: $onlyMainVariant
-      sortDirection: $sortDirection
-      sortKey: $sortKey
-    ) {
+    products(after: $after, before: $before, filters: $filters, first: $resultSize, last: $last, minimumPrice: $minimumPrice, 
+      			 maximumPrice: $maximumPrice, onlyMainVariant: $onlyMainVariant, sortDirection: $sortDirection, sortKey: $sortKey) {
       totalCount
-      pageInfo {
+      pageInfo{
         endCursor
         hasNextPage
         hasPreviousPage
         startCursor
       }
-      edges {
+      edges{
         cursor
-        node {
+        node{
           id
           productId
           productName
           productVariantId
-          alias : aliasComplete
-          images(width: 275, height: 275) {
+          alias: aliasComplete
+          images(width:275, height:275) {
             url
             print
           }
@@ -72,7 +60,7 @@ query (
               value
             }
           }
-          promotions {
+          promotions{
             content
             id
             stamp
@@ -82,6 +70,7 @@ query (
           }
           addToCartFromSpot
           productCategories {
+            main
             name
           }
         }
@@ -95,7 +84,7 @@ query (
           quantity
         }
       }
-      priceRanges {
+      priceRanges{
         range
         quantity
       }

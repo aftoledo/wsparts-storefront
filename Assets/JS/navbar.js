@@ -122,7 +122,7 @@ function autocomplete(inp) {
  * @param {string} checkoutId - The id of the checkout to be associated
  */
 async function checkoutPartnerAssociate(checkoutId) {
-    const partnerAccessToken = getCookie("sf_partner_access_token");
+    const partnerAccessToken = await client.cookie.get("sf_partner_access_token");
     if (partnerAccessToken)
         return await client.checkout.partnerAssociate(
             checkoutId,
@@ -131,20 +131,10 @@ async function checkoutPartnerAssociate(checkoutId) {
 }
 
 /**
- * Returns a given cookie's value
- * @param {string} name - The cookie key
- */
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
-}
-
-/**
  * If there is a partner access token registered in the cookies, loads a snippet to get a custom logo in the navbar
  */
 async function loadPartnerLogo() {
-    const partnerAccessToken = getCookie("sf_partner_access_token");
+    const partnerAccessToken = await client.cookie.get("sf_partner_access_token");
     if (!partnerAccessToken) return;
 
     const partnerLogo = await client.snippet.render(

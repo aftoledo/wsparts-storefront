@@ -57,7 +57,7 @@ query ProductPage($productId: Long!, $selections: [AttributeFilterInput], $partn
     }
   }
   productRecommendations(productId:$productId, partnerAccessToken: $partnerAccessToken) {
-    alias : aliasComplete
+    alias: aliasComplete
     productName
     productId
     productVariantId
@@ -135,7 +135,6 @@ fragment SingleProductData on SingleProduct {
       id
       alias
       available
-      sku
       images {
         fileName
         url
@@ -185,7 +184,6 @@ fragment SingleProductData on SingleProduct {
       }
     }
   }
-  alias : aliasComplete
   productId
   productName
   productVariantId
@@ -225,9 +223,11 @@ fragment SingleProductData on SingleProduct {
     }
   }
   productCategories {
+    main
     name
   }
   customizations {
+    required
     customizationId
     cost
     name

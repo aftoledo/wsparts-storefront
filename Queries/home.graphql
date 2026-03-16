@@ -1,4 +1,4 @@
-query Home($partnerAccessToken: String) {
+query Home($partnerAccessToken: String){
   hotsite(url: "", partnerAccessToken: $partnerAccessToken) {
     banners {
       altText
@@ -42,15 +42,10 @@ query Home($partnerAccessToken: String) {
     id
     order
     required
-    values {
+    values{
       order
       value
     }
-  }
-
-  shop {
-    name
-    mainUrl
   }
 }
 
@@ -72,17 +67,17 @@ fragment productsCon on ProductsConnection {
     productId
     productName
     productVariantId
-    alias : aliasComplete
+    alias: aliasComplete
     freeShipping
     averageRating
     newRelease
-    similarProducts {
+    similarProducts{
       alias
       image
       name
       imageUrl(w: 50, h: 50)
     }
-    images(width: 275, height: 275) {
+    images(width:275, height:275) {
       url
       print
     }
@@ -91,10 +86,10 @@ fragment productsCon on ProductsConnection {
       listPrice
       price
       discountPercentage
-      installmentPlans {
+      installmentPlans{
         displayName
         name
-        installments {
+        installments{
           discount
           fees
           number
@@ -110,7 +105,7 @@ fragment productsCon on ProductsConnection {
         value
       }
     }
-    promotions {
+    promotions{
       content
       id
       stamp
@@ -120,6 +115,7 @@ fragment productsCon on ProductsConnection {
     }
     addToCartFromSpot
     productCategories {
+      main
       name
     }
   }
@@ -130,7 +126,7 @@ fragment brands on BrandsConnection {
     active
     urlLogo
     alias
-    fullUrlLogo(width: 270)
+    fullUrlLogo(width:270)
     name
   }
 }

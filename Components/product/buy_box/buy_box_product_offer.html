@@ -38,11 +38,15 @@
                         de {{ cartao.value | math.format "c" "pt-BR" }} no cartão.
                     </div>
                 {{ end }}
+                <div>
+                    <input product-quantity type="number" class="w-20" value="1" min="1" aria-label="Quantidade">
+                </div>
 
                 <div>
-                    <button buybox-select-button class="flex items-center justify-center mt-2 p-2 bg-primary-500 hover:bg-primary-900 text-white w-full" 
-                        onclick="buyBoxSelectOfferClick(this);" value="{{offer.product_variant_id}}">
-                        SELECIONAR
+                    <button class="buy-button flex items-center justify-center mt-2 p-2 bg-primary-500 hover:bg-primary-900 text-white w-full" 
+                        onclick="buyBoxBuyClick(this);" value="{{offer.product_variant_id}}">
+                        <img src="{{- store.urls.static_img}}icons/cart.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="cart" class="w-6 h-6 mr-2">
+                        COMPRAR
                     </button>
                 </div>
             </div>

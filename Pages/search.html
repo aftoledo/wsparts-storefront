@@ -2,11 +2,13 @@
 <html lang="pt-BR">
 
 <head>
+    {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
     {{ head title: "Search" store: store }}
-    {{ data_layer_config common: common }}
+    {{ data_layer_config }}
     {{ search_structured_data search: data.search base_url: store.urls.base current_url: store.urls.current }}
-    {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output", "slider_price"]}}
-    {{ wake_experience_script_sdk experience_page:"GENERAL"}}
+    {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "slider_price"]}}
+    {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
+    {{ wake_meta_pixel_script }}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,17 +16,21 @@
     <meta name="title" content="Awake - Busca">
     <meta name="description" content="Os melhores preços você encontra na Awake!">
     <meta name="robots" content="all">
+    <link rel="canonical" href="{{ store.urls.current }}" />
     <input hidden id="data-layer-page-type" value="SEARCH"/>
 </head>
 
 <body class="bg-mainBg">
+    {{ wake_meta_pixel_content search_query: data.search.search_query }}
+    {{ page_scripts position: "BODY_START" scripts: common.scripts }}
     <header class="shadow-xl lg:shadow-none bg-mainBg">
         {{ links }}
         {{ header }}
         {{ navbar store: store menu_groups: common.menu_groups position: "Topo Header" }}            
     </header>
     {{ side_cart }}
-    {{ overlay }}
+    {{ wake_overlay }}
+    {{ wake_modal }}
     <div id="add-cart-alert" style="display: flex; justify-content: center; visibility: hidden; z-index: 99;"></div>
     <div class="flex flex-col my-4 w-full lg:flex-row lg:justify-center">
         <div class="flex relative justify-between w-full lg:max-w-[1330px] py-2 md:px-2 lg:p-0">
@@ -64,11 +70,14 @@
                 </div>
             </div>    
         </div>
-    {{ modal }}
-    {{ footer is_preview: is_preview store: store }}
-    {{ data_layer_search_view products: products }}
-    {{ sdk_client }}
-    {{ search_record_data search_data: data.search current_page: current_page}}
-    {{ asset type: "js" paths: ["components", "sort", "search", "filter",  "pagination", "products_per_page", "navbar", "mini_cart", "cart_from_spot", "user_login", "product", "wishlist", "event_manager"]}}
+        {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
+        {{ footer is_preview: is_preview store: store }}
+        {{ data_layer_search_view products: products.items }}
+        {{ sdk_client }}
+        {{ search_record_data search_data: data.search current_page: current_page}}
+        {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
+        {{ wake_scripts scripts: ["wake_utils"] }}
+        {{ asset type: "js" paths: ["sort", "search", "filter",  "pagination", "products_per_page", "navbar", "mini_cart", "cart_from_spot", "user_login", "product", "wishlist", "event_manager"]}}
+        {{ page_scripts position: "BODY_END" scripts: common.scripts }}
 </body>
 </html>

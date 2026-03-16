@@ -10,6 +10,7 @@
     {{ head title: "Confirmação de Pedido" store: store }}
     {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
     {{ data_layer_config }}
+    {{ wake_meta_pixel_script }}
     <link rel="canonical" href="{{ store.urls.current }}" />
 </head>
 
@@ -24,7 +25,7 @@
                 first_payment = first_order.payments | array.first
             end
         ~}}
-
+        {{ wake_meta_pixel_content orders: data.checkout.orders }}
         <div class="wake-confirmation-wrapper">
             <h2 class="wake-confirmation-order-success-message">
                 <img src="{{- store.urls.static_img}}icons/white-check.svg?theme={{store.theme}}&v={{store.last_modified}}" class="h-5 w-5 mr-1">
@@ -57,6 +58,52 @@
                             <li><b class="mr-1">Data do pedido:</b> {{date.parse first_order.date | date.to_string '%d/%m/%Y - %R' culture:'pt-BR'}}</li>
                             <li><b class="mr-1">Comprado por:</b> {{data.customer?.customer_name ? data.customer.customer_name : ''}}</li>
                             {{ if first_payment?.name }} <li><b class="mr-1">Forma de pagamento:</b> {{first_payment?.name}}</li> {{ end }}
+
+                            {{ checkout_metadata = data.checkout.metadata }}
+
+                            {{ if checkout_metadata?.size > 0 }}
+
+                                {{~ for metadata in checkout_metadata ~}}
+                                    {{ if metadata.key == "ctp_card_art_url" }}
+                                        {{ ctp_card_art_url = metadata.value }}
+                                    {{ end }}
+
+                                    {{ if metadata.key == "ctp_card_art_path" }}
+                                        {{ card_art_path = metadata.value }}
+                                    {{ end }}
+
+                                    {{ if metadata.key == "ctp_card_number" }}
+                                        {{ ctp_card_number = metadata.value }}
+                                    {{ end }}
+
+                                    {{ if metadata.key == "ctp_card_name" }}
+                                        {{ ctp_card_name = metadata.value }}
+                                    {{ end }}
+                                {{~ end ~}}
+
+                                {{ if ctp_card_art_url }}
+                                    {{ ctp_card_art_full_url = ctp_card_art_url | string.append card_art_path }}
+                                    
+                                    <li class="wake-confirmation-card-wrapper">
+                                        <div class="wake-confirmation-card-container">
+                                            <div class="wake-confirmation-card-brand">
+                                                {{ if first_payment?.card?.brand }}
+                                                    <img src="{{ ctp_card_art_full_url }}" class="wake-confirmation-card-brand-logo">
+                                                {{ end }}
+                                            </div>
+                                            <div class="wake-confirmation-card-info">
+                                                {{ if ctp_card_name }}
+                                                    <span class="wake-confirmation-card-name">{{ ctp_card_name }}</span>
+                                                {{ end }}
+                                                {{ if ctp_card_number }}
+                                                    <span class="wake-confirmation-card-number">•••• {{ ctp_card_number }}</span>
+                                                {{ end }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {{ end }}
+                                
+                            {{ end }}
                         </ul>
                         <span class="wake-confirmation-order-details-note">Você pode acompanhar o status do seu pedido em Minha Conta > Meus pedidos</span>
 
@@ -156,7 +203,7 @@
                                 {{~ end ~}}
                                 <div class="wake-confirmation-summary-shipping">
                                     <span class="mr-10">Frete:</span>
-                                    {{data.checkout.shippingFee? (data.checkout.shippingFee | math.format "c" "pt-BR") : '-'}}
+                                    {{data.checkout.shipping_fee ? (data.checkout.shipping_fee | math.format "c" "pt-BR") : '-'}}
                                 </div>
                                 <div class="wake-confirmation-summary-total">
                                     <span class="mr-10">Total:</span>

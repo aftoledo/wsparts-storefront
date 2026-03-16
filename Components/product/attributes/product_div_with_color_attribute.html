@@ -9,8 +9,8 @@
         product_combo_attribute attribute_selections: attribute_selections product_id: product_id
 ## }}
 {{~ if attribute_selections.size > 0 ~}}
-    <div class="row">
-        {{~ for attr in attribute_selections ~}}
+    {{~ for attr in attribute_selections ~}}
+        <div class="row">
             <p>{{ attr.name | string.upcase }}</p>
             {{~ grouped_selected = attr.values | group.by @(do; ret $0.selected;end) ~}}
             {{~ selected = grouped_selected | group.get true | array.first ~}}
@@ -44,7 +44,8 @@
                     {{~ end ~}}
                 </div>
             {{~ end ~}}
-        {{~ end ~}}
-    </div>
+        </div>
+        <br />
+    {{~ end ~}}
     <br>
 {{~ end ~}}

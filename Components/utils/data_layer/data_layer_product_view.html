@@ -34,7 +34,7 @@
     end
 
     if product.attribute_selections.selected_variant
-        item.item_variant = product.attribute_selections.selected_variant.sku
+        item.item_variant = product.attribute_selections.selected_variant.alias
     end
 
     data_layer_product_details = {

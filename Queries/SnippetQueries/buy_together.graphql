@@ -87,7 +87,7 @@ fragment SingleProductData on SingleProduct {
   productId
   productName
   productVariantId
-  alias : aliasComplete
+  alias: aliasComplete
   stock
   available
   images {

@@ -6,10 +6,10 @@
         <h2 class="text-xl font-semibold ml-2">Frete e entrega</h2>
     </div>
     <div class="flex flex-col justify-start items-center ml-4 mb-4 lg:self-start">
-        <form onsubmit='{{ on_submit_click }}'>
+        <form onsubmit='ShippingQuoteSubmit(event, "{{ product_variant_id }}")'>
             <input type="text" id="shipping-quote-cep" name="shipping-quote-cep" placeholder="Digite seu CEP aqui" maxlength="9" onkeypress="cepMask(this)">
             <input type="submit" value="OK" class="border py-2 px-4 bg-secondary-500 hover:bg-secondary-700 text-white font-semibold cursor-pointer">
         </form>        
     </div>
-    <div id="shipping-quotes-snippet-div"></div>
+    <div id="shipping-quotes-snippet-div-{{ product_variant_id }}"></div>
 </div>

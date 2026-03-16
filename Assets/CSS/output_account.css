@@ -2732,7 +2732,7 @@
 
 .wake-subscription-modal .content .subscription-products .add:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+  background-color: rgb(148 7 181 / var(--tw-bg-opacity));
 }
 
 .wake-subscription-modal .content .subscription-products .remove {
@@ -2831,6 +2831,12 @@
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-weight: 600;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
 
 .wake-current-account .current-data table tbody tr {
@@ -2840,15 +2846,35 @@
 
 .wake-current-account .current-data table tbody tr td {
   white-space: nowrap;
-  border-width: 1px;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
 
 .wake-current-account .current-data table tbody tr td b {
   font-weight: 600;
+}
+
+.wake-current-account .current-data table tbody tr.credit-row-expired td {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
+.wake-current-account .current-data table tbody tr.credit-row-expired td b {
+  font-weight: 400;
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
+.wake-current-account .current-data table tbody tr.credit-row-expired td.credit-value-expired {
+  text-decoration: line-through;
 }
 
 /* Meus Endereços*/

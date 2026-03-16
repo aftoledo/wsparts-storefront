@@ -11,6 +11,10 @@ query Confirmation(
     total
     subtotal
     shippingFee
+    metadata {
+      key
+      value
+    }
     orders {
       date
       orderStatus
@@ -64,7 +68,7 @@ query Confirmation(
           name
           value
         }
-      }      
+      }
     }
     formulaAdjustments{
       name

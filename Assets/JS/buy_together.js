@@ -80,7 +80,7 @@ async function buyTogetherAddToCartClick(element){
         showOverlay("Produto adicionado!", "Produtos adicionado ao carrinho!")
         await loadMiniCart();
     } else {
-        showOverlay('Não foi possível adicionar o produto(s) ao carrinho', 'Selecione preenchar os campos corretamente e tente novamente', true)
+        showOverlay('Não foi possível adicionar o produto(s) ao carrinho', 'Selecione preencher os campos corretamente e tente novamente', true)
     }
 }
 
@@ -92,11 +92,11 @@ async function buyTogetherBuyClick(element){
     const success = await checkoutOperations(element, 'buy-together-row-div');
     
     if(!success) {
-        showOverlay('Não foi possível adicionar o produto(s) ao carrinho', 'Selecione preenchar os campos corretamente e tente novamente', true)
+        showOverlay('Não foi possível adicionar o produto(s) ao carrinho', 'Selecione preencher os campos corretamente e tente novamente', true)
     }
 
-    if (success && checkoutUrl != ""){
-        window.location = checkoutUrl;
+    if (success){
+        window.location = checkout_pages.checkout.home;
     }
 }
 

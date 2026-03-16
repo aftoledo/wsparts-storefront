@@ -68,8 +68,10 @@ async function showMore() {
     const url = window.location.pathname.slice(1);
     if (window.location.pathname.endsWith("/busca")) isSearch = true;
 
+    const partnerAccessToken = await client.cookie.get("sf_partner_access_token");
+
     let obj = {
-        partnerAccessToken: getCookie("sf_partner_access_token"),
+        partnerAccessToken: partnerAccessToken,
         filters: getFilters(),
         minimumPrice: parseFloat(minPrice),
         maximumPrice: parseFloat(maxPrice),

@@ -6,16 +6,10 @@
     Usage:
         data_layer_search_view product: data.product
 ## }}
-{{~ products_array = [] ~}}
-{{~ if products?.items # offset pagination case ~}}
-    {{~ products_array = products?.items ~}}
-{{~ else if products?.edges && !products.edges.empty? # cursor pagination case ~}}
-    {{~ products_array = products.edges | array.map "node" ~}}
-{{~ end ~}}
 {{
     items = []
     
-    for product in products_array
+    for product in products
         item = {
             item_id: product.product_id,
             item_name: product.product_name | string.escape,

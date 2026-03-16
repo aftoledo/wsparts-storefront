@@ -1,15 +1,13 @@
-query Hotsite(
-  $url: String!
-  $resultSize: Int
-  $offset: Int
-  $sortKey: ProductSortKeys
-  $sortDirection: SortDirection
-  $filters: [ProductFilterInput]
-  $maximumPrice: Decimal
-  $minimumPrice: Decimal
-  $partnerAccessToken: String
-) {
-  hotsite(url: $url, partnerAccessToken: $partnerAccessToken) {
+query Hotsite($url: String!,
+       $resultSize: Int, 
+       $offset: Int, 
+       $sortKey: ProductSortKeys, 
+       $sortDirection: SortDirection, 
+       $filters: [ProductFilterInput],
+       $maximumPrice: Decimal,
+       $minimumPrice: Decimal,
+			 $partnerAccessToken: String) {
+  hotsite (url:$url, partnerAccessToken: $partnerAccessToken) {
     name
     pageSize
     banners {
@@ -27,10 +25,10 @@ query Hotsite(
       content
       height
       title
-      width
+      width 
       position
     }
-    breadcrumbs {
+    breadcrumbs{
       link
       text
     }
@@ -42,14 +40,13 @@ query Hotsite(
       scheme
     }
     productsByOffset(
-      limit: $resultSize
-      offset: $offset
-      sortKey: $sortKey
-      sortDirection: $sortDirection
-      filters: $filters
-      minimumPrice: $minimumPrice
-      maximumPrice: $maximumPrice
-    ) {
+      limit: $resultSize,
+      offset: $offset,
+      sortKey: $sortKey,
+      sortDirection: $sortDirection,
+      filters: $filters,
+      minimumPrice: $minimumPrice,
+      maximumPrice: $maximumPrice) {
       totalCount
       page
       pageSize
@@ -58,12 +55,12 @@ query Hotsite(
         productId
         productName
         productVariantId
-        alias : aliasComplete
+        alias: aliasComplete
         buyBox {
-          installmentPlans {
+          installmentPlans{
             displayName
             name
-            installments {
+            installments{
               discount
               fees
               number
@@ -77,13 +74,13 @@ query Hotsite(
             name
           }
         }
-        similarProducts {
+        similarProducts{
           alias
           image
           name
           imageUrl(w: 50, h: 50)
         }
-        images(width: 275, height: 275) {
+        images(width:275, height:275) {
           url
           print
         }
@@ -92,10 +89,10 @@ query Hotsite(
           listPrice
           price
           discountPercentage
-          installmentPlans {
+          installmentPlans{
             displayName
             name
-            installments {
+            installments{
               discount
               fees
               number
@@ -111,7 +108,7 @@ query Hotsite(
             value
           }
         }
-        promotions {
+        promotions{
           content
           id
           stamp
@@ -120,9 +117,6 @@ query Hotsite(
           disclosureType
         }
         addToCartFromSpot
-        productCategories {
-          name
-        }
       }
     }
     aggregations {

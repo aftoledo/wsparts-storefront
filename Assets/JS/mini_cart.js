@@ -5,7 +5,7 @@ window.addEventListener("load", loadMiniCart, false);
  */
 async function loadMiniCart() {
     try {
-        const checkoutId = await client.checkout.getCheckoutId();
+        const checkoutId = client.cookie.get("carrinho-id");
 
         let variables = {
             checkoutId: "",
@@ -17,12 +17,11 @@ async function loadMiniCart() {
             variables.hasCheckout = true;
         }
 
-        const response = await client.snippet.detailed(
+       const response = await client.snippet.detailed(
             "mini_cart_snippet.html",
             "SnippetQueries/mini_cart.graphql",
             variables
         );
-
         if (response == null)
             return;
 
@@ -31,7 +30,7 @@ async function loadMiniCart() {
         updateCartQtyLabel();
 
         if (response.queryResponse?.data?.checkout != null) {
-            await addUtmMetadata(response.queryResponse.data.checkout);
+            await addUtmMetadata(response.queryResponse.data.checkout, true);
         }
     } catch (error) {
         console.log(error);
@@ -63,18 +62,16 @@ function setCartDivVisibility() {
 }
 
 /**
- * Associates the current checkout with a partner access
- * @param {string} checkoutUrl - The checkout url the will be broken down to get the checkoutId
+ * Associates the current checkout with a partner
  */
-async function miniCartPartnerAssociate(checkoutUrl) {
-    if (!checkoutUrl) return;
-    var checkoutId = checkoutUrl.split("/").at(-1);
+async function miniCartPartnerAssociate() {
+    let checkoutId = client.cookie.get('carrinho-id');
     if (checkoutId) await checkoutPartnerAssociate(checkoutId);
 }
 
 async function removeProductFromCart(id, qty, customizationId) {
     try {
-        const checkoutId = await client.checkout.getCheckoutId();
+        let checkoutId = client.cookie.get('carrinho-id');
         const input = getMiniCartAddOrSubtractInput(id, Number(qty), customizationId);        
         const checkoutData = await client.checkout.remove(input, checkoutId);
         await loadMiniCart();
@@ -140,59 +137,20 @@ async function miniCartSubtractQuantity(productVariantId, customizationId){
     await loadMiniCart();
 }
 
-async function addUtmMetadata(checkout) {
+async function addUtmMetadata(checkout, lastClick = false) {
     const utmSource = "utm_source";
     const utmMedium = "utm_medium";
     const utmCampaign = "utm_campaign";
     const utmTerm = "utm_term";
-    const utmContent = "utm_content";
-
-    if (checkout.products?.length > 0){
-        const metadataValues = [];
-
-        const utmSourceFromCookie = client.cookie.get(utmSource);
-        const utmMediumFromCookie = client.cookie.get(utmMedium);
-        const utmCampaignFromCookie = client.cookie.get(utmCampaign);
-        const utmTermFromCookie = client.cookie.get(utmTerm);
-        const utmContentFromCookie = client.cookie.get(utmContent);
-
-        if (utmSourceFromCookie) {
-            metadataValues.push({key: "utmSource", value: utmSourceFromCookie})
-            client.cookie.remove(utmSource);
-        }
-
-        if (utmMediumFromCookie) {
-            metadataValues.push({key: "utmMedium", value: utmMediumFromCookie})
-            client.cookie.remove(utmMedium);
-        }
-
-        if (utmCampaignFromCookie) {
-            metadataValues.push({key: "utmCampaign", value: utmCampaignFromCookie})
-            client.cookie.remove(utmCampaign);
-        }
-
-        if (utmTermFromCookie) {
-            metadataValues.push({key: "utmTerm", value: utmTermFromCookie})
-            client.cookie.remove(utmTerm);
-        }
-
-        if (utmContentFromCookie) {
-            metadataValues.push({key: "utmContent", value: utmContentFromCookie})
-            client.cookie.remove(utmContent);
-        }
-
-        if (metadataValues.length > 0) {
-            await client.checkout.addCheckoutMetadata(metadataValues, checkout.checkoutId);
-        }
-
-        return;
-    }
+    const utmContent = "utm_content";    
     
     const utmSourceFromQueryString = queryStringParams.get(utmSource);
     const utmMediumFromQueryString = queryStringParams.get(utmMedium);
     const utmCampaignFromQueryString = queryStringParams.get(utmCampaign);
     const utmTermFromQueryString = queryStringParams.get(utmTerm);
     const utmContentFromQueryString = queryStringParams.get(utmContent);
+    
+    const checkoutMetadata = checkout?.metadata ?? [];
 
     if (utmSourceFromQueryString) {
         client.cookie.set(utmSource, utmSourceFromQueryString);
@@ -213,9 +171,127 @@ async function addUtmMetadata(checkout) {
     if (utmContentFromQueryString) {
         client.cookie.set(utmContent, utmContentFromQueryString);
     }
+
+    if (checkout.products?.length > 0){
+        const metadataValues = [];
+        const metadataToRemove = [];
+
+        const utmSourceFromCookie = client.cookie.get(utmSource);
+        const utmMediumFromCookie = client.cookie.get(utmMedium);
+        const utmCampaignFromCookie = client.cookie.get(utmCampaign);
+        const utmTermFromCookie = client.cookie.get(utmTerm);
+        const utmContentFromCookie = client.cookie.get(utmContent);
+
+        const existingUtmSource = checkoutMetadata.find(m => m.key === "utmSource")?.value;
+        const existingUtmMedium = checkoutMetadata.find(m => m.key === "utmMedium")?.value;
+        const existingUtmCampaign = checkoutMetadata.find(m => m.key === "utmCampaign")?.value;
+        const existingUtmTerm = checkoutMetadata.find(m => m.key === "utmTerm")?.value;
+        const existingUtmContent = checkoutMetadata.find(m => m.key === "utmContent")?.value;        
+
+        if (utmSourceFromCookie) {
+            if(existingUtmSource && existingUtmSource !== utmSourceFromCookie && lastClick) {
+                metadataToRemove.push("utmSource");
+            }
+            if(!existingUtmSource || existingUtmSource !== utmSourceFromCookie){
+                metadataValues.push({key: "utmSource", value: utmSourceFromCookie})
+            }
+            client.cookie.remove(utmSource);
+        }
+
+        if (utmMediumFromCookie) {
+            if(existingUtmMedium && existingUtmMedium !== utmMediumFromCookie && lastClick) {
+                metadataToRemove.push("utmMedium");
+            }
+            if(!existingUtmMedium || existingUtmMedium !== utmMediumFromCookie){
+                metadataValues.push({key: "utmMedium", value: utmMediumFromCookie})
+            }
+            client.cookie.remove(utmMedium);
+        }
+
+        if (utmCampaignFromCookie) {
+            if(existingUtmCampaign && existingUtmCampaign !== utmCampaignFromCookie && lastClick) {
+                metadataToRemove.push("utmCampaign");
+            }
+            if(!existingUtmCampaign || existingUtmCampaign !== utmCampaignFromCookie){
+                metadataValues.push({key: "utmCampaign", value: utmCampaignFromCookie})
+            }
+            client.cookie.remove(utmCampaign);
+        }
+
+        if (utmTermFromCookie) {
+            if(existingUtmTerm && existingUtmTerm !== utmTermFromCookie && lastClick) {
+                metadataToRemove.push("utmTerm");
+            }
+            if(!existingUtmTerm || existingUtmTerm !== utmTermFromCookie){
+                metadataValues.push({key: "utmTerm", value: utmTermFromCookie})
+            }
+            client.cookie.remove(utmTerm);
+        }
+
+        if (utmContentFromCookie) {
+            if(existingUtmContent && existingUtmContent !== utmContentFromCookie && lastClick) {
+                metadataToRemove.push("utmContent");
+            }
+            if(!existingUtmContent || existingUtmContent !== utmContentFromCookie){
+                metadataValues.push({key: "utmContent", value: utmContentFromCookie})
+            }
+            client.cookie.remove(utmContent);
+        }
+
+        if (metadataToRemove.length > 0) {
+            await client.checkout.removeMetadata(metadataToRemove, checkout.checkoutId);
+        }
+
+        if (metadataValues.length > 0) {
+            await client.checkout.addMetadata(metadataValues, checkout.checkoutId);
+        }
+    }
 }
 
-async function addUtmMetadataIfExists(){
-    const checkout = await client.checkout.get();
-    if (checkout?.data != null) await addUtmMetadata(checkout.data);
+async function addUtmMetadataIfExists(lastClick){
+    const checkout = await client.checkout.getWithMetadata();
+    if (checkout?.data != null) await addUtmMetadata(checkout.data, lastClick);
+}
+
+/**
+* The kit add to cart's click event function
+*/
+async function miniCartAddKitQuantity(kitId, kitGroupId) {
+    const input = await miniCartGetKitInput(kitId, kitGroupId, 1);
+    const response = await client.checkout.addKit(input);
+    if (kitOperationIsSuccess(response)) await loadMiniCart();
+}
+
+async function miniCartSubtractKitQuantity(kitId, kitGroupId){
+    const input = await miniCartGetKitInput(kitId, kitGroupId, 1);
+    const response = await client.checkout.removeKit(input);
+    if (kitOperationIsSuccess(response)) await loadMiniCart();
+}
+
+async function miniCartRemoveKit(kitId, kitGroupId, quantity){
+    const input = await miniCartGetKitInput(kitId, kitGroupId, Number(quantity));
+    const response = await client.checkout.removeKit(input);
+    if (kitOperationIsSuccess(response)) await loadMiniCart();
+}
+
+async function miniCartGetKitInput(kitId, kitGroupId, quantity){
+    const checkoutId = client.cookie.get("carrinho-id");
+
+    const input = {
+        quantity,
+        kitId: Number(kitId),
+        kitGroupId,
+        id: checkoutId,
+    };
+
+    return input;
+}
+
+function kitOperationIsSuccess(response){
+    if (response?.errors !== "undefined" && response?.errors?.length > 0){
+        showOverlay('Ocorreu um erro', response.errors[0].message, true)
+        return false;
+    }
+
+    return true;
 }

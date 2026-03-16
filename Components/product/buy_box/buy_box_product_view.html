@@ -26,7 +26,7 @@
                 {{~ wishlist_button product_id: product.product_id ~}}
             {{~ end ~}}
         </div>
-        <h5 class="text-2xl mb-4">{{ product.product_name }}</h5>
+        <h1 class="text-2xl mb-4">{{ product.product_name }}</h1>
         {{~
             promotionsTypes = product.promotions | group.by @(do; ret $0.disclosure_type;end)
             promotionsPagProduto = promotionsTypes | group.get "Página produto"
@@ -67,13 +67,8 @@
                             {{ buy_box_product_offer offer: offer }}
                         {{ end }}
                     </div>
-
-                    <div class="flex">
-                        {{ for offer in selected_variant.offers }}
-                            {{ buy_box_options offer: offer }}
-                        {{ end }}
-                    </div>
                 {{ end }}
+                {{ product_shipping_quotes product_variant_id: selected_variant.product_variant_id }}
             {{~ end ~}}
         </div>
     </div>

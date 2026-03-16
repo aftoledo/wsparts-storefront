@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
+        {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
         {{ head title: data.product.product_name store: store }}
-        {{ data_layer_config common: common }}
+        {{ data_layer_config }}
         {{ product_structured_data product: data.product current_url: store.urls.current }}
-        {{ asset type: "css" paths: ["navbar", "buy_box", "footer", "mini_cart", "product", "user_login", "spot", "output", "swiffy-slider"]}}
+        {{ asset type: "css" paths: ["navbar", "buy_box", "footer", "mini_cart", "product", "user_login", "spot", "output_base", "swiffy-slider"]}}
+        {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
         {{ meta_tags seo: data.product.seo }} 
-        {{ wake_experience_script_sdk experience_page:"GENERAL"}}
+        <link rel="canonical" href="{{ store.urls.current }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     
     <body class="bg-mainBg">
+        {{ page_scripts position: "BODY_START" scripts: common.scripts }}
         <header class="shadow-xl lg:shadow-none bg-mainBg">
             {{ links }}
             {{ header }}
             {{ navbar store: store menu_groups: common.menu_groups position: "Topo Header" }}
         </header>
         {{ side_cart }}
-        {{ overlay }}
+        {{ wake_overlay }}
         {{~ product = data.product ~}}
         <input type="hidden" id="product-id" name="product-id" value="{{ data.product.product_id }}">
         <input type="hidden" id="product-variant-id" name="product-variant-id" value="{{ data.product.product_variant_id }}">
@@ -43,10 +46,14 @@
                 </div>
             </div>
         </div>
+        {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
         {{ footer is_preview: is_preview store: store }}
         {{ data_layer_product_view product: data.product  }}
         {{ sdk_client }}
-        {{ asset type: "js" paths: ["product", "buy_box", "mini_cart", "components", "navbar", "cart_from_spot", "user_login", "product_review", "wishlist", "buy_together", "shipping_quotes", "event_manager"] options:"async"}}        
-        {{ asset type: "js" paths: ["swiffy-slider"] options:"defer"}}        
+        {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
+        {{ wake_scripts scripts: ["wake_utils"] }}   
+        {{ asset type: "js" paths: ["product", "buy_box", "mini_cart", "navbar", "cart_from_spot", "user_login", "product_review", "wishlist", "buy_together", "shipping_quotes", "event_manager"] options:"async"}}        
+        {{ asset type: "js" paths: ["swiffy-slider"] options:"defer"}}     
+        {{ page_scripts position: "BODY_END" scripts: common.scripts }}
     </body>
 </html>

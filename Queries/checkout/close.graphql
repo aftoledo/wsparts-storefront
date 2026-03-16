@@ -24,6 +24,7 @@ query Close($checkoutId: String!, $customerAccessToken: String!, $hasCustomerAcc
         }
         selectedAddress{
             cep
+            cepStr
             state
             city
             neighborhood

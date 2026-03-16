@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
-        {{ home_structured_data site_name: data.shop.name current_url: data.shop.main_url}}
-        {{ data_layer_config common: common }}
+        {{ data_layer_config }}
         {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
         {{ head title: "Home" store: store }}
-        {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output", "swiffy-slider" ]}}        
+        {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "swiffy-slider" ]}}        
         {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
         {{ meta_tags seo: data.hotsite.seo }}
-        {{ wake_experience_script_sdk experience_page:"GENERAL"}}
+        {{ wake_recaptcha_script }}
+        {{ wake_meta_pixel_script }}
+        <link rel="canonical" href="{{ store.urls.current }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <input hidden id="data-layer-page-type" value="HOME"/>
     </head>
-        <body class="bg-mainBg">
+    
+    <body class="bg-mainBg">
         {{ page_scripts position: "BODY_START" scripts: common.scripts }}
         <header class="shadow-xl lg:shadow-none bg-lightBg">
             {{ links }}
@@ -20,20 +22,21 @@
             {{ navbar store: store menu_groups: common.menu_groups position: "Topo Header" }}            
         </header>
         {{ side_cart }}
-        {{ overlay }}
+        {{ wake_overlay }}
         {{ banners_carousel id: "banners_top" banners: data.hotsite.banners position: "Topo" }}
         {{ spot_carousel products: data.lancamentos.products.nodes class:"new-release" title:"Lançamentos" }}
         {{ spot_carousel products: data.mais_vendidos.products.nodes class:"best-sellers" title:"Mais Vendidos" }}
         {{ newsletter information_groups: data.newsletter_information_group_fields }}
         {{ brands_carousel brands: data.brands.nodes }}
-        {{ modal }}
-        {{ page_scripts position: "BODY_END" scripts: common.scripts }}
+        {{ wake_modal }}
         {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
         {{ footer is_preview: is_preview store: store }}        
         {{ data_layer_hotsite_view product_lists: [data.lancamentos.products.nodes, data.mais_vendidos.products.nodes]}}
         {{ sdk_client }}
         {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}       
-        {{ asset type: "js" paths: ["components", "navbar", "product", "cart_from_spot", "mini_cart", "user_login", "newsletter", "wishlist", "shipping_quotes", "event_manager"] options: "async"}}
+        {{ wake_scripts scripts: ["wake_utils"] }}
+        {{ asset type: "js" paths: ["navbar", "product", "cart_from_spot", "mini_cart", "user_login", "newsletter", "wishlist", "shipping_quotes", "event_manager"] options: "async"}}
         {{ asset type: "js" paths: ["swiffy-slider"] options: "defer"}}
+        {{ page_scripts position: "BODY_END" scripts: common.scripts }}
     </body>
 </html>

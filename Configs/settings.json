@@ -1,7 +1,12 @@
-﻿{
-  "wake_components_version": "v1",
+{
   "access_token": "tcs_wspar_9a164783e0d0472aafe7dc13617393eb",
+  "wake_components_version": "v1",
+  "show_information_groups_fields": false,
+  "show_click_to_pay": false,
   "favicon_path": "favicon.png",
+  "checkout": {
+    "birthdate_required": true
+  },
   "page_size": {
     "default": 24,
     "options": [

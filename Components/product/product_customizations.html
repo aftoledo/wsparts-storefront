@@ -3,8 +3,14 @@
         <h2 class="text-xl mb-4">Personalize seu produto</h2>
         <div class='flex flex-wrap justify-center lg:justify-between items-center'>
             {{ for customization in customizations }}
+                <input type="hidden" id="required-{{ customization.customization_id }}"/>
                 <div class="w-full lg:w-auto m-2">
-                    <p class="mb-2">{{customization.name}} - ({{ customization.cost | math.format "c" "pt-BR" }})</p>
+                    <p class="mb-2 text-sm">
+                        {{customization.name}} - ({{ customization.cost | math.format "c" "pt-BR" }})
+                        {{if customization.required}}
+                            <span class="required text-xs text-red-500">(Obrigatório)*</span>
+                        {{end}}
+                    </p>
                     {{~ case customization.type ~}}
                         {{~ when "Valores Predefinidos" ~}}
                             <select id="customization-{{ customization.customization_id }}" class="w-full lg:w-auto bg-mainBg border border-secondary-100" 

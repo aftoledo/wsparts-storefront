@@ -1,10 +1,8 @@
 {{ ##
 	Description: Component for configuring the GTAG or GTM scripts,
         renders the respective components only if the ids are present
-    Params:
-        - common : the common query result containing the gtm or gtag ids
     Usage:
-        data_layer_config common: common
+        data_layer_config
 ## }}
 {{ gtag_config gtag_id: common.gtag_id}}
 {{ gtm_config gtm_id: common.gtm_id }}

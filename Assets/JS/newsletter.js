@@ -29,7 +29,8 @@ async function newsletterSubmit(e) {
         informationGroupValues: informationGroups
     };
 
-    await client.newsletter.create(input);
+    const recaptchaToken = typeof window.getWakeRecaptchaToken === 'function' ? await getWakeRecaptchaToken() : null;
+    await client.newsletter.create(input, recaptchaToken);
     
     showNewsletterAlert();
     

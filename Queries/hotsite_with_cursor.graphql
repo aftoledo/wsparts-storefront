@@ -1,20 +1,19 @@
-query Hotsite(
-  $url: String!
-  $partnerAccessToken: String
-  $sortKey: ProductSortKeys
-  $sortDirection: SortDirection
-  $filters: [ProductFilterInput]
-  $maximumPrice: Decimal
-  $minimumPrice: Decimal
-  $after: String
-  $before: String
-  $resultSize: Int
-  $last: Int
-  $onlyMainVariant: Boolean
-) {
-  hotsite(url: $url, partnerAccessToken: $partnerAccessToken) {
+query Hotsite($url: String!,
+       $partnerAccessToken: String, 
+       $sortKey: ProductSortKeys, 
+       $sortDirection: SortDirection, 
+       $filters: [ProductFilterInput],
+       $maximumPrice: Decimal,
+       $minimumPrice: Decimal,
+       $after: String,
+       $before: String,
+       $resultSize: Int, 
+       $last: Int,
+       $onlyMainVariant: Boolean) {
+  hotsite (url:$url, partnerAccessToken: $partnerAccessToken) {
     name
     pageSize
+    url
     banners {
       bannerName
       bannerUrl
@@ -30,10 +29,10 @@ query Hotsite(
       content
       height
       title
-      width
+      width 
       position
     }
-    breadcrumbs {
+    breadcrumbs{
       link
       text
     }
@@ -44,35 +43,24 @@ query Hotsite(
       httpEquiv
       scheme
     }
-    products(
-      after: $after
-      before: $before
-      filters: $filters
-      first: $resultSize
-      last: $last
-      minimumPrice: $minimumPrice
-      maximumPrice: $maximumPrice
-      onlyMainVariant: $onlyMainVariant
-      sortDirection: $sortDirection
-      sortKey: $sortKey
-      partnerAccessToken: $partnerAccessToken
-    ) {
+    products(after: $after, before: $before, filters: $filters, first: $resultSize, last: $last, minimumPrice: $minimumPrice, 
+      			 maximumPrice: $maximumPrice, onlyMainVariant: $onlyMainVariant, sortDirection: $sortDirection, sortKey: $sortKey, partnerAccessToken: $partnerAccessToken) {
       totalCount
-      pageInfo {
+      pageInfo{
         endCursor
         hasNextPage
         hasPreviousPage
         startCursor
       }
-      edges {
+      edges{
         cursor
-        node {
+        node{
           id
           productId
           productName
           productVariantId
-          alias : aliasComplete
-          images(width: 275, height: 275) {
+          alias: aliasComplete
+          images(width:275, height:275) {
             url
             print
           }
@@ -90,7 +78,7 @@ query Hotsite(
               value
             }
           }
-          promotions {
+          promotions{
             content
             id
             stamp
@@ -100,6 +88,7 @@ query Hotsite(
           }
           addToCartFromSpot
           productCategories {
+            main
             name
           }
         }

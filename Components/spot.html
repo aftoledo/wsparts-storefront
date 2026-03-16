@@ -40,6 +40,7 @@
             {{~ if product.available ~}}
                 <div class="flex justify-end">
                     {{~ if product.add_to_cart_from_spot # Add product directly to cart~}}
+                        {{ wake_meta_pixel_content product: product variant_id: product.product_variant_id }}
                         <div class="flex justify-between items-center w-full my-3 py-3 lg:group-hover:translate-y-5 
                         lg:translate-y-0 lg:opacity-0 lg:invisible lg:group-hover:opacity-100 lg:group-hover:visible 
                         lg:duration-500 lg:ease-in-out lg:group-hover:transform">
@@ -51,14 +52,23 @@
                         <div class="flex flex-col lg:flex-row justify-between items-center w-full my-3 py-3 lg:group-hover:translate-y-5 
                         lg:translate-y-0 lg:opacity-0 lg:invisible lg:group-hover:opacity-100 lg:group-hover:visible 
                         lg:duration-500 lg:ease-in-out lg:group-hover:transform">
-                            <button class="flex items-center justify-center text-white bg-primary-500 lg:hover:bg-primary-600 w-full lg:w-2/4 p-2" onclick="showModal('{{product.product_id}}')">
-                                <img src="{{- store.urls.static_img}}icons/plus.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="plus" class="w-6 h-6 mr-2 stroke-white">
-                                Adicionar
-                            </button>
-                            <button class="flex items-center justify-center text-white bg-gray-1000 lg:bg-secondary-500 lg:hover:bg-gray-1000 w-full lg:w-2/4 p-2" onclick="showModal('{{product.product_id}}')">
-                                <img src="{{- store.urls.static_img}}icons/cart.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="cart" class="w-6 h-6 mr-2">
-                                COMPRAR
-                            </button>
+                            {{~ if product.product_id > 0 ~}}
+                                <button class="flex items-center justify-center text-white bg-primary-500 lg:hover:bg-primary-600 w-full lg:w-2/4 p-2" onclick="showModalSpot('{{product.product_id}}')">
+                                    <img src="{{- store.urls.static_img}}icons/plus.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="plus" class="w-6 h-6 mr-2 stroke-white">
+                                    Adicionar
+                                </button>
+                                <button class="flex items-center justify-center text-white bg-gray-1000 lg:bg-secondary-500 lg:hover:bg-gray-1000 w-full lg:w-2/4 p-2" onclick="showModalSpot('{{product.product_id}}')">
+                                    <img src="{{- store.urls.static_img}}icons/cart.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="cart" class="w-6 h-6 mr-2">
+                                    COMPRAR
+                                </button>
+                            {{~ else ~}}
+                                <button class="flex items-center justify-center text-white bg-gray-1000 lg:bg-secondary-500 lg:hover:bg-gray-1000 w-full p-2">
+                                    <a href="/{{product.alias}}" class="flex">
+                                        <img src="{{- store.urls.static_img}}icons/cart.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="cart" class="w-6 h-6 mr-2">
+                                        COMPRAR
+                                    </a>
+                                </button>
+                            {{~ end ~}}
                         </div>
                     {{~ end ~}}
                     <div class="absolute top-1 right-1">{{ wishlist_button product_id: product.product_id }}</div>

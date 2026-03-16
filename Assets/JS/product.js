@@ -1,5 +1,4 @@
 window.addEventListener("load", productLoad, false);
-let checkoutUrl = "";
 let alertDiv = "";
 
 /**
@@ -63,7 +62,7 @@ async function renderAttributes(attributeList, productId){
     };
     const elementId = `product-view-div-${productId}`;
     const response = await client.snippet.render("product_view_snippet.html", "product.graphql", variables);
-    setInnerHtmlById(response, elementId);
+    setInnerHtmlById(response, elementId);    
     handleDataLayerAttributeSelection();
 }
 
@@ -72,13 +71,15 @@ async function renderAttributes(attributeList, productId){
  * and dispatches a custom event to signal that the product page has been viewed.
 */
 function handleDataLayerAttributeSelection(){
-    let productInfoInput = document.querySelector('input[id^=product-variant-data-layer]');
-    
-    let sku = productInfoInput.value
-    data_layer_product_details.items[0].item_variant = sku;
-  
-    window.dispatchEvent(
-      new CustomEvent('productPageViewed', { detail: { adjusted : true } }));
+    try{
+        let productInfoInput = document.querySelector('input[id^=product-variant-data-layer]');
+        let variant = productInfoInput.value
+        data_layer_product_details.items[0].item_variant = variant;
+      
+        window.dispatchEvent(
+          new CustomEvent('productPageViewed', { detail: { adjusted : true } }));
+    }
+    catch (error) { console.log(error); }
 }
 
 /**
@@ -100,6 +101,12 @@ async function addToCartClick(productVariantId){
     }
 
     const input = getAttributeProductAndQuantity(productVariantId);
+
+    if (input[0].customization.length < document.querySelectorAll('[id^="required-"]').length){
+        showOverlay('Customização obrigatória', 'Existem uma ou mais customizações obrigatórias', true)
+        return;
+    }
+
     const success = await addOrCreateCheckout(input);
     if (success){
         showOverlay('Produto adicionado!', 'Produto adicionado ao carrinho')
@@ -118,14 +125,20 @@ async function buyClick(productVariantId){
     }
     
     const input = getAttributeProductAndQuantity(productVariantId);
+
+    if (input[0].customization.length < document.querySelectorAll('[id^="required-"]').length){
+        showOverlay('Customização obrigatória', 'Existem uma ou mais customizações obrigatórias', true)
+        return;
+    }
+
     const success = await addOrCreateCheckout(input);
     if(!success) {
         showOverlay('Ocorreu um erro!', 'Erro ao adicionar produto ao carrinho.', true)
     }
 
-    if (success && checkoutUrl != ""){
-        await addUtmMetadataIfExists(); // mini_cart.js
-        window.location = checkoutUrl;
+    if (success){
+        await addUtmMetadataIfExists(true); // mini_cart.js
+        window.location = checkout_pages.checkout.home;
     }
 }
 
@@ -145,8 +158,8 @@ async function subscriptionClick(productVariantId){
         };
 
         const success = await addOrCreateCheckout(input);
-        if (success && checkoutUrl != ""){
-            window.location = checkoutUrl;
+        if (success){
+            window.location = checkout_pages.checkout.home;
         }
     }
 }
@@ -182,7 +195,7 @@ function getQuantity(){
     const quantityValue = selectedQuantity.value;
     const maxValue = selectedQuantity.getAttribute("max");
     const quantity = Number(quantityValue);
-    const max = (maxValue === null || maxValue === undefined || maxValue.trim() === '') ? quantity : Number(maxValue);
+    const max = Number(maxValue);
 
     if (quantity < 1) return 1;
     if (quantity > max) return max;
@@ -194,22 +207,18 @@ function getQuantity(){
  * @param {object[]} input - Product and quantities input to add to checkout.
  */
 async function addOrCreateCheckout(input){
-    try{
-        let checkoutId = await client.checkout.getCheckoutId();       
+    try{        
+        let checkoutId = client.cookie.get("carrinho-id");
         let checkoutResponse = null;
 
         if (checkoutId && checkoutId != "") {
-            checkoutResponse = await client.checkout.add(input);            
-            if (checkoutUrl == ""){
-                checkoutUrl = checkoutResponse.data.url;
-            }
+            checkoutResponse = await client.checkout.add(input);
 
             checkoutId = checkoutResponse.data.checkoutId;
         }
         else{
             checkoutResponse = await client.checkout.create(input);
-            checkoutUrl = checkoutResponse.data.url;
-            checkoutId = checkoutResponse.data.checkoutId;
+            checkoutId = checkoutResponse.data.checkoutId;           
         }
 
         await checkoutPartnerAssociate(checkoutId);
@@ -220,6 +229,19 @@ async function addOrCreateCheckout(input){
                 products : input
             }
         }));
+
+        input.forEach(product => {
+            const metaPixelInput = document.querySelector(`input[meta-pixel-content-data='${product.productVariantId}']`);
+            const metaPixelContentData = metaPixelInput?.value;
+            if (metaPixelContentData) {
+                window.dispatchEvent(new CustomEvent('fbqEvent', {
+                    detail: {
+                        name: 'AddToCart',
+                        payload: metaPixelContentData
+                    }
+                }));
+            }
+        });
 
         return true;
     } catch (error){
@@ -246,8 +268,8 @@ async function addToCartMatrixClick(element){
  */
 async function buyMatrixClick(element){
     const success = await checkoutOperations(element, 'product-view-div');
-    if (success && checkoutUrl != ""){
-        window.location = checkoutUrl;
+    if (success){
+        window.location = checkout_pages.checkout.home;
     } else {
         showOverlay('Não foi possível adicionar o produto ao carrinho!', 'Preencha os campos corretamente e tente novamente', true)
     }
@@ -465,12 +487,13 @@ async function backInStockOnClick(productVariantId, e){
 
     const name = document.getElementById("bis-name-" + productVariantId);
     const email = document.getElementById("bis-email-" + productVariantId);
+    const partnerAccessToken = client.cookie.get("sf_partner_access_token");
 
     if (name && email){
         const bisInput = {
             email: email.value,
             name: name.value,
-            partnerAccessToken: null,
+            partnerAccessToken: partnerAccessToken,
             productVariantId: Number(productVariantId),
         }
         
@@ -480,12 +503,6 @@ async function backInStockOnClick(productVariantId, e){
             title = "Aviso criado!";
             message = "Você será avisado quando o produto voltar ao estoque."
             error = false;
-            
-            window.dispatchEvent(new CustomEvent("backInStockAdded", {
-                detail: { 
-                    id: productVariantId
-                }
-            }));
         }        
     }
 
@@ -566,8 +583,8 @@ async function parallelOptionsBuyClick(){
         showOverlay('Ocorreu um erro!', 'Erro ao adicionar produto ao carrinho.', true)
     }
 
-    if (success && checkoutUrl != ""){
-        window.location = checkoutUrl;
+    if (success){
+        window.location = checkout_pages.checkout.home;
     }
 }
 
@@ -595,7 +612,7 @@ async function parallelOptionsAddToCartClick(){
 function parallelOptionsGetCheckoutInput(){
     const quantities = document.querySelectorAll('[id^="parallel-option-selected-quantity-"]');
     const input = [];
-
+    
     quantities.forEach(quantity => {        
         const variantId = quantity.getAttribute("variant-id");
 
@@ -611,6 +628,34 @@ function parallelOptionsGetCheckoutInput(){
             });
         }
     });
+
+    const customizations = getCustomizations();
+
+    if (customizations?.length > 0){
+        const valuesByCustomizationId = customizations.reduce((accumulator, currentItem) => {
+            const id = currentItem.customizationId;
+            let existingItem = accumulator.find(item => item.customizationId === id);
+        
+            if (!existingItem) {
+                existingItem = { customizationId: id, values: [] };
+                accumulator.push(existingItem);
+            }
+            
+            existingItem.values.push(currentItem.value);
+            
+            return accumulator;
+        }, []);
+
+        valuesByCustomizationId.forEach(customizationItem => {
+            let indexValue = 0;
+            input.forEach(inputItem => {
+                inputItem.customization.push({
+                    customizationId: customizationItem.customizationId,
+                    value: customizationItem.values[indexValue++]
+                })
+            });
+        });
+    }
 
     return input;
 }

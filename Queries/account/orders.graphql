@@ -3,6 +3,7 @@ query Account(
   $hasCustomerAccessToken: Boolean!
   $orderId: Long
   $hasOrderId: Boolean!
+  $paymentChanged: Boolean = false
 ) {
   customer(customerAccessToken: $customerAccessToken)
     @include(if: $hasCustomerAccessToken) {
@@ -27,6 +28,7 @@ query Account(
 fragment order on order {
   coupon
   discount
+  couponDiscount
   orderId
   date
   checkoutId @include(if: $hasOrderId)
@@ -43,6 +45,10 @@ fragment order on order {
       qrCode
       qrCodeExpirationDate
       qrCodeUrl
+    }
+    details @include(if: $paymentChanged) {
+      html
+      scripts
     }
   }
   total

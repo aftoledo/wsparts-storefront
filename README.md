@@ -1,118 +1,59 @@
-# Storefront 2.0
 
-> **Importante**: Por favor, teste o template cuidadosamente após estas atualizações para garantir que tudo está funcionando conforme esperado.
+# Template Padrão
 
-> **Importante**: Além dos arquivos não adicionados ou atualizados (caso houver), verifique a função `addOrCreateCheckout` em `Assets/JS/product.js` para que fique no formato do [template padrão Awake](https://git.fbits.net/stores/awake/-/blob/checkout-ssr/Assets/JS/product.js).
+## Arquivos de configuração
 
-## Arquivos NÃO adicionados ou atualizados :x:
+O Storefront SSR possui os seguintes arquivos de configuração principais:
 
-> **Importante**: Por favor, realize a adição/atualização dos arquivos manualmente para poder obter a experiência completa do Storefront 2.0. Você pode obtê-los em nosso [repositório oficial](https://git.fbits.net/stores/awake/-/tree/checkout-ssr).
+### pages.json
 
-Os seguintes arquivos NÃO foram adicionados ou atualizados de acordo com o Storefront 2.0:
+- Vínculo de rotas com templates e queries 
+- Permite criar casos customizados com base na rota solicitada
 
-- `Assets/Img/icons/email`
-- `Assets/Img/icons/arrow-back.svg`
-- `Assets/Img/icons/arrow-down.svg`
-- `Assets/Img/icons/arrow-left.svg`
-- `Assets/Img/icons/arrow-right.svg`
-- `Assets/Img/icons/arrow-up-down.svg`
-- `Assets/Img/icons/barcode.svg`
-- `Assets/Img/icons/cart.svg`
-- `Assets/Img/icons/clean.svg`
-- `Assets/Img/icons/close.svg`
-- `Assets/Img/icons/credit-card.svg`
-- `Assets/Img/icons/double-arrow-left.svg`
-- `Assets/Img/icons/double-arrow-right.svg`
-- `Assets/Img/icons/empty-orders.svg`
-- `Assets/Img/icons/filter.svg`
-- `Assets/Img/icons/mail.svg`
-- `Assets/Img/icons/minus-small.svg`
-- `Assets/Img/icons/plus-small.svg`
-- `Assets/Img/icons/plus.svg`
-- `Assets/Img/icons/remove.svg`
-- `Assets/Img/icons/search.svg`
-- `Assets/Img/icons/wishlist.svg`
-- `Configs/settings.json`
+### components.json
 
-## Arquivos adicionados ou atualizados :white_check_mark:
+- Define os componentes disponíveis no template
+- Especifica o arquivo de template associado a cada componente
+- Os argumentos que podem ser utilizados
+- Onde esses componentes podem ser utilizados
 
-Os seguintes arquivos foram adicionados ou atualizados de acordo com o Storefront 2.0:
+### emails.json
 
-- `Configs/pages.json`
-- `Pages/account/account.html`
-- `Pages/account/addresses.html`
-- `Pages/account/checking_account.html`
-- `Pages/account/orders.html`
-- `Pages/account/subscriptions.html`
-- `Pages/checkout/checkout.html`
-- `Pages/checkout/close.html`
-- `Pages/checkout/confirmation.html`
-- `Pages/login/access_key.html`
-- `Pages/login/authenticate.html`
-- `Pages/login/impersonate.html`
-- `Pages/login/password_recovery.html`
-- `Pages/login/signup.html`
-- `Pages/login/simple.html`
-- `Pages/partner/closed.html`
-- `Pages/partner/list_client.html`
-- `Components/utils/data_layer/data_layer_checkout_complete_view.html`
-- `Components/utils/data_layer/data_layer_checkout_view.html`
-- `Components/utils/data_layer/data_layer_confirmation_view.html`
-- `Configs/components.json`
-- `Queries/account/account.graphql`
-- `Queries/account/addresses.graphql`
-- `Queries/account/checking_account.graphql`
-- `Queries/account/orders.graphql`
-- `Queries/account/subscriptions.graphql`
-- `Queries/checkout/checkout.graphql`
-- `Queries/checkout/close.graphql`
-- `Queries/checkout/confirmation.graphql`
-- `Queries/login/access_key.graphql`
-- `Queries/login/authenticate.graphql`
-- `Queries/login/impersonate.graphql`
-- `Queries/login/signup.graphql`
-- `Queries/login/simple.graphql`
-- `Queries/partner/list_client.graphql`
-- `Assets/CSS/output_base.css`
-- `Assets/CSS/output_account.css`
-- `Assets/CSS/output_checkout.css`
-- `Assets/CSS/output_login.css`
-- `Assets/CSS/output_partner.css`
-- `Assets/CSS/input_base.css`
-- `Assets/CSS/input_account.css`
-- `Assets/CSS/input_checkout.css`
-- `Assets/CSS/input_login.css`
-- `Assets/CSS/input_partner.css`
-- `Assets/Img/icons/archive.svg`
-- `Assets/Img/icons/calendar.svg`
-- `Assets/Img/icons/cancel.svg`
-- `Assets/Img/icons/check.svg`
-- `Assets/Img/icons/chevron-down.svg`
-- `Assets/Img/icons/chevron-up.svg`
-- `Assets/Img/icons/circle-user.svg`
-- `Assets/Img/icons/close-error.svg`
-- `Assets/Img/icons/coin.svg`
-- `Assets/Img/icons/copy.svg`
-- `Assets/Img/icons/credit.svg`
-- `Assets/Img/icons/edit-checkout.svg`
-- `Assets/Img/icons/edit.svg`
-- `Assets/Img/icons/email.svg`
-- `Assets/Img/icons/expand.svg`
-- `Assets/Img/icons/eye-slash.svg`
-- `Assets/Img/icons/eye.svg`
-- `Assets/Img/icons/facebook.svg`
-- `Assets/Img/icons/google.svg`
-- `Assets/Img/icons/list.svg`
-- `Assets/Img/icons/lock.svg`
-- `Assets/Img/icons/logout.svg`
-- `Assets/Img/icons/no-orders.svg`
-- `Assets/Img/icons/order.svg`
-- `Assets/Img/icons/pause.svg`
-- `Assets/Img/icons/pin.svg`
-- `Assets/Img/icons/print.svg`
-- `Assets/Img/icons/qr-code.svg`
-- `Assets/Img/icons/reactivate.svg`
-- `Assets/Img/icons/secure.svg`
-- `Assets/Img/icons/share.svg`
-- `Assets/Img/icons/white-check.svg`
-- `Components/utils/sdk_client.html`
+- Estabelece a associação entre os tipos de email e os templates correspondentes
+
+### settings.json
+
+- Arquivo genérico que contém chaves e valores que serão injetados no template. 
+- Essas chaves podem ser utilizadas para personalizar o website, como configurações gerais, informações do usuário, preferências e outros dados relevantes
+
+
+## Trabalhando com Git 
+
+### Pré-requisitos
+
+O Git é um sistema de controle de versão distribuído e é necessário para clonar e trabalhar com repositórios.
+- Verifique se o Git está instalado no seu computador digitando o seguinte comando no terminal ou prompt de comando: `git --version`
+- Se o Git estiver instalado, você verá a versão do Git sendo exibida. Caso contrário, você precisará instalá-lo. Você pode fazer o download e seguir as instruções de instalação no [site oficial do Git](https://git-scm.com/downloads)
+
+## Processo para cópia local e edição do projeto
+Para trabalhar com sistema git deste repositório, siga estas etapas:
+
+1. No terminal, navegue até a pasta onde deseja copiar o projeto usando `cd {nome_pasta}`
+2. Digite o seguinte comando, seguido pelo URL do repositório: `git clone URL_DO_REPOSITÓRIO`
+3. Faça suas alterações e confirme-as usando: `git commit -m "<titulo do commit>" -m "<mensagem do commit>"`
+4. Envie para o branch original: `git push origin <nome_do_projeto> / <local>`
+
+
+## Iniciando o projeto
+
+Para rodar em localmente o projeto, execute o seguinte comando na pasta raiz do site, após baixar o projeto para sua máquina, substitua "tcs_loja_xxxxxx" pelo token de sua loja:
+
+```
+fbits.storefront --token tcs_loja_xxxxxx
+```
+
+## Links Úteis
+- [Documentação Geral Wake](https://wakecommerce.readme.io/docs)
+- [StoreFront SSR Configuração](https://wakecommerce.readme.io/docs/local)
+- [Documentação Scriban Wake](https://wakecommerce.readme.io/docs/scriban)
+- [Documentação Scriban Oficial](https://github.com/scriban/scriban/tree/master/doc)

@@ -49,6 +49,7 @@
             {{~ if available ~}}
                 {{~ disabled = variant_id == "" ~}}
                 {{~ btn_value = variant_id ~}}
+                {{ wake_meta_pixel_content product: product variant_id: variant_id }}
                 <div class="">
                     <div class="mb-4">
                         <p>Quantidade</p>
@@ -66,7 +67,7 @@
                         grouped_subscription_only_list = product.subscription_groups | group.by @(do; ret $0.subscription_only;end)
                         subscription_only_list = grouped_subscription_only_list | group.get true
                         subscription_only = subscription_only_list && subscription_only_list.size > 0
-                        if !subscription_only
+                        if !subscription_only                             
                             product_buy_button btn_value: btn_value add_to_cart_click: "addToCartClick(this.value)" buy_click: "buyClick(this.value)"
                         end 
                     ~}}

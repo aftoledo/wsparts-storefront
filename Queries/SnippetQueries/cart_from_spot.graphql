@@ -6,7 +6,7 @@ query AddToCartFromSpot($productId: Long!
     productId
     productName
     productVariantId
-    alias : aliasComplete
+    alias: aliasComplete
     sku
     stock
     ean

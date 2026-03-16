@@ -14,7 +14,7 @@
     @apply flex flex-col md:flex-row md:justify-between w-full md:w-[87%] mx-auto my-4 p-2;
   }
   .wake-checkout-column {
-    @apply flex flex-col w-full md:w-3/12;
+    @apply flex flex-col w-full md:w-1/3 2xl:w-3/12;
   }
   .wake-checkout-column-secondary {
     @apply my-4 md:my-0 md:mx-4;
@@ -70,8 +70,14 @@
   .wake-checkout-data-summary {
     @apply flex w-full mb-2 border-secondary-200;
   }
-  .wake-checkout-modal-autenticate {
+  .wake-checkout-modal-autenticate#modal-clicktopay-authenticate {
     @apply relative z-20;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .wake-checkout-modal-autenticate#modal-clicktopay-authenticate.show {
+    opacity: 1;
   }
   .wake-checkout-modal-bg {
     @apply fixed inset-0 bg-secondary-500 bg-opacity-75 transition-opacity;
@@ -86,16 +92,76 @@
     @apply flex flex-col absolute bg-white p-4 w-11/12 md:w-auto;
   }
   .wake-checkout-modal-top {
-    @apply flex justify-between items-center w-full py-1 mb-4 border-b;
+    @apply flex justify-between w-full mb-4;
   }
+
+  .wake-checkout-card-modal .wake-checkout-modal-newcar,
+  .wake-checkout-card-modal .button-inside {
+    @apply hidden; 
+  }
+
+  .wake-checkout-modal-newcar {
+    @apply hidden w-full text-center uppercase font-normal text-sm tracking-widest cursor-pointer mt-10 mb-4 relative;
+    line-height: 22px;
+  }
+  .wake-clicktopay-modal-autenticate .wake-checkout-modal-newcar {
+    @apply block;
+  }
+  .wake-clicktopay-modal-autenticate .button-inside {
+    @apply flex;
+  }
+  .wake-clicktopay-modal-autenticate iframe {
+    @apply max-w-full;
+  }
+
+  .wake-checkout-modal-container #clicktopay-auth-content {
+    @apply relative flex flex-col items-center justify-center;
+    min-width: 430px;
+    min-height: 450px;
+    width: 430px;
+    height: 450px;
+  }
+
+  .wake-checkout-modal-container #clicktopay-auth-iframe {
+    @apply border-none rounded-lg max-w-full;
+    width: 430px;
+    height: 450px;
+  }
+
+  @media (max-width: 640px) {
+    .wake-checkout-modal-container #clicktopay-auth-content {
+      min-width: 100%;
+      width: 100%;
+    }
+    
+    .wake-clicktopay-modal-autenticate iframe {
+      width: 100% !important;
+      max-width: 430px;
+    }
+  }
+
+  .wake-checkout-modal-newcar::before {
+    content: '';
+    @apply absolute left-0 right-0 h-px bg-gray-300;
+    top: -2.5rem;
+  }
+
+  .wake-checkout-modal-newcar::after {
+    content: 'Ou';
+    @apply absolute bg-white px-4 text-gray-500 normal-case tracking-normal font-normal text-sm;
+    top: -3.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   .wake-checkout-modal-title {
     @apply text-secondary-800 text-xl;
   }
-  .wake-checkout-modal-button {
-    @apply rounded-[4px] bg-mainBg text-secondary-400 hover:text-secondary-500 focus:outline-none focus:ring-0 focus:ring-primary-500 focus:ring-offset-2;
+  .wake-checkout-modal-top .wake-checkout-modal-button {
+    @apply h-4 w-4 bg-transparent p-0 text-black shadow-none ring-0 outline-none border-none;
   }
   .wake-checkout-modal-svg {
-    @apply h-6 w-6;
+    @apply h-4 w-4;
   }
   .wake-checkout-modal-title-enter {
     @apply flex justify-center mb-2 text-black font-normal text-2xl;
@@ -610,9 +676,11 @@
   .wake-payment-list .payment-name {
     order: 2;
   }
-  .wake-payment-list .payment-details img {
-    @apply w-8 h-8;
-    order: 1;
+  .wake-payment-list .payment-details {
+    img, svg {
+      @apply w-8 h-8;
+      order: 1;
+    }
   }
   .wake-payment-list .payment-balance-container {
     @apply flex flex-col text-right font-normal text-sky-500 text-xs;
@@ -626,7 +694,7 @@
     @apply w-full mb-3 rounded-md border-gray-300;
   }
   .wake-payment-list .forminline label {
-    @apply text-sm mb-2 block;
+    @apply text-sm mb-2 mt-2 block;
   }
   .wake-payment-list .form-check-label{
     @apply flex flex-row items-center gap-2 text-sm mb-2;
@@ -678,6 +746,10 @@
   }
   .wake-checkout-total-row-discount {
     @apply text-lightBlue mb-2 text-xs;
+  }
+  .wake-checkout-total-row.coupon-row,
+  .wake-checkout-total-row.discount-row {
+    @apply text-lightBlue text-xs;
   }
   .wake-checkout-total-checking-account,
   .wake-checkout-total-row-shipping {
@@ -734,6 +806,24 @@
   }
   .wake-confirmation-order-details-note {
     @apply flex justify-start text-sm;
+  }
+  .wake-confirmation-card-container {
+    @apply relative flex;
+  }
+  .wake-confirmation-card-brand {
+    @apply flex justify-center items-center mr-4;
+  }
+  .wake-confirmation-card-brand-logo {
+    @apply w-14 rounded-sm;
+  }
+  .wake-confirmation-card-info {
+    @apply flex flex-col;
+  }
+  .wake-confirmation-card-name {
+    @apply text-base;
+  }
+  .wake-confirmation-card-number {
+    @apply text-sm;
   }
   .wake-confirmation-address-container {
     @apply flex justify-start items-start mt-10;
@@ -1310,7 +1400,7 @@
   }
 
   .wake-suggested-card {
-    @apply flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-primary-500 transition-colors cursor-pointer;
+    @apply flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-primary-500 transition-colors cursor-pointer mb-2 flex-wrap;
   }
 
   .wake-checkbox {
@@ -1330,7 +1420,7 @@
   }
 
   .wake-card-name {
-    @apply text-xs text-gray-600;
+    @apply text-base text-gray-600 font-normal;
   }
 
   .wake-remove {
@@ -1417,4 +1507,328 @@
   .wake-switch-mui input:checked + .wake-switch:hover {
     background-color: rgba(24, 160, 251, 0.4);
   }
+
+  .wake-click-to-pay-discount {
+    @apply flex text-lightBlue font-semibold text-base px-5 py-3 rounded-md border border-secondary-200 text-center w-full mb-2 justify-center;
+  }
+
+  .wake-click-to-pay-cards .wake-suggested-card {
+    @apply mb-4;
+  }
+
+  .wake-click-to-pay-cards .wake-suggested-card.card-expired {
+    background-color: #f7f7f7;
+    cursor: not-allowed;
+  } 
+
+  .wake-click-to-pay-cards .wake-suggested-card.card-expired input[type="radio"] {
+    @apply invisible;
+  } 
+
+  .wake-click-to-pay-cards .wake-card-expired-label {
+    @apply text-white px-2 py-1 rounded-md max-w-32 text-xs uppercase text-center;
+    background-color: #a9a9a9;    
+  }
+
+  .wake-click-to-pay-cards [data-clicktopay-cards-list] {
+    @apply mb-0;
+  }
+  .wake-suggested-cards-wrapper {
+    @apply gap-0;
+  }
+
+  /* Click to Pay Loading */
+
+  .wake-payment-method-item.wake-has-click-to-pay label[for="saveCardControl"] {
+    @apply hidden;
+  }
+    
+  .wake-payment-method-item.wake-has-click-to-pay.ctp-active .wake-new-card-wrapper {
+    @apply hidden;
+  }
+
+  .wake-new-card-wrapper .jp-card {
+    min-width: 100%;
+    @apply min-w-full
+  }
+  .wake-new-card-wrapper .jp-card .jp-card-front .jp-card-lower .jp-card-number {
+    @apply text-xl 2xl:text-2xl;
+  }
+  .wake-new-card-wrapper .jp-card .jp-card-front .jp-card-lower .jp-card-name {
+    @apply text-base 2xl:text-lg;
+  }
+
+  .wake-payment-method-item.wake-has-click-to-pay.ctp-active [data-click-to-pay-cards] {
+    @apply hidden;
+  }
+
+
+  /* ClickToPay Card List Customization */
+  .wake-click-to-pay-cards .wake-clicktopay-subtitle {
+    @apply hidden;
+  }
+  .wake-click-to-pay-cards .wake-click-to-pay-footer {
+    @apply w-full flex justify-start mb-1;
+  }
+  .wake-show-all-cards-link,
+  .wake-click-to-pay-cards .wake-not-your-cards {
+    @apply text-sm font-normal text-black shadow-none underline;
+    cursor: pointer;
+  }
+  .wake-show-all-cards-link {
+    @apply mb-3;
+  }
+  .wake-clicktopay-card {
+    @apply gap-4 relative;
+  }
+  
+  /* Controle de visibilidade dos cartões via classes */
+  .wake-click-to-pay-cards .wake-clicktopay-card {
+    @apply hidden;
+  }
+  
+  .wake-click-to-pay-cards .wake-clicktopay-card.wake-card-visible {
+    @apply flex;
+  }
+  
+  .wake-clicktopay-card .wake-card-art-container {
+    @apply w-14 order-2 pb-3
+  }
+  .wake-clicktopay-card .wake-suggested-card-info {
+    @apply order-3 pb-3;
+  }
+  .wake-clicktopay-card .wake-checkbox {
+    @apply order-1;
+  }
+
+  .wake-suggested-card .wake-clicktopay-card-discount {
+    @apply block font-normal not-italic absolute left-[45px] bottom-[10px] text-[12px] text-[#0091EA];
+  }
+  
+
+
+  /* Click to Pay Consent Wrapper */
+  .wake-checkout-consent-wrapper {
+    @apply flex flex-col w-full mb-3 border border-gray-200 rounded-md bg-white pt-4 pb-4 pl-2 pr-5;
+  }
+  
+
+  .wake-checkout-brands {
+    @apply flex items-center gap-2 mb-4; /* Removed border */
+  }
+
+  .wake-brand-clicktopay,
+  .wake-brand-mastercard,
+  .wake-brand-visa {
+    @apply block bg-no-repeat bg-center bg-contain;
+  }
+
+  .wake-brand-clicktopay {
+    background-image: url('https://src.mastercard.com/srci/integration/components/src-ui-kit/assets/icons/src.svg');
+    width: 37px;
+    height: 18px;
+  }
+  
+  .wake-checkout-consent-wrapper.mastercard .wake-brand-clicktopay::after {
+    content: "|";
+    margin-left: .5rem;
+    margin-right: 10.5rem;
+    --tw-text-opacity: 1;
+    color: rgb(0 0 0 / var(--tw-text-opacity));
+    position: relative;
+    left: 30px;
+    top: -5px;
+  }
+
+  .wake-brand-mastercard {
+    background-image: url('https://src.mastercard.com/srci/integration/components/src-ui-kit/assets/mastercard.svg');
+    width: 40px;
+    height: 26px;
+    @apply hidden;
+  }
+
+  .wake-brand-visa {
+    background-image: url('https://src.mastercard.com/srci/integration/components/src-ui-kit/assets/visa.svg');
+    width: 40px;
+    height: 26px;
+    @apply hidden;
+  }
+
+  .wake-checkout-consent-wrapper.mastercard .wake-brand-mastercard,
+  .wake-checkout-consent-wrapper.visa .wake-brand-visa {
+    @apply block;
+  }
+
+  .wake-checkout-consent-option {
+    @apply flex flex-col mb-4 pb-4 border-b border-gray-200;
+  }
+
+  .wake-checkout-consent-option:last-child {
+    @apply mb-0 border-none pb-0;
+  }
+
+  .wake-checkout-consent-option .consent-label {
+    @apply flex items-center cursor-pointer relative text-sm leading-relaxed;
+    user-select: none;
+    padding-left: 2.75rem; /* Equivalent to pl-7 */
+  }
+
+  .wake-checkout-consent-option .consent-label input[type="checkbox"] {
+    @apply absolute opacity-0 cursor-pointer h-0 w-0;
+  }
+
+  .wake-checkout-consent-option .checkmark {
+    @apply absolute left-0 bg-white border-2 border-gray-400 rounded;
+    top: 4px;
+    left: 12px;
+    height: 18px;
+    width: 18px;
+    transition: all 0.2s ease;
+  }
+
+  .wake-checkout-consent-option .consent-label:hover input ~ .checkmark {
+    @apply border-gray-400;
+  }
+
+  .wake-checkout-consent-option .consent-label input:checked ~ .checkmark {
+    @apply bg-black border-black;
+  }
+
+  .wake-checkout-consent-option .checkmark:after {
+    content: "";
+    @apply absolute hidden;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .wake-checkout-consent-option .consent-label input:checked ~ .checkmark:after {
+    @apply block;
+  }
+
+  .wake-checkout-consent-option .consent-description {
+    @apply text-gray-500 leading-relaxed;
+    font-size: 0.675rem !important;
+    margin-left: 2px;
+    margin-top: 8px;
+  }
+
+  .wake-checkout-consent-option .consent-description a {
+    @apply text-black underline font-semibold hover:no-underline;
+  }
+
+  .wake-checkout-consent-wrapper .tooltip {
+    @apply relative inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-500 text-gray-500 text-xs ml-2 cursor-pointer;
+    color: #17191C;
+  }
+
+  .wake-checkout-consent-wrapper .tooltip::before {
+    content: "i";
+    font-style: italic;
+  }
+
+  .wake-checkout-consent-wrapper .tooltip .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    @apply absolute z-10 bottom-full mb-1 left-1/2 -translate-x-1/2 w-64 bg-black text-white p-2 rounded-md text-sm;
+    transition: opacity 0.2s, visibility 0.2s;
+    pointer-events: none;
+  }
+
+  .wake-checkout-consent-wrapper .tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .wake-checkout-consent-wrapper .tooltip:active .tooltip-text,
+  .wake-checkout-consent-wrapper .tooltip:focus-within .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .wake-checkout-disclosure-pii {
+    @apply flex flex-col;
+  }
+
+  .wake-checkout-disclosure-pii .consent-description {
+    @apply text-gray-700 leading-relaxed text-xs;
+  }
+
+  .wake-checkout-disclosure-pii a {
+    @apply underline hover:no-underline;
+  }
+
+  .wake-checkout-consent-option .consent-label .click-to-pay-link {
+    font-weight: 600;
+    text-decoration: underline;
+    display: inline-block;
+  }
+
+  /* Controle de visibilidade dos termos por bandeira */
+  .wake-checkout-consent-wrapper .wake-terms-mastercard,
+  .wake-checkout-consent-wrapper .wake-terms-visa {
+    @apply hidden;
+  }
+
+  .wake-checkout-consent-wrapper.mastercard .wake-terms-mastercard {
+    @apply block;
+  }
+
+  .wake-checkout-consent-wrapper.visa .wake-terms-visa {
+    @apply block;
+  }
+
+  .wake-click-to-pay-brands .brand {
+    @apply mr-2
+  }
+  .wake-click-to-pay-brands .brand img {
+    @apply max-h-4;
+  }
+  .wake-checkout-modal-top .wake-click-to-pay-brands .brand img {
+    @apply h-6 max-h-8
+  }
+  .wake-click-to-pay-brands .brand.brand-clicktopay {
+    @apply border-r border-black pr-1;
+  }
+
+  .wake-click-to-pay-brands .brand-cielo svg {
+    width: 43px;
+    max-width: 100%;
+  }
+
+  .wake-ctp-payment-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center;
+    z-index: 99999;
+  }
+  .wake-ctp-payment-overlay.hide {
+    @apply hidden;
+  }
+
+  .wake-ctp-overlay-content {
+    @apply bg-white rounded-lg p-8 text-center shadow-2xl max-w-md mx-4;
+  }
+
+  .wake-ctp-spinner {
+    @apply border-4 border-gray-200 rounded-full w-16 h-16 mx-auto mb-6;
+    border-top-color: #000;
+    animation: wake-ctp-spin 1s linear infinite;
+  }
+
+  @keyframes wake-ctp-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .wake-ctp-overlay-title {
+    @apply text-xl font-semibold text-gray-800 mb-3;
+  }
+
+  .wake-ctp-overlay-text {
+    @apply text-base text-gray-600 leading-relaxed;
+  }
+
 }

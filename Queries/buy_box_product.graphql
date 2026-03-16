@@ -56,8 +56,8 @@ query ProductPage($productId: Long!, $selections: [AttributeFilterInput], $partn
       subscriptionOnly
     }
   }
-  productRecommendations(productId:$productId) {
-    alias : aliasComplete
+  productRecommendations(productId:$productId, partnerAccessToken: $partnerAccessToken) {
+    alias: aliasComplete
     productName
     productId
     available
@@ -108,7 +108,6 @@ fragment SingleProductData on SingleProduct {
   productId
   productName
   productVariantId
-  alias : aliasComplete
   stock
   available
   images {
@@ -206,7 +205,6 @@ fragment SingleProductData on SingleProduct {
       offers {
         name
         productVariantId
-        stock
         prices {
           price
           listPrice

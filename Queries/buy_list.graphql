@@ -1,10 +1,12 @@
-query BuylistPage($id: Long!){
-  buyList(id:$id) {
-    alias
+query BuylistPage($id: Long!, $partnerAccessToken: String){
+  buyList(id:$id, partnerAccessToken:$partnerAccessToken) {
+    alias: aliasComplete
     buyListId
+    kit
     buyListProducts {
       productId
       quantity
+      includeSameParent
     }
     images{
       url

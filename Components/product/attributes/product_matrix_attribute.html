@@ -44,6 +44,7 @@
                     {{~ for j in 0..column_size ~}}
                         {{~ current_product = matrix_data[i][j] ~}}
                         {{~ stock = 0 ~}}
+                        {{ wake_meta_pixel_content product: current_product variant_id: current_product.product_variant_id }}
                         <td class="matrix-column{{ class_modifier }}">
                             <input matrix-input-quantity
                                 type="number" class="w-full h-full border-secondary-300"

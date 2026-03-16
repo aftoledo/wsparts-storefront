@@ -5,6 +5,10 @@ query Checkout($checkoutId: String!, $hasCheckout: Boolean!) {
   checkout(checkoutId:$checkoutId) @include(if: $hasCheckout) {
     checkoutId
     url
+    metadata {
+      key
+      value
+    }
     products {
       listPrice
       price
@@ -14,6 +18,8 @@ query Checkout($checkoutId: String!, $hasCheckout: Boolean!) {
       imageUrl
       quantity
       name
+      gift
+      kit
       productAttributes{
         name
         type
@@ -23,6 +29,30 @@ query Checkout($checkoutId: String!, $hasCheckout: Boolean!) {
         id
         values{
           cost
+          name
+          value
+        }
+      }
+    }
+    kits {
+      kitId
+      kitGroupId
+      alias
+      imageUrl
+      listPrice
+      price
+      totalListPrice
+      totalAdjustedPrice
+      name
+      quantity
+      products {
+        productId
+        productVariantId
+        imageUrl
+        name
+        url
+        quantity
+        productAttributes {
           name
           value
         }

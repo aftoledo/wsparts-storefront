@@ -1,79 +1,70 @@
+{{ ##
+    Description: Renders filter fields to filter the products
+    Params:
+        - aggregations: products aggregations data
+    Usage:
+        filter aggregations: data...aggregations
+## }}
+
 <div class="flex flex-col overflow-auto px-2">
     {{ if aggregations?.filters }}
-        <!-- Botão para fechar filtros no mobile -->
         <div class="flex lg:hidden justify-end mb-4" onclick="openFilter()">
             <img src="{{- store.urls.static_img}}icons/close.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="close" class="w-5 h-5">
         </div>
-
-        <!-- Botão "Limpar Filtros" -->
         <div class="flex mb-4">
             <a href="#" onclick="clearFilters();" 
-               class="flex justify-start items-center border w-full p-2 rounded-md uppercase text-sm hover:bg-secondary-200">
+            class="flex justify-start items-center border w-full p-2 rounded-md uppercase text-sm hover:bg-secondary-200">
                 Limpar filtros
                 <img src="{{- store.urls.static_img}}icons/clean.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="clean" class="w-5 h-5 ml-2">
             </a>
+            <input type="hidden" id="hidden-min-price-value" name="hidden-min-price-value" 
+                value="{{ aggregations.minimum_price }}">
+            <input type="hidden" id="hidden-max-price-value" name="hidden-max-price-value" 
+                value="{{ aggregations.maximum_price }}">
         </div>
-
-        <!-- Filtros Importantes -->
+        <div class="flex flex-col mb-4">
+            {{ if settings.filter.price_type == "price_field_filter" }}
+                {{ price_field_filter minimum_price: aggregations.minimum_price maximum_price: aggregations.maximum_price }}
+            {{ else if settings.filter.price_type == "price_range_filter" && aggregations?.price_ranges}}
+                {{ price_range_filter price_ranges: aggregations.price_ranges }}
+            {{ end }}
+        </div>
         <div class="flex flex-col mb-4 overflow-auto">
             {{ for filter in aggregations.filters }}
-                <!-- Exibir apenas filtros importantes -->
-                {{ if filter.field == "PREÇO" || filter.field == "APLICAÇÃO" || filter.field == "Categoria" || filter.field == "Tamanho" }}
-                    <div class="mb-4">
-                        <!-- Botão para mostrar/esconder o filtro -->
-                        <button onclick="toggleFilter('filter_{{ filter.field | html.url_encode }}')" 
-                                class="text-left w-full p-2 border rounded-md uppercase text-sm font-bold mb-2">
-                            {{ filter.field }}
-                        </button>
-
-                        <!-- Conteúdo do filtro (inicialmente escondido) -->
-                        <div id="filter_{{ filter.field | html.url_encode }}" class="hidden">
-                            {{ if filter.field == "Cor" || filter.field == "cor" }}
-                                <div class="flex flex-row flex-wrap justify-start mb-4 max-w-[210px]">
-                                    {{ for value in filter.values }}
-                                        <label class="cursor-pointer">
-                                            <div class="rounded-full m-1 ring-primary-500 ring-offset-2">
-                                                <input type="radio" class="hidden"
-                                                       id="filter_{{ filter.field | html.url_encode }}_{{ value.name | html.url_encode }}"
-                                                       value="{{ filter.field }}__{{ value.name }}"
-                                                       onclick="setFilter(this.value)">
-                                                <img src="/colorhandler?cor={{ value.name }}" alt="{{ value.name }}" title="{{ value.name }}" 
-                                                     class="w-7 h-7 rounded-full">
-                                            </div>
-                                        </label>
-                                    {{ end }}
+                <h4 class="text-base font-semibold uppercase mb-2">{{ filter.field }}</h4>
+                {{~ if filter.field == "Cor" || filter.field == "cor" ~}}
+                    <div class="flex flex-row flex-wrap justify-start mb-4 max-w-[210px]">
+                        {{ for value in filter.values }}
+                            <label class="cursor-pointer">
+                                <div id="filter_{{ filter.field | html.url_encode }}_{{ value.name | html.url_encode }}" class="rounded-full m-1 ring-primary-500 ring-offset-2">
+                                    <input type="radio" class="hidden"
+                                        id="filter_{{ filter.field | html.url_encode }}_{{ value.name | html.url_encode }}"
+                                        value="{{ filter.field }}__{{ value.name }}"
+                                        onclick="setFilter(this.value)">
+                                    <img src="/colorhandler?cor={{ value.name }}" alt="{{ value.name }}" title="{{ value.name }}" 
+                                    class="w-7 h-7 rounded-full">
                                 </div>
-                            {{ else }}
-                                <ul class="mb-4">
-                                    {{ for value in filter.values }}
-                                        <li class="ml-1">
-                                            <input type="checkbox"
-                                                   id="filter_{{ filter.field | html.url_encode }}_{{ value.name | html.url_encode }}"
-                                                   class="w-4 h-4 mr-1 text-primary-600 bg-secondary-100 border-secondary-300 rounded focus:ring-primary-500 focus:ring-2"
-                                                   value="{{ filter.field }}__{{ value.name }}"
-                                                   onchange="setFilter(this.value)">
-                                            <label for="filter_{{ filter.field | html.url_encode }}_{{ value.name | html.url_encode }}">
-                                                {{- value.name + ' (' + value.quantity + ")" -}}
-                                            </label>
-                                        </li>
-                                    {{ end }}
-                                </ul>
-                            {{ end }}
-                        </div>
+                            </label>
+                        {{ end }}
                     </div>
-                {{ end }}
+                {{~ else ~}}
+                    <ul class="mb-4">
+                        {{ for value in filter.values }}
+                            <li class="ml-1">
+                                <input type="checkbox"
+                                    id="filter_{{ filter.field | html.url_encode }}_{{ value.name | html.url_encode }}"
+                                    class="w-4 h-4 mr-1 text-primary-600 bg-secondary-100 border-secondary-300 rounded focus:ring-primary-500 focus:ring-2"
+                                    value="{{ filter.field }}__{{ value.name }}"
+                                    onchange="setFilter(this.value)"
+                                    class="cursor-pointer">
+                                <label for="filter_{{ filter.field | html.url_encode }}_{{ value.name | html.url_encode }}" class="cursor-pointer">
+                                    {{- value.name + ' (' + value.quantity + ")" -}}
+                                </label>
+                            </li>
+                        {{ end }}
+                    </ul>
+                {{~ end ~}}
             {{ end }}
         </div>
     {{ end }}
 </div>
-
-<script>
-    // Função para abrir/fechar os filtros
-    function toggleFilter(id) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.classList.toggle("hidden");
-        }
-    }
-</script>
-

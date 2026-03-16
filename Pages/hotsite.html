@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
+        {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
         {{ head title: data.hotsite.name store: store }}
-        {{ data_layer_config common: common }}
+        {{ data_layer_config }}
         {{ hotsite_structured_data hotsite: data.hotsite base_url: store.urls.base current_url: store.urls.current }}
-        {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output", "glider", "slider_price" ]}}
+        {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "glider", "slider_price" ]}}
+        {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
         {{ meta_tags seo: data.hotsite.seo }}
-        {{ wake_experience_script_sdk experience_page:"GENERAL"}}
+        {{ wake_meta_pixel_script }}
+        <link rel="canonical" href="{{ store.urls.current }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    
+
     <body class="bg-mainBg">
+        {{ page_scripts position: "BODY_START" scripts: common.scripts }}
         <header class="shadow-xl lg:shadow-none bg-mainBg">
             {{ links }}
             {{ header }}
@@ -18,7 +22,7 @@
         </header>
         <div id="add-cart-alert"></div>
         {{ side_cart }}
-        {{ overlay }}
+        {{ wake_overlay }}
         {{ banners_carousel id: "banners_top" banners: data.hotsite.banners position: "Topo" }}
         <div class="flex flex-col my-4 w-full lg:flex-row lg:justify-center">
             <div class="flex flex-col items-start w-full lg:max-w-[1330px] relative">
@@ -48,6 +52,7 @@
                         {{ products = data.hotsite.products ?? data.hotsite.products_by_offset }}
                         {{ page_size = data.hotsite.page_size }}
                         <input type="hidden" id="def_page_size" name="def_page_size" value="{{ page_size }}">
+                        <h1 class="mb-3 text-sm lg:text-base">{{data.hotsite.name}}</h1>
                         {{ spot_list products: products }}
                         {{ pagination products: products page_size: page_size current_page: current_page }}
                     </div>
@@ -55,10 +60,15 @@
                 </div>
             </div>
         </div>
-        {{ modal }}
+        {{ wake_modal }}
+        {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
         {{ footer is_preview: is_preview store: store }}
         {{ data_layer_hotsite_view product_lists: [products]}}
         {{ sdk_client }}
-        {{ asset type: "js" paths: ["components", "sort", "filter", "pagination", "products_per_page", "navbar", "mini_cart", "cart_from_spot", "user_login", "product", "glider", "wishlist", "event_manager"]}}
+        {{ search_record_data search_data: data.hotsite current_page: current_page }}
+        {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
+        {{ wake_scripts scripts: ["wake_utils"] }}
+        {{ asset type: "js" paths: ["sort", "filter", "pagination", "products_per_page", "navbar", "mini_cart", "cart_from_spot", "user_login", "product", "glider", "wishlist", "event_manager", "search"]}}
+        {{ page_scripts position: "BODY_END" scripts: common.scripts }}
     </body>
 </html>

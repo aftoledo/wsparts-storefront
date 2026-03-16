@@ -1051,12 +1051,29 @@
     @apply my-2;
   }
   
+  .wake-current-account .current-data table tbody tr td,
+  .wake-current-account .current-data table thead th {
+    @apply border-y border-x-0 border-secondary-200;
+  }
+
   .wake-current-account .current-data table tbody tr td {
-    @apply whitespace-nowrap border px-6 py-4;
+    @apply whitespace-nowrap px-6 py-4;
   }
   
   .wake-current-account .current-data table tbody tr td b {
     @apply font-semibold;
+  }
+
+  .wake-current-account .current-data table tbody tr.credit-row-expired td {
+    @apply text-secondary-400;
+  }
+
+  .wake-current-account .current-data table tbody tr.credit-row-expired td b {
+    @apply font-normal text-secondary-400;
+  }
+
+  .wake-current-account .current-data table tbody tr.credit-row-expired td.credit-value-expired {
+    @apply line-through;
   }
 
   /* Meus Endereços*/

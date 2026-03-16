@@ -3,7 +3,7 @@ query ($query: String!, $partnerAccessToken: String){
     suggestions
     products{
       productName
-      alias : aliasComplete
+      alias: aliasComplete
       images{
         url
       }

@@ -7,5 +7,5 @@
         await client.snippet.render("partner_logo_snippet.html", ...);
 ## }}
 <a id="partner_logo" href="/">
-    <img src="{{ data.partner.full_url_logo }}" width="40px" height="40px" alt="partner-logo">
+    <img src="{{- store.urls.static_img}}partners/{{ data.partner.partner_id }}.jpg?theme={{store.theme -}}&v={{store.last_modified}}" width="40px" height="40px" alt="partner-logo">
 </a>

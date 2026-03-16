@@ -13,7 +13,7 @@
         {{~ if displayed_installment && displayed_installment.size > 0 ~}}
             {{~ 
                 filtered_installment_plan = installment_plans | array.filter @select_installments | array.first
-                installment = filtered_installment_plan?.installments | array.last 
+                installment = filtered_installment_plan.installments | array.last 
             ~}}
 
             {{~ if filtered_installment_plan.display_name | string.contains "Boleto" ~}}

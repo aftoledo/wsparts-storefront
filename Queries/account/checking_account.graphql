@@ -10,6 +10,8 @@ query Account($customerAccessToken: String!, $hasCustomerAccessToken: Boolean!) 
       historic
       type
       value
+      expirationDate
+      expired
     }
   }
 }

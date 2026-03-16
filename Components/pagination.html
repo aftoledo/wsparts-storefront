@@ -20,8 +20,13 @@
 {{~ else # Pagination by offset ~}}
     {{ 
         func totalPages
+            maxPages = 10000 / page_size | math.floor # Due to performance issues it is not possible to fetch more than 10,000 products
             total = products.total_count / page_size | math.ceil | string.append ""
-            ret total | string.to_int
+            if total > maxPages
+                ret maxPages | string.to_int
+            else   
+                ret total | string.to_int
+            end
         end
         total = totalPages
     }}

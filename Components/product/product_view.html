@@ -26,10 +26,10 @@
                 {{~ wishlist_button product_id: product.product_id ~}}
             {{~ end ~}}
         </div>
-        <h5 class="text-2xl mb-4">{{ product.product_name }}</h5>
+        <h1 class="text-2xl mb-4">{{ product.product_name }}</h1>
         {{~
             promotionsTypes = product.promotions | group.by @(do; ret $0.disclosure_type;end)
-            promotionsPagProduto = promotionsTypes | group.get "Página produto"
+            promotionsPagProduto = promotionsTypes | group.get "Página Produto"
             stamps promotions: promotionsPagProduto
             installment_plans = product.prices.installment_plans 
         ~}}
@@ -54,8 +54,7 @@
             </div>
         </div>
         <div>
-            {{~ has_parallel_options = product.parallel_options && (product.parallel_options | array.size > 0) ~}}
-            {{ if has_parallel_options }}
+            {{ if product.parallel_options && (product.parallel_options | array.size > 0) }}
                 {{ parallel_options product: product }}
             {{ else }}
                 {{ product_attribute product: product }}
@@ -64,19 +63,10 @@
                 {{~ end ~}}
             {{ end }}
         </div>
-        {{~ if has_parallel_options ~}}
-            {{~ shipping_on_submit_click = "multiVariantsShippingQuoteSubmit(event, parallelOptionsGetCheckoutInput())" ~}}
-            {{~ show_shipping_quote = true ~}}
-        {{~ else if selected_variant ~}}
-            {{~ shipping_on_submit_click = "shippingQuoteSubmit(event, " + selected_variant.product_variant_id + ")" ~}}
-            {{~ show_shipping_quote = true ~}}
-        {{~ else ~}}
-            {{~ show_shipping_quote = false ~}}
-        {{~ end ~}}
-        {{~ if show_shipping_quote ~}}
-            <div>
-                {{ product_shipping_quotes on_submit_click: shipping_on_submit_click }}
-            </div>
-        {{~ end ~}}
+        <div>
+            {{~ if selected_variant ~}}
+                {{ product_shipping_quotes product_variant_id: selected_variant.product_variant_id }}
+            {{~ end ~}}
+        </div>
     </div>
 </div>

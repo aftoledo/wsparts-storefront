@@ -51,10 +51,10 @@ async function updateProductsInWishlist() {
         
         let response = await client.query(query, variables);
         let result = response?.customer?.wishlist?.products;
-
-        let ids = result ? result.map(a => a.productId) : [];
-        productsInWishlist = [...ids];
         
+        let ids = result ? result.map(a => a.productId) : [];
+        productsInWishlist.splice(0, ids.length, ...ids);
+
         if (productsInWishlist.length > 0)
             productsInWishlist.forEach(verifyProductsInWishlist);
     }
@@ -64,13 +64,13 @@ async function updateProductsInWishlist() {
  * Change the wishlist icon if the product is added in the user's wishlist
  */
 function verifyProductsInWishlist(productId) {
-    let productElement = document.querySelectorAll(`#wishlist-icon-${productId}`);
-    let buttonElement = document.querySelectorAll(`#wishlist-button-${productId}`);
+    let productElement = document.getElementsByClassName(`wishlist-icon-${productId}`);
+    let buttonElement = document.getElementsByClassName(`wishlist-button-${productId}`);
 
     if (buttonElement && productElement) {
-        productElement.forEach(el => el.classList.add("fill-red-300"));
-        productElement.forEach(el => el.classList.add("stroke-red-700"));
-        buttonElement.forEach(el => el.setAttribute('onclick', `wishlistRemoveClick(this, ${productId})`));
+        productElement.classList.add("fill-red-300");
+        productElement.classList.add("stroke-red-700");
+        buttonElement.setAttribute('onclick', `wishlistRemoveClick(this, ${productId})`);
     }
 }
 
@@ -126,12 +126,14 @@ async function wishlistRemoveClick(button, productId) {
  * Checks 'user' variable value and sets it if an user is logged in.
  */
 async function setCustomerAccessToken(){    
-    if (pageUser?.customerAccessToken) return;
+    const customerAccessToken = client.cookie.get('sf_customer_access_token');
+    if ( customerAccessToken === null) return;
 
-    const user = await client.user.get();  
+    const user = await client.customer.get();  
     if (user == null) return;
 
     pageUser = user;
+    pageUser.customerAccessToken = customerAccessToken;
 }
 
 /**

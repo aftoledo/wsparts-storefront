@@ -4,13 +4,12 @@
         sdk_client
 ## }}
 
-<script src="https://static.fbits.net/storefront-sdk/latest/storefront-sdk-full.min.js?theme={{- store.theme -}}&v={{- store.last_modified -}}"></script>
+<script src="https://static.fbits.net/storefront-sdk/latest/storefront-sdk-full.min.js?theme={{- store.theme -}}&v={{- store.wake_last_modified -}}"></script>
 <script>
 const clientConfig = {
-        storefrontAccessToken: '{{settings.access_token}}',
-        checkoutUrl: '{{store.urls.checkout}}',
-        storeUrl: '{{store.urls.base}}'
-    };
+    storefrontAccessToken: '{{settings.access_token}}',
+    storeUrl: '{{store.urls.base}}'
+};
     
 const client = StorefrontClient.createClient(clientConfig);
 </script>

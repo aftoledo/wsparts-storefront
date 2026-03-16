@@ -1,9 +1,8 @@
 //#region SETUP
 
 // Method initialization for firing data layer events
-let dpush = [];
 window.dataLayer = window.dataLayer || [];
-dpush = function () { dataLayer.push(arguments); }
+const dpush = function () { dataLayer.push(arguments); }
 
 // User information (id and email if logged in)
 let dataLayerUserData;
@@ -25,6 +24,8 @@ window.addEventListener("productRemovedFromCart", removeFromCartEvent, false);
 // Event dispatched in wishlist.js
 window.addEventListener("productAddedToWishlist", addToWishlistEvent, false);
 window.addEventListener("productRemovedFromWishlist", removeFromWishlistEvent, false);
+
+window.addEventListener("checkoutPurchaseEvent", checkoutPurchaseEvent, false);
 
 /**
  * Configures data layer handlers to set user ID after a delay 
@@ -52,6 +53,44 @@ function configureDataLayerHandlers(eventInput) {
     }
 }
 
+/**
+ * Handles the data layer event by retrieving user information and dispatching a custom event.
+ */
+async function handleUserCheckDataLayerEvent() {
+    let userId = '';
+    let user = null;
+    const customerAccessToken = client.cookie.get('sf_customer_access_token');
+    const visitorCookieName = 'data-layer-visitor-id';
+
+    if (customerAccessToken) {
+        // If a customer access token exists, get customer details
+        const customerDetailsResult = await client.customer.accessTokenDetails(customerAccessToken);
+        const customerId = customerDetailsResult?.data?.customerId;
+
+        if (customerId) {
+            user = typeof pageUser == "undefined" ? await client.customer.get() : pageUser;
+            userId = `CLIENT-${customerId}`;
+        }
+    } else {
+        // Otherwise, check for an existing visitor ID or create a new one
+        let visitorId = client.cookie.get(visitorCookieName);
+        if (!visitorId) {
+            visitorId = `VISIT-${visitorUuid}`;
+            setCookie(visitorCookieName, visitorId, 168); // Set cookie with 168 hours expiry (1 week)
+        }
+        userId = visitorId;
+    }
+
+    // Dispatch custom event with user details
+    window.dispatchEvent(new CustomEvent("userChecked", {
+        detail: {
+            email: user?.email ?? user?.data?.email ?? '',
+            name: user?.name ?? user?.data?.customerName ?? '',
+            phoneNumber: user?.phoneNumber ?? user?.data?.phoneNumber ?? '',
+            userId
+        }
+    }));
+}
 //#endregion
 
 //#region DATA LAYER TRIGGERING EVENTS
@@ -61,13 +100,13 @@ function configureDataLayerHandlers(eventInput) {
  * It analyzes the page type (hotsite, product page, etc.) and registers 
  * the corresponding event to be captured in the event_manager file.
  */
-async function triggerPageViewEvent() {
+function triggerPageViewEvent() {
     const productIdDiv = document.getElementById("product-id");
     const buylistIdDiv = document.getElementById("buy-list-id")
 
     // Trigger the appropriate event based on the page type
     if (productIdDiv) {
-        const eventInput = {detail: { type: "product", productId: productIdDiv.value }};
+        const eventInput = { detail: { type: "product", productId: productIdDiv.value } };
         productPageEvent(eventInput);
     }
     else if (buylistIdDiv) {
@@ -75,19 +114,31 @@ async function triggerPageViewEvent() {
     }
     else if (window.location.pathname.endsWith("/busca")) {
         const term = queryStringParams.get("busca") ?? "";
-        const eventInput = { detail: { term }};
+        const eventInput = { detail: { term } };
         searchPageEvent(eventInput);
+    }
+    else if (window.location.href.startsWith(checkout_pages.checkout.confirmation)) {
+        const eventInput = { detail: { page_name: "confirmation" } };
+        checkoutConfirmationPageEvent(eventInput);
+    }
+    else if (window.location.href.startsWith(checkout_pages.checkout.complete)) {
+        const eventInput = { detail: { page_name: "complete" } };
+        checkoutCompleteEvent(eventInput);
+    }
+    else if (window.location.href.startsWith(checkout_pages.checkout.home)) {
+        const eventInput = { detail: { page_name: "checkout" } };
+        checkoutPageEvent(eventInput);
     }
     else {
         const alias = window.location.pathname != "/" ? window.location.pathname.slice(1) : "home"
-        const eventInput = { detail: { hotsite: alias }};
+        const eventInput = { detail: { hotsite: alias } };
         hotsitePageEvent(eventInput);
     }
 }
 
 async function viewCartEvent() {
     const data_layer_cart_details_element = document.getElementById('data_layer_cart_details');
-    if(data_layer_cart_details_element) {
+    if (data_layer_cart_details_element) {
         const data_layer_cart_details = JSON.parse(data_layer_cart_details_element.value);
         const pageType = getDataLayerPageType()
         mapDataLayerUserAndUrlToModel(data_layer_cart_details, pageType);
@@ -96,41 +147,23 @@ async function viewCartEvent() {
 }
 
 function addToCartEvent(eventInput) {
-    if (typeof eventInput === 'undefined' || eventInput == null || eventInput.detail == null) return;
-    if (!eventInput.detail.cart.products || !Array.isArray(eventInput.detail.cart.products)) return;
-    if (!eventInput.detail.products || !Array.isArray(eventInput.detail.products)) return;
-
-    let cartProducts = eventInput.detail.cart.products;
-    let addedProducts = eventInput.detail.products;
-    let items = [];
-
-    for (let addedProduct of addedProducts) {
-        let cartProduct = cartProducts.find(p => p.productVariantId === addedProduct.productVariantId);
-        if (cartProduct) {
-            items.push({
-                id: cartProduct?.productId ?? '',
-                name: cartProduct?.name ?? '',
-                price: cartProduct?.price ?? 0,
-            });
-        }
-    }
-    let dataLayerProductsObj = { items: items }
-    mapDataLayerUserAndUrlToModel(dataLayerProductsObj);
-    dpush("event", "add_to_cart", dataLayerProductsObj);
-
-    const dataLayerCartObj = getCartData(eventInput.detail.cart);
+    const dataLayerCartObj = convertProductDataToDataLayerItems(eventInput.detail.products);
     mapDataLayerUserAndUrlToModel(dataLayerCartObj);
-    dpush("event", "view_item_list", dataLayerCartObj);
+    dpush("event", "add_to_cart", dataLayerCartObj);
+
+    const dataLayerProductsObj = convertProductDataToDataLayerItems(eventInput.detail.cart.products);
+    mapDataLayerUserAndUrlToModel(dataLayerProductsObj);
+    dpush("event", "view_item_list", getCartData(dataLayerProductsObj));
 }
 
 function removeFromCartEvent(eventInput) {
-    const dataLayerProductsObj = convertProductDataToDataLayerItems(eventInput.detail.products);
-    mapDataLayerUserAndUrlToModel(dataLayerProductsObj);
-    dpush("event", "remove_from_cart", dataLayerProductsObj);
-
-    const dataLayerCartObj = getCartData( eventInput.detail.cart );
+    const dataLayerCartObj = convertProductDataToDataLayerItems(eventInput.detail.products);
     mapDataLayerUserAndUrlToModel(dataLayerCartObj);
-    dpush("event", "view_item_list", dataLayerCartObj);
+    dpush("event", "remove_from_cart", dataLayerCartObj);
+
+    const dataLayerProductsObj = convertProductDataToDataLayerItems(eventInput.detail.cart.products);
+    mapDataLayerUserAndUrlToModel(dataLayerProductsObj);
+    dpush("event", "view_item_list", getCartData(dataLayerProductsObj));
 }
 
 function searchPageEvent(eventInput) {
@@ -148,13 +181,59 @@ function hotsitePageEvent(eventInput) {
     dpush("event", "page_view", data_layer_hotsite_details);
 }
 
+function checkoutPageEvent() {
+    const pageType = "Carrinho"
+    mapDataLayerUserAndUrlToModel(data_layer_checkout_details, pageType);
+
+    dpush("event", "view_cart", data_layer_checkout_details);
+}
+
+function checkoutCompleteEvent() {
+    const pageType = "Fechamento"
+    mapDataLayerUserAndUrlToModel(data_layer_checkout_complete_details, pageType);
+
+    dpush("event", "begin_checkout", data_layer_checkout_complete_details);
+}
+
+function checkoutConfirmationPageEvent() {
+    const pageType = "Confirmaçao"
+    mapDataLayerUserAndUrlToModel(data_layer_confirmation_details, pageType);
+
+    dpush("event", "page_view", data_layer_confirmation_details);
+}
+
+function checkoutPurchaseEvent(eventInput) {
+    const pageType = "Confirmaçao"
+    const checkoutData = eventInput.detail.checkout;
+    for (let order of checkoutData.orders) {
+        const data_layer_confirmation_details = {
+            "currency": "BRL",
+            checkout_id: checkoutData.checkoutId,
+            transaction_id: order.orderId,
+            subtotal: checkoutData.subtotal,
+            discount: checkoutData.discount,
+            shippingFee: checkoutData.shippingFee,
+            paymentFees: checkoutData.paymentFees,
+            total: checkoutData.total,
+            items: structureCheckoutProducts(order.products),
+            shipping_value: order.shippingValue,
+            total_value: order.totalValue,
+        };
+
+        mapDataLayerUserAndUrlToModel(data_layer_confirmation_details, pageType);
+        dpush("event", "purchase", data_layer_confirmation_details);
+    }
+
+
+}
+
 function productPageEvent(eventInput) {
     const pageType = getDataLayerPageType()
 
-    if (!eventInput.detail.adjusted)
+    if (!eventInput.detail.adjusted && data_layer_product_details)
         mapDataLayerUserAndUrlToModel(data_layer_product_details, pageType)
 
-    if (eventInput.detail.type == "product")
+    if (eventInput.detail.type == "product" && data_layer_product_details)
         dpush("event", "view_item", data_layer_product_details);
 }
 
@@ -176,15 +255,15 @@ function buyListEvent(eventInput) {
 
 function convertBuyListDatatoDataLayerItems(buyListData) {
     const buyListProducts = [];
-    for (productToAdd of buyListData){
+    for (productToAdd of buyListData) {
         const productObj = {
-            item_name: productToAdd.product_name || '',
-            item_id: productToAdd.product_id.toString() || '',
+            item_name: productToAdd.productName || '',
+            item_id: productToAdd.productId.toString() || '',
             price: productToAdd.prices.price.toString() || '',
-            item_brand: productToAdd.product_brand?.name || '',
+            item_brand: productToAdd.productBrand?.name || '',
             quantity: 1,
         }
-        productToAdd.product_categories.forEach((category, index) => {
+        productToAdd.productCategories.forEach((category, index) => {
             const key = index > 0 ? `item_category${index + 1}` : 'item_category';
             productObj[key] = category.name;
         });
@@ -195,27 +274,31 @@ function convertBuyListDatatoDataLayerItems(buyListData) {
 
 function convertProductDataToDataLayerItems(productData) {
     const cartProducts = [];
-    for (productToAdd of productData)
-        cartProducts.push({
-            item_id: productToAdd.productId ?? productToAdd.product_id ?? productToAdd.productVariantId ?? productToAdd.product_variant_id,
-            item_name: productToAdd.product_name,
-            price: productToAdd?.price ?? 0
-        });
+    if (Array.isArray(productData)) {
+        for (const productToAdd of productData) {
+            cartProducts.push({
+                item_id: productToAdd.productId ?? productToAdd.product_id ?? productToAdd.productVariantId ?? productToAdd.product_variant_id,
+                item_name: productToAdd.product_name
+            });
+        }
+    }
     return { items: cartProducts };
 }
 
 function getCartData(checkoutData) {
     const cartProducts = [];
-    let index = 0;
-    for (productToAdd of checkoutData.products)
-        cartProducts.push({
-            item_id: productToAdd.productId,
-            item_name: productToAdd.name,
-            discount: productToAdd.price == 0 ? 0 : productToAdd.listPrice - productToAdd.price,
-            index: index++,
-            price: productToAdd.price == 0 ? productToAdd.price : productToAdd.price,
-            quantity: productToAdd.quantity ?? 1
-        });
+    if (Array.isArray(checkoutData.products)) {
+        for (const productToAdd of checkoutData.products) {
+            cartProducts.push({
+                item_id: productToAdd.productId,
+                item_name: productToAdd.name,
+                discount: productToAdd.price == 0 ? 0 : productToAdd.listPrice - productToAdd.price,
+                index: 0,
+                price: productToAdd.price == 0 ? productToAdd.price : productToAdd.price,
+                quantity: 1
+            });
+        }
+    }
     const formated = {
         item_list_name: "Cart List",
         currency: "BRL",
@@ -225,48 +308,37 @@ function getCartData(checkoutData) {
     return formated;
 }
 
-function structureEcommerceItems(products, cart) {
+function structureCheckoutProducts(products, cart) {
     if (!products || !Array.isArray(products)) return []
 
     return (
         products?.map(product => {
             const {
-                productId,
-                productName,
-                productBrand,
-                productCategories,
-                prices,
-                sku
+                productVariantId,
+                name,
+                quantity
             } = product ?? {}
-            const cartItem = cart?.find(item => item?.productId === productId)
-            const categories =
-                productCategories?.reduce((acc, category, index) => {
-                    acc[`item_category${index > 0 ? index + 1 : ''}`] = category?.name
-                    return acc
-                }, {}) ?? {}
 
             return {
-                item_name: productName,
-                item_id: productId,
-                price: prices?.price ?? 0,
-                item_brand: productBrand?.name,
-                ...categories,
-                quantity: cartItem?.quantity ?? 1,
-                discount: (prices?.listPrice ?? 0) - (prices?.price ?? 0),
-                item_variant: sku
+                item_name: name,
+                item_variant: productVariantId,
+                quantity: quantity ?? 1,
             }
         }) ?? []
     )
 }
 
 function mapDataLayerUserAndUrlToModel(model, pageType) {
-    model.user = { id: dataLayerUserData.userId };
-    if (dataLayerUserData.email) model.user.email = dataLayerUserData.email;
-    if (dataLayerUserData.name) model.user.name = dataLayerUserData.name;
-    if (dataLayerUserData.phoneNumber) model.user.phoneNumber = dataLayerUserData.phoneNumber;
+    if (dataLayerUserData) {
+        model.user = {};
+        if (dataLayerUserData.userId) model.user.id = dataLayerUserData.userId
+        if (dataLayerUserData.email) model.user.email = dataLayerUserData.email;
+        if (dataLayerUserData.name) model.user.name = dataLayerUserData.name;
+        if (dataLayerUserData.phoneNumber) model.user.phoneNumber = dataLayerUserData.phoneNumber;
+    }
 
     model.session = {
-        isLogged: !!dataLayerUserData.email,
+        isLogged: !!dataLayerUserData && !!dataLayerUserData.email,
         site: {
             siteDomain: document.location.origin,
         }
@@ -286,6 +358,14 @@ function mapDataLayerUserAndUrlToModel(model, pageType) {
 function getDataLayerPageType() {
     const inputElement = document.getElementById("data-layer-page-type");
     return inputElement?.value ?? "HOTSITE";
+}
+
+//#endregion
+
+//#region Meta Pixel Functions
+
+if (typeof wakeHandleFbqEvent === "function") {
+    window.addEventListener('fbqEvent', wakeHandleFbqEvent);
 }
 
 //#endregion

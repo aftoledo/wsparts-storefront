@@ -10,6 +10,9 @@
         {{~ if product.attribute_selections ~}}
             <div class="flex-col">
                 <strong>{{ option }}</strong>                
+                {{~ if product.customizations ~}}
+                    {{~ product_customizations customizations: product.customizations ~}}
+                {{~ end ~}}
                 <div attribute-selections>
                     {{ parallel_options_product_attribute product: product }}
                 </div>
