@@ -54,17 +54,17 @@
                         lg:duration-500 lg:ease-in-out lg:group-hover:transform">
                             {{~ if product.product_id > 0 ~}}
                                 <button class="flex items-center justify-center text-white bg-primary-500 lg:hover:bg-primary-600 w-full lg:w-2/4 p-2" onclick="showModalSpot('{{product.product_id}}')">
-                                    <img src="{{- store.urls.static_img}}img/icons/plus.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="plus" class="w-6 h-6 mr-2 stroke-white">
+                                    <img src="{{- store.urls.static_img}}icons/plus.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="plus" class="w-6 h-6 mr-2 stroke-white">
                                     Adicionar
                                 </button>
                                 <button class="flex items-center justify-center text-white bg-gray-1000 lg:bg-secondary-500 lg:hover:bg-gray-1000 w-full lg:w-2/4 p-2" onclick="showModalSpot('{{product.product_id}}')">
-                                    <img src="{{- store.urls.static_img}}img/icons/cart.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="cart" class="w-6 h-6 mr-2">
+                                    <img src="{{- store.urls.static_img}}icons/cart.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="cart" class="w-6 h-6 mr-2">
                                     COMPRAR
                                 </button>
                             {{~ else ~}}
                                 <button class="flex items-center justify-center text-white bg-gray-1000 lg:bg-secondary-500 lg:hover:bg-gray-1000 w-full p-2">
                                     <a href="/{{product.alias}}" class="flex">
-                                        <img src="{{- store.urls.static_img}}img/icons/cart.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="cart" class="w-6 h-6 mr-2">
+                                        <img src="{{- store.urls.static_img}}icons/cart.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="cart" class="w-6 h-6 mr-2">
                                         COMPRAR
                                     </a>
                                 </button>
