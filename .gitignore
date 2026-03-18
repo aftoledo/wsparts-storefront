@@ -1,6 +1,7 @@
 # System Files
 tailwindcss.exe
-fbits.storefront
+fbits.storefront.exe
+*.log
 
 # Dependencies
 node_modules/
