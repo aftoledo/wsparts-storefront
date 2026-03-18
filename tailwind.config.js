@@ -14,22 +14,25 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          100: '#F0BEFC',
-          200: '#E79CF9',
-          300: '#DD77F5',
-          400: '#D24FF1',
-          500: '#C40EEF',
-          600: '#9407B5',
-          700: '#6B0483',
-          800: '#510164',
-          900: '#3D004C',       
+          50: 'var(--color-primary-50)',
+          100: 'var(--color-primary-100)',
+          200: 'var(--color-primary-200)',
+          300: 'var(--color-primary-300)',
+          400: 'var(--color-primary-400)',
+          500: 'var(--color-primary-500)',
+          600: 'var(--color-primary-600)',
+          700: 'var(--color-primary-700)',
+          800: 'var(--color-primary-800)',
+          900: 'var(--color-primary-900)',
+          950: 'var(--color-primary-950)',
         },
         secondary: colors.gray,
-        mainBg: '#FFFFFF',
+        mainBg: 'var(--color-main-bg)',
         lightBg: '#FFFFFF',
         lightBlue: '#00B0FF',
         ligthGreen: '#81C784',
         facebook: '#1877F2',
+        customText: 'var(--color-text-base)',
         gray: {
           1000: '#1E1E1E'
         }

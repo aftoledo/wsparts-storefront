@@ -24,9 +24,9 @@
         {{ side_cart }}
         {{ wake_overlay }}
         {{ banners_carousel id: "banners_top" banners: data.hotsite.banners position: "Topo" }}
+        {{ benefits }}
         {{ spot_carousel products: data.lancamentos.products.nodes class:"new-release" title:"Lançamentos" }}
         {{ spot_carousel products: data.mais_vendidos.products.nodes class:"best-sellers" title:"Mais Vendidos" }}
-        {{ newsletter information_groups: data.newsletter_information_group_fields }}
         {{ brands_carousel brands: data.brands.nodes }}
         {{ wake_modal }}
         {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}

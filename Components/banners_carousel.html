@@ -16,64 +16,60 @@
   end 
 ~}}
 {{~ if banners && banners.size > 0 ~}}
-  <div class="swiffy-slider slider-nav-dark slider-nav-visible slider-nav-autoplay slider-nav-autopause slider-indicators-round 
-  slider-indicators-dark slider-indicators-highlight slider-indicators-sm min-h-[390px] md:min-h-min" data-slider-nav-autoplay-interval="5000">
+  <div class="swiffy-slider banner-slider slider-nav-dark slider-nav-visible slider-nav-autoplay slider-nav-autopause transition-all duration-500 ease-in-out" data-slider-nav-autoplay-interval="5000">
       <ul class="slider-container">
         {{~ for banner_name in banners_names ~}}
           {{ banner_by_name = banners_by_name | group.get banner_name | array.sort "width" }}
-          {{ if banner_by_name.size == 1 }}
-            {{- alt = banner_by_name[0].title ?? "banner" -}}
-            {{ if banner_by_name[0].url_on_click }} 
-              <li><a href="{{ banner_by_name[0].url_on_click }}" {{ if banner_by_name[0].open_new_tab }} target="_blank" {{ end }}>
-            {{ end }}
-            {{~ image source: banner_by_name[0].banner_url sizes: [{w:720, h:208}, {w: 1280, h:371}, {w: 1549, h:449}] alt: alt class:"object-cover w-full h-auto" ~}}
-            {{ if banner_by_name[0].url_on_click }}</a></li>{{ end }}
-          {{ else }}
-            {{
-              current_sources = []
-              for cb in banner_by_name
-                current_media = "(max-width: " + (cb.width+40) + "px)"
+          {{
+            current_sources = []
+            default_banner = banner_by_name | array.last
+            for cb in banner_by_name
+                current_media = "(max-width: " + (cb.width + 40) + "px)"
                 if for.last
                   default = cb.banner_url
                   default_url_on_click = cb.url_on_click
                   default_open_new_tab = cb.open_new_tab
                 end
                 current_sources = current_sources | array.add {src:cb.banner_url, w:cb.width, media: current_media}
-            	end 
-            ~}}
-            <li>
-              {{ if default_url_on_click }} 
-                <a href="{{ default_url_on_click }}" {{ if default_open_new_tab }} target="_blank" {{ end }}>
-              {{ end }}
-              <picture>
-                  {{~ for source in current_sources ~}}
-                      <source media="{{source.media}}" srcset="{{source.src}}?w={{source.w}}&h={{source.h}}">   
-                  {{~ end ~}}
-                  
-                  <img src="{{default}}" alt="banner" width="640" height="100" class="object-cover w-full h-auto" 
-                    {{ if for.first }}fetchpriority="high"{{else}}loading="lazy"{{end}}>
-              </picture>
-              {{ if default_url_on_click }} 
-                </a>
-              {{ end }}
-            </li>
-          {{ end }}
+            end 
+          ~}}
+          <li class="relative overflow-hidden">
+            {{ if default_url_on_click }} 
+              <a href="{{ default_url_on_click }}" {{ if default_open_new_tab }} target="_blank" {{ end }} class="block w-full h-full">
+            {{ end }}
+            <picture class="block w-full h-full">
+                {{~ for source in current_sources ~}}
+                    <source media="{{source.media}}" srcset="{{source.src}}?w={{source.w}}">   
+                {{~ end ~}}
+                <img src="{{default}}" alt="banner" 
+                  class="object-contain w-full h-full" 
+                  {{ if for.first }}fetchpriority="high"{{else}}loading="lazy"{{end}}>
+            </picture>
+            {{ if default_url_on_click }} 
+              </a>
+            {{ end }}
+          </li>
         {{~ end ~}}
       </ul>
-      {{ if banners.size >= 2}}
-        <button type="button" class="slider-nav" name="prev">
-          <img src="{{- store.urls.static_img}}icons/arrow-left.svg?theme={{store.theme}}&v={{store.last_modified}}" 
-      alt="arrow-left" class="w-6 h-6 m-2"/>
+      {{ if banners_names.size >= 2}}
+        <button type="button" class="slider-nav" name="prev" aria-label="Anterior">
+          <div class="bg-white/80 hover:bg-white text-black p-3 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95">
+             <img src="{{- store.urls.static_img}}icons/arrow-left.svg?theme={{store.theme}}&v={{store.last_modified}}" 
+          alt="arrow-left" class="w-6 h-6"/>
+          </div>
         </button>
-        <button type="button" class="slider-nav slider-nav-next" name="next">
-          <img src="{{- store.urls.static_img}}icons/arrow-right.svg?theme={{store.theme}}&v={{store.last_modified}}" 
-      alt="arrow-right" class="w-6 h-6 m-2"/>
+        <button type="button" class="slider-nav slider-nav-next" name="next" aria-label="Próximo">
+          <div class="bg-white/80 hover:bg-white text-black p-3 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95">
+            <img src="{{- store.urls.static_img}}icons/arrow-right.svg?theme={{store.theme}}&v={{store.last_modified}}" 
+          alt="arrow-right" class="w-6 h-6"/>
+          </div>
         </button>
 
         <div class="slider-indicators">
-            <button class="active" aria-label="Indicador de slide"></button>
-            <button aria-label="Indicador de slide"></button>
+            {{~ for banner_name in banners_names ~}}
+              <button class="{{ if for.first }}active{{ end }}" aria-label="Indicador de slide"></button>
+            {{~ end ~}}
         </div>
       {{ end }}
   </div>
-{{~ end ~}}
+{{~ end ~}}

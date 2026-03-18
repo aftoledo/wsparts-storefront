@@ -1,5 +1,20 @@
+# System Files
 tailwindcss.exe
-node_modules/*
-package-lock.json
-package.json
 fbits.storefront
+
+# Dependencies
+node_modules/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Private Tokens/Keys (IMPORTANT)
+.env
+*.key
+*.token
+*.p12
+
+# Gemini/Antigravity Context (optional, but usually recommended to ignore to avoid bloat)
+.gemini/
+.context/logs/

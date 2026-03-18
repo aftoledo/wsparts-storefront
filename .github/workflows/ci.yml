@@ -1,0 +1,35 @@
+name: "CI - Build & Validate"
+
+on:
+  push:
+    branches: [ "main", "checkout2.0" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build Tailwind
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build CSS (Tailwind)
+      run: npx tailwindcss -i ./Assets/CSS/input_base.css -o ./Assets/CSS/output_base.css
+
+    - name: Check for uncommitted changes
+      run: |
+        if [[ -n $(git status --porcelain) ]]; then
+          echo "Changes detected in build artifacts. Please run build locally and commit."
+          git status
+          exit 1
+        fi

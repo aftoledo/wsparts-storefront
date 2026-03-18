@@ -1,0 +1,39 @@
+<section class="container mx-auto my-8">
+    <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">{{ title }}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <!-- Ano -->
+            <div class="flex flex-col">
+                <label class="text-sm font-semibold text-gray-600 mb-1">Ano</label>
+                <select class="border border-gray-300 rounded p-2 w-full focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none">
+                    <option value="">Selecione</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                </select>
+            </div>
+
+            <!-- Marca -->
+            <div class="flex flex-col">
+                <label class="text-sm font-semibold text-gray-600 mb-1">Marca</label>
+                <select class="border border-gray-300 rounded p-2 w-full focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none">
+                    <option value="">Selecione</option>
+                </select>
+            </div>
+
+            <!-- Modelo -->
+            <div class="flex flex-col">
+                <label class="text-sm font-semibold text-gray-600 mb-1">Modelo</label>
+                <select class="border border-gray-300 rounded p-2 w-full focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none">
+                    <option value="">Selecione</option>
+                </select>
+            </div>
+
+            <!-- Botão -->
+            <div class="flex items-end">
+                <button class="w-full bg-primary-600 text-white font-bold py-2 px-4 rounded hover:bg-primary-700 transition duration-200">
+                    BUSCAR PEÇAS
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
