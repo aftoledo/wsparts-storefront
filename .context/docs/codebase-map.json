@@ -1,0 +1,404 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-03-16T17:48:53.985Z",
+  "stack": {
+    "primaryLanguage": "javascript",
+    "languages": [
+      "javascript"
+    ],
+    "frameworks": [],
+    "buildTools": [],
+    "testFrameworks": [],
+    "packageManager": "npm",
+    "isMonorepo": false,
+    "hasDocker": false,
+    "hasCI": false
+  },
+  "structure": {
+    "totalFiles": 377,
+    "rootPath": ".",
+    "topDirectories": [
+      {
+        "name": "Assets",
+        "fileCount": 128,
+        "description": "Static assets (images, fonts)"
+      },
+      {
+        "name": "Components",
+        "fileCount": 105,
+        "description": "UI components"
+      },
+      {
+        "name": "Configs",
+        "fileCount": 6,
+        "description": "Configuration files"
+      },
+      {
+        "name": "Emails",
+        "fileCount": 45,
+        "description": "AI/LLM integration"
+      },
+      {
+        "name": "Pages",
+        "fileCount": 27,
+        "description": "Page components (Next.js/Nuxt)"
+      },
+      {
+        "name": "Queries",
+        "fileCount": 40,
+        "description": "Querie definitions"
+      },
+      {
+        "name": "Root",
+        "fileCount": 2,
+        "description": "Module directory"
+      },
+      {
+        "name": "Snippets",
+        "fileCount": 17,
+        "description": "Snippet definitions"
+      }
+    ],
+    "languageDistribution": [
+      {
+        "extension": ".html",
+        "count": 194
+      },
+      {
+        "extension": ".svg",
+        "count": 62
+      },
+      {
+        "extension": ".graphql",
+        "count": 40
+      },
+      {
+        "extension": ".js",
+        "count": 29
+      },
+      {
+        "extension": ".css",
+        "count": 26
+      },
+      {
+        "extension": ".json",
+        "count": 9
+      },
+      {
+        "extension": ".png",
+        "count": 9
+      },
+      {
+        "extension": ".jpg",
+        "count": 3
+      },
+      {
+        "extension": ".md",
+        "count": 1
+      },
+      {
+        "extension": ".exe",
+        "count": 1
+      }
+    ]
+  },
+  "architecture": {
+    "layers": [
+      {
+        "name": "Config",
+        "description": "Configuration and constants",
+        "directories": [
+          ".",
+          "Assets\\JS"
+        ],
+        "symbolCount": 4,
+        "dependsOn": []
+      },
+      {
+        "name": "Components",
+        "description": "UI components and views",
+        "directories": [
+          "Assets\\JS"
+        ],
+        "symbolCount": 9,
+        "dependsOn": []
+      }
+    ],
+    "patterns": [],
+    "entryPoints": [],
+    "mainEntryPoints": [],
+    "moduleExports": []
+  },
+  "symbols": {
+    "classes": [],
+    "interfaces": [],
+    "functions": [
+      {
+        "name": "addActive",
+        "kind": "function",
+        "file": "Assets\\JS\\navbar.js",
+        "line": 104,
+        "exported": false
+      },
+      {
+        "name": "addKitToCart",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_list.js",
+        "line": 351,
+        "exported": false
+      },
+      {
+        "name": "addOrCreateCheckout",
+        "kind": "function",
+        "file": "Assets\\JS\\product.js",
+        "line": 209,
+        "exported": false,
+        "description": "Validates if need to create a checkout and add products.\r@param {object[]} input - Product and quant..."
+      },
+      {
+        "name": "addOrRemoveWishlist",
+        "kind": "function",
+        "file": "Assets\\JS\\wishlist.js",
+        "line": 163,
+        "exported": false,
+        "description": "Add or remove product from wishlist.\r@param {string} productId - Product ID to add to wishlist.\r@par..."
+      },
+      {
+        "name": "addToCartClick",
+        "kind": "function",
+        "file": "Assets\\JS\\product.js",
+        "line": 97,
+        "exported": false,
+        "description": "Add to cart button click.\r@param {string} productVariantId - Product variant ID."
+      },
+      {
+        "name": "addToCartEvent",
+        "kind": "function",
+        "file": "Assets\\JS\\event_manager.js",
+        "line": 149,
+        "exported": false
+      },
+      {
+        "name": "addToCartMatrixClick",
+        "kind": "function",
+        "file": "Assets\\JS\\product.js",
+        "line": 257,
+        "exported": false,
+        "description": "Matrix add to cart button click."
+      },
+      {
+        "name": "addToWishlistEvent",
+        "kind": "function",
+        "file": "Assets\\JS\\event_manager.js",
+        "line": 240,
+        "exported": false
+      },
+      {
+        "name": "addUtmMetadata",
+        "kind": "function",
+        "file": "Assets\\JS\\mini_cart.js",
+        "line": 140,
+        "exported": false
+      },
+      {
+        "name": "addUtmMetadataIfExists",
+        "kind": "function",
+        "file": "Assets\\JS\\mini_cart.js",
+        "line": 251,
+        "exported": false
+      },
+      {
+        "name": "applyPriceFilterUrl",
+        "kind": "function",
+        "file": "Assets\\JS\\filter.js",
+        "line": 117,
+        "exported": false,
+        "description": "Apply the price filter sending the data to the url query"
+      },
+      {
+        "name": "applyWholesalePrice",
+        "kind": "function",
+        "file": "Assets\\JS\\product.js",
+        "line": 282,
+        "exported": false,
+        "description": "Applies the wholesale price to the product.\r@param {string} quantity - Wholesale quantity."
+      },
+      {
+        "name": "autocomplete",
+        "kind": "function",
+        "file": "Assets\\JS\\navbar.js",
+        "line": 60,
+        "exported": false,
+        "description": "Setups the autocomplete feature\r@param {HTMLInputElement} inp - The search bar input element"
+      },
+      {
+        "name": "backInStockOnClick",
+        "kind": "function",
+        "file": "Assets\\JS\\product.js",
+        "line": 481,
+        "exported": false,
+        "description": "Event for the 'back in stock' component, when the product is out of stock\rand the user wants to sign..."
+      },
+      {
+        "name": "buildWishlistInput",
+        "kind": "function",
+        "file": "Assets\\JS\\wishlist.js",
+        "line": 151,
+        "exported": false,
+        "description": "Build wishlist input.\r@param {string} productId - Product ID to add to wishlist."
+      },
+      {
+        "name": "buyBoxBuyClick",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_box.js",
+        "line": 22,
+        "exported": false,
+        "description": "The buy button's click event function"
+      },
+      {
+        "name": "buyBoxGetProductsAndQuantities",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_box.js",
+        "line": 5,
+        "exported": false,
+        "description": "Iterates the page's buy list product divs, evaluating if each product should be added to the list (b..."
+      },
+      {
+        "name": "buyClick",
+        "kind": "function",
+        "file": "Assets\\JS\\product.js",
+        "line": 121,
+        "exported": false,
+        "description": "Buy button click.\r@param {string} productVariantId - Product variant ID."
+      },
+      {
+        "name": "buyListAddToCartClick",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_list.js",
+        "line": 231,
+        "exported": false,
+        "description": "The add to cart's click event function"
+      },
+      {
+        "name": "buyListBuyClick",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_list.js",
+        "line": 198,
+        "exported": false,
+        "description": "The buy button's click event function"
+      },
+      {
+        "name": "buyListCalculatePrices",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_list.js",
+        "line": 80,
+        "exported": false,
+        "description": "Recalculates the total value of the buy list by processing each product row\rto validate if it should..."
+      },
+      {
+        "name": "buyListEvent",
+        "kind": "function",
+        "file": "Assets\\JS\\event_manager.js",
+        "line": 248,
+        "exported": false
+      },
+      {
+        "name": "buyListGetProductsAndQuantities",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_list.js",
+        "line": 61,
+        "exported": false,
+        "description": "Iterates the page's buy list product divs, evaluating if each product should be added to the list (b..."
+      },
+      {
+        "name": "buyListPushProductInput",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_list.js",
+        "line": 103,
+        "exported": false,
+        "description": "Avaliates if the product is selected in the checkbox, then proceeds to validate\ron it's more generic..."
+      },
+      {
+        "name": "buyListRenderAndReplacePrice",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_list.js",
+        "line": 124,
+        "exported": false,
+        "description": "Renders the price snippet using an array of product ids and quantities for the query,\rand replaces t..."
+      },
+      {
+        "name": "buyListRenderAttributes",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_list.js",
+        "line": 174,
+        "exported": false,
+        "description": "Reloads the buy list product div with the updated information loaded from the product snippet,\raccou..."
+      },
+      {
+        "name": "buyListSelectAttribute",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_list.js",
+        "line": 139,
+        "exported": false,
+        "description": "Reloads the buy list product div the newly selected attribute, and recalculates the price.\rThis page..."
+      },
+      {
+        "name": "buyListSetup",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_list.js",
+        "line": 13,
+        "exported": false,
+        "description": "Iterates over the buy list hidden input's productId array, loading the product information in a snip..."
+      },
+      {
+        "name": "buyMatrixClick",
+        "kind": "function",
+        "file": "Assets\\JS\\product.js",
+        "line": 269,
+        "exported": false,
+        "description": "Matrix buy button click."
+      },
+      {
+        "name": "buyTogetherAddToCartClick",
+        "kind": "function",
+        "file": "Assets\\JS\\buy_together.js",
+        "line": 77,
+        "exported": false,
+        "description": "The add to cart's click event function\r@param {HTMLInputElement} element - The button originating th..."
+      }
+    ],
+    "types": [],
+    "enums": []
+  },
+  "publicAPI": [],
+  "dependencies": {
+    "mostImported": []
+  },
+  "stats": {
+    "totalSymbols": 164,
+    "exportedSymbols": 0,
+    "analysisTimeMs": 253
+  },
+  "keyFiles": [
+    {
+      "path": "package.json",
+      "description": "Package manifest",
+      "category": "config"
+    },
+    {
+      "path": "tailwind.config.js",
+      "description": "Tool configuration",
+      "category": "config"
+    }
+  ],
+  "navigation": {
+    "tests": "src/**/*.test.ts",
+    "config": [
+      "package.json"
+    ],
+    "types": [],
+    "mainLogic": [
+      "src"
+    ]
+  }
+}

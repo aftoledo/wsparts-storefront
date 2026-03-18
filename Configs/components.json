@@ -6,6 +6,16 @@
         "availableInAllPages": true
     },
     {
+        "name": "whatsapp_button",
+        "path": "whatsapp_button.html",
+        "availableInAllPages": true
+    },
+    {
+        "name": "benefits",
+        "path": "benefits.html",
+        "availableInAllPages": true
+    },
+    {
         "name": "header",
         "path": "header.html",
         "availableInAllPages": true

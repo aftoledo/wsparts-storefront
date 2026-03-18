@@ -3,7 +3,7 @@
   "wake_components_version": "v1",
   "show_information_groups_fields": false,
   "show_click_to_pay": false,
-  "favicon_path": "favicon.png",
+  "favicon_path": "favicon-wsparts.png",
   "checkout": {
     "birthdate_required": true
   },

@@ -6,7 +6,7 @@
     {{ head title: "Search" store: store }}
     {{ data_layer_config }}
     {{ search_structured_data search: data.search base_url: store.urls.base current_url: store.urls.current }}
-    {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "slider_price"]}}
+    {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "slider_price", "swiffy-slider"]}}
     {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
     {{ wake_meta_pixel_script }}
     <meta charset="utf-8">
@@ -32,14 +32,13 @@
     {{ wake_overlay }}
     {{ wake_modal }}
     <div id="add-cart-alert" style="display: flex; justify-content: center; visibility: hidden; z-index: 99;"></div>
-    <div class="flex flex-col my-4 w-full lg:flex-row lg:justify-center">
-        <div class="flex relative justify-between w-full lg:max-w-[1330px] py-2 md:px-2 lg:p-0">
+    <div class="flex flex-col mb-8 w-full">
+        <div class="flex relative justify-between w-full py-2 md:px-0 lg:p-0">
             {{ banners_carousel id: "banners_top" banners: data.search.banners position: "Topo" }}
         </div>
     </div>
     <div class="flex flex-col my-4 w-full lg:flex-row lg:justify-center">
         <div class="flex flex-col items-start w-full lg:max-w-[1330px] relative">
-            {{content position: "Centro" contents: data.search.contents}}
         </div>
     </div>
     <div class="flex flex-col my-4 w-full lg:flex-row lg:justify-center">
@@ -77,7 +76,8 @@
         {{ search_record_data search_data: data.search current_page: current_page}}
         {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
         {{ wake_scripts scripts: ["wake_utils"] }}
-        {{ asset type: "js" paths: ["sort", "search", "filter",  "pagination", "products_per_page", "navbar", "mini_cart", "cart_from_spot", "user_login", "product", "wishlist", "event_manager"]}}
+        {{ asset type: "js" paths: ["sort", "search", "filter",  "pagination", "products_per_page", "navbar", "mini_cart", "cart_from_spot", "user_login", "product", "newsletter", "wishlist", "event_manager"]}}
+        {{ asset type: "js" paths: ["swiffy-slider"] options: "defer"}}
         {{ page_scripts position: "BODY_END" scripts: common.scripts }}
 </body>
 </html>

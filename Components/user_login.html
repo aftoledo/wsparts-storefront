@@ -5,9 +5,8 @@
     <div id="login" class="w-full">
         {{~ login_url = store.urls.checkout_pages.login.authenticate ~}}
         <input type="hidden" id="login-url" value="{{ login_url }}">
-        <a class="user-href" href="{{ login_url }}">
-            <span class="max-lg:hidden text-sm" id="user-action">ENTRE / CADASTRE-SE</span>
-            <div class="lg:hidden dropdown-option bg-secondary-100 flex justify-center mb-2">ENTRE / CADASTRE-SE</div>
+        <a class="user-href flex items-center justify-center lg:justify-start" href="{{ login_url }}">
+            <span class="text-sm font-medium" id="user-action">ENTRE / CADASTRE-SE</span>
         </a>
     </div>
     <div id="logged-user" class="hidden flex-col justify-start group relative w-full">
