@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
-  {{ asset type: "css" paths: ["output_base","output_login"]}}
-  {{ wake_recaptcha_script }}
+  {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "swiffy-slider" ]}}  
+  {{ asset type: "css" paths: ["output_login"] }}
   {{ head title: "Novo Cadastro" store: store }}
   {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
   <link rel="canonical" href="{{ store.urls.current }}" />
@@ -29,7 +29,8 @@
   {{ sdk_client }}
   {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
   {{ wake_scripts scripts: ["wake_utils", "wake_login", "wake_signup"] }}
-  {{ asset type: "js" paths: ["mini_cart"] options: "async"}}
+  {{ asset type: "js" paths: ["navbar", "mini_cart", "user_login", "product", "event_manager"] options: "async" }}
+  {{ asset type: "js" paths: ["swiffy-slider"] options: "defer"}}
   {{ page_scripts position: "BODY_END" scripts: common.scripts }}
 </body>
 </html>

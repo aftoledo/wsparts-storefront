@@ -10,62 +10,239 @@
   {{ data_layer_config }}
   {{ wake_meta_pixel_script }}
   <link rel="canonical" href="{{ store.urls.current }}" />
+  <style type="text/css">
+    /* Balanced Premium Spacing (Refined Minimalism) */
+    body header.custom-branded-header {
+      padding-top: 32px !important;
+      padding-bottom: 32px !important;
+      margin-bottom: 0 !important;
+    }
+
+    body main.custom-checkout-main {
+      padding-top: 40px !important;
+      padding-bottom: 120px !important;
+    }
+
+    /* Refined Cart Items Section */
+    #checkout_product_snippet {
+      padding: 40px !important;
+      border-radius: 2rem !important;
+    }
+
+    #checkout_product_snippet .checkout-products-list,
+    #checkout_product_snippet table {
+      width: 100% !important;
+      border-collapse: separate !important;
+      border-spacing: 0 1rem !important;
+    }
+
+    /* Proper row spacing without displacing images */
+    #checkout_product_snippet .wake-cart-product-list-tbody-row,
+    #checkout_product_snippet .product-item {
+      background: #f8fafc !important;
+      border-radius: 1.5rem !important;
+      margin-bottom: 1rem !important;
+    }
+    
+    #checkout_product_snippet .wake-cart-product-list-tbody-row td {
+      padding: 24px 16px !important;
+      vertical-align: middle !important;
+    }
+
+    #checkout_product_snippet .wake-cart-product-list-tbody-row td img {
+      max-width: 80px !important;
+      height: auto !important;
+      border-radius: 0.5rem !important;
+    }
+
+    #checkout_product_snippet h2 {
+      font-size: 1.75rem !important;
+      font-weight: 800 !important;
+      margin-bottom: 2rem !important;
+      letter-spacing: -0.02em !important;
+    }
+
+    /* Summary Card with "Fresh Air" */
+    .custom-summary-card {
+      padding: 40px !important;
+    }
+
+    /* Custom Footer Styling */
+    .custom-checkout-footer {
+      background-color: #800000 !important; /* Dark Red */
+      color: white !important;
+      padding: 60px 0 !important;
+      margin-top: 100px !important;
+    }
+
+    .wake-logo-footer {
+      width: 100px !important;
+      height: auto !important;
+      display: inline-block !important;
+      filter: brightness(0) invert(1) !important;
+    }
+
+    /* Unified Button Pattern (Platform Standard) */
+    .btn-ws-pattern {
+      background-color: #1F2937 !important;
+      color: #FFFFFF !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+      height: 44px !important;
+      padding: 0 24px !important;
+      border-radius: 4px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.2s ease !important;
+      border: none !important;
+      text-decoration: none !important;
+    }
+    
+    .btn-ws-pattern:hover {
+      background-color: #000000 !important;
+      opacity: 0.9 !important;
+    }
+
+    .btn-ws-pattern-secondary {
+      background-color: transparent !important;
+      color: #1F2937 !important;
+      border: 1px solid #1F2937 !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+      height: 44px !important;
+      padding: 0 24px !important;
+      border-radius: 4px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.2s ease !important;
+      text-decoration: none !important;
+    }
+
+    .btn-ws-pattern-secondary:hover {
+      background-color: #f3f4f6 !important;
+    }
+  </style>
 </head>
-<body class="bg-mainBg">
+<body class="bg-[#f9fafb]">
   {{ page_scripts position: "BODY_START" scripts: common.scripts }}
-  {{ wake_checkout_header }}
+  <header class="bg-white border-b border-gray-100 shadow-sm custom-branded-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+      <a href="/">
+        <img src="{{- store.urls.static_img}}logo-wsparts.png?v={{store.last_modified}}" alt="wsparts" class="h-10 lg:h-12 w-auto">
+      </a>
+      <div class="flex items-center text-xs font-bold text-gray-400 uppercase tracking-widest bg-gray-50 px-6 py-3 rounded-full border border-gray-100">
+        <svg class="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04M12 2.944a11.955 11.955 0 01-8.618 3.04M12 21.359l-1.164-.825a11.955 11.955 0 01-6.836-10.534V7.5a11.955 11.955 0 001.164.825 11.955 11.955 0 006.836 10.534l1.164.825z"></path></svg>
+        Ambiente 100% Seguro
+      </div>
+    </div>
+  </header>
   {{ wake_overlay }}
-  <div class="wake-cart-wrapper">
-    {{~ if data.checkout.products.size > 0 ~}}  
-      <div id="checkout_product_snippet" class="wake-cart-wrapper-product-snippet">
-        {{ wake_checkout_products_list products: data.checkout.products kits: data.checkout.kits }}
-      </div>
-      <div class="wake-cart-container">
-        {{ wake_checkout_shipping_quote checkout_id: data.checkout.checkout_id }}
-        {{ wake_checkout_coupon coupon: data.checkout.coupon }}
-        <div id="checkout_subtotal_snippet" class="wake-cart-subtotal">
-          <span>Subtotal:</span>
-          {{ data.checkout.subtotal | math.format "c" "pt-BR" }}
-        </div>
-        <div id="checkout_total_snippet" class="wake-cart-total">
-          <div>
-            <span>Desconto:</span>
-            <span>{{ data.checkout.discount < 0 ? (data.checkout.discount | math.format "c" "pt-BR") : '-' }}</span>
+
+  <main class="max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8 custom-checkout-main">
+    <div class="wake-cart-wrapper">
+      {{~ if data.checkout.products.size > 0 ~}}  
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          <!-- Product List Section -->
+          <div id="checkout_product_snippet" class="lg:col-span-2 bg-white rounded-3xl shadow-xl border border-gray-100">
+            <h2 class="text-3xl font-black text-gray-900 mb-12 tracking-tight">Itens no carrinho</h2>
+            {{ wake_checkout_products_list products: data.checkout.products kits: data.checkout.kits }}
           </div>
-          <div>
-            <span>Cupom:</span>
-            <span>{{ data.checkout.coupon_discount < 0 ? (data.checkout.coupon_discount | math.format "c" "pt-BR") : '-' }}</span>
-          </div>      
-          {{~ if data.checkout.formula_adjustments?.size > 0 ~}}    
-            {{~ for adjustment in data.checkout.formula_adjustments ~}}  
-              <div>
-                <span>{{adjustment.name}}:</span>
-                <span>{{adjustment.value > 0 ? (adjustment.value | math.format "c" "pt-BR") : '-'}}</span>
+
+          <!-- Checkout Summary Section -->
+          <div class="lg:col-span-1 space-y-6 lg:sticky lg:top-8">
+            <div class="bg-white rounded-3xl shadow-xl border border-gray-100 custom-summary-card">
+              <h2 class="text-xl font-bold text-gray-900 mb-8 tracking-tight">Resumo do pedido</h2>
+              
+              {{ wake_checkout_shipping_quote checkout_id: data.checkout.checkout_id }}
+              
+              <div class="my-6">
+                {{ wake_checkout_coupon coupon: data.checkout.coupon }}
               </div>
-            {{~ end ~}}          
-          {{~ end ~}}
-          <div class="total">
-            <span>Total:</span>
-            {{ data.checkout.total | math.format "c" "pt-BR" }}
+
+              <div class="space-y-4 pt-6 border-t border-gray-100">
+                <div id="checkout_subtotal_snippet" class="flex justify-between text-gray-600">
+                  <span>Subtotal</span>
+                  <span class="font-bold">{{ data.checkout.subtotal | math.format "c" "pt-BR" }}</span>
+                </div>
+
+                <div id="checkout_total_snippet" class="space-y-4">
+                  <div class="flex justify-between text-gray-600">
+                    <span>Desconto</span>
+                    <span class="font-bold text-green-600">{{ data.checkout.discount < 0 ? (data.checkout.discount | math.format "c" "pt-BR") : 'R$ 0,00' }}</span>
+                  </div>
+                  <div class="flex justify-between text-gray-600">
+                    <span>Cupom</span>
+                    <span class="font-bold text-green-600">{{ data.checkout.coupon_discount < 0 ? (data.checkout.coupon_discount | math.format "c" "pt-BR") : 'R$ 0,00' }}</span>
+                  </div>      
+
+                  {{~ if data.checkout.formula_adjustments?.size > 0 ~}}    
+                    {{~ for adjustment in data.checkout.formula_adjustments ~}}  
+                      <div class="flex justify-between text-gray-600">
+                        <span>{{adjustment.name}}</span>
+                        <span class="font-bold">{{adjustment.value > 0 ? (adjustment.value | math.format "c" "pt-BR") : 'R$ 0,00'}}</span>
+                      </div>
+                    {{~ end ~}}          
+                  {{~ end ~}}
+
+                  <div class="flex justify-between text-2xl font-extrabold text-gray-900 pt-6 border-t-2 border-gray-100">
+                    <span>Total</span>
+                    <span>{{ data.checkout.total | math.format "c" "pt-BR" }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-8 space-y-3">
+                <a href="/checkout/complete" class="btn-ws-pattern w-full shadow-lg">
+                  Finalizar compra
+                </a>        
+                <a href="/" class="btn-ws-pattern-secondary w-full">
+                  Continuar comprando
+                </a>
+              </div>
+            </div>
+            
+            <p class="text-xs text-center text-gray-400">Frete e impostos finais confirmados no pagamento.</p>
           </div>
         </div>
-        <div id="checkout_total_snippet" class="wake-cart-finish-wrapper">
-          <a href="/checkout/complete" class="wake-cart-finish-button">Finalizar compra</a>        
-          <a href="/" class="wake-cart-continue-button">Continuar comprando</a>
+      {{~ else ~}}
+        <div class="min-h-[60vh] flex flex-col items-center justify-center text-center">
+            <div class="w-48 h-48 mb-8 bg-white rounded-full flex items-center justify-center shadow-xl border border-gray-100">
+                <img src="{{- store.urls.static_img}}icons/empty-orders.svg?theme={{store.theme}}&v={{store.last_modified}}" class="w-24 opacity-20">
+            </div>
+            <h3 class="text-3xl font-extrabold text-gray-900 mb-2">Seu carrinho está vazio</h3>
+            <p class="text-gray-500 mb-10 max-w-[300px]">Adicione produtos para começar sua jornada conosco.</p>
+            <a href="/" class="inline-flex items-center justify-center px-10 py-4 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition-all active:scale-95 shadow-xl">
+                Voltar para a loja
+            </a>
         </div>
-      </div>
-    {{~ else ~}}
-      <div class="wake-cart-container-empty">
-        <img src="{{- store.urls.static_img}}icons/empty-orders.svg?theme={{store.theme}}&v={{store.last_modified}}" class="w-40 mb-5">
-        <h3 class="wake-cart-empty-title">Seu Carrinho de compras está vazio</h3>
-        <p class="wake-cart-empty-text">Você não possui itens no carrinho</p>
-        <a href="/" type="button" class="wake-cart-empty-continue-button">Continue comprando</a>
-      </div>
-    {{~ end ~}}
-  </div>
+      {{~ end ~}}
+    </div>
+  </main>
   {{ wake_confirmation_modal }}
   {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
-  {{ wake_checkout_footer }}
+  <footer class="custom-checkout-footer">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+        <div class="text-center md:text-left">
+          <p class="text-[10px] md:text-xs font-bold tracking-widest uppercase opacity-90 leading-relaxed max-w-2xl">
+            WS AUTO PARTS LTDA - CNPJ: 31.393.538/0001-37 - IE: 122.024.419.119 - TODOS OS DIREITOS RESERVADOS
+          </p>
+        </div>
+        <div class="flex flex-col items-center md:items-end gap-2 text-white">
+          <span class="text-[9px] uppercase tracking-widest opacity-60">Tecnologia:</span>
+          <a href="https://wake.tech" target="_blank">
+             <img src="{{- store.urls.static_img}}logo-wake.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="Wake" class="wake-logo-footer">
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
   {{ sdk_client }}
   {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
   {{ data_layer_checkout_view checkout: data.checkout}}

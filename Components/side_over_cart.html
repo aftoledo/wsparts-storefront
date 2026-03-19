@@ -1,6 +1,6 @@
 <div id="side-card-over-list" class="relative z-40 ease-in-out duration-500 opacity-0 hidden"
   aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
-  <div class="fixed inset-0 bg-secondary-500 bg-opacity-75 transition-opacity"></div>
+  <div class="fixed inset-0 bg-white bg-opacity-90 transition-opacity backdrop-blur-sm"></div>
   <div class="fixed inset-0 overflow-hidden">
     <div class="absolute inset-0 overflow-hidden" onclick="setCartDivVisibility()"></div>
     <div id="side-bar-cart" class="pointer-events-none fixed inset-y-0 right-0 flex
@@ -9,4 +9,38 @@
       <div class="pointer-events-auto w-screen max-w-md" id="min-cart-items"></div>
     </div>
   </div>
+  <style>
+    /* Premium Cart Sidebar Refinements */
+    body.cart-open .whatsapp-float {
+      display: none !important;
+    }
+    
+    body.cart-open #search {
+      display: none !important;
+    }
+
+    /* Ensure the sidebar itself is opaque and feels solid */
+    #side-bar-cart {
+      z-index: 50;
+    }
+
+    #min-cart-items {
+      background-color: white;
+      height: 100%;
+    }
+
+    /* Fix Checkout Button Visibility & Style */
+    #min-cart-items a[href*="/checkout"] {
+      background-color: #48bb78 !important;
+      color: white !important;
+      box-shadow: 0 10px 15px -3px rgba(72, 187, 120, 0.3) !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+    }
+
+    #min-cart-items a[href*="/checkout"]:hover {
+      background-color: #38a169 !important;
+      transform: translateY(-1px) !important;
+    }
+  </style>
 </div>

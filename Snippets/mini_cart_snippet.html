@@ -27,59 +27,60 @@
 ~}}
 
 <input type="hidden" id="cart-products-qty" value="{{ products_count }}">
-<div class="flex h-full flex-col overflow-y-auto bg-mainBg shadow-xl">
-    <div class="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
+<div class="flex h-full flex-col overflow-y-auto bg-white shadow-2xl border-l border-gray-100">
+    <div class="flex-1 overflow-y-auto py-8 px-6 sm:px-8">
         <div class="flex items-start justify-between">
-            <h2 class="text-lg font-medium text-secondary-900" id="slide-over-title">Meu carrinho</h2>
+            <h2 class="text-2xl font-bold text-gray-900 tracking-tight" id="slide-over-title">Meu carrinho</h2>
             <div class="ml-3 flex h-7 items-center">
-                <button type="button" class="-m-2 p-2 text-secondary-400 hover:text-secondary-500" onclick="setCartDivVisibility()">
-                <span class="sr-only">Close panel</span>
-                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <button type="button" class="p-2 text-gray-400 hover:text-gray-900 transition-colors" onclick="setCartDivVisibility()">
+                    <span class="sr-only">Close panel</span>
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                 </button>
             </div>
         </div>
-        <div class="mt-8">
+
+        <div class="mt-10">
             <div class="flow-root">
-                <ul role="list" class="-my-6 divide-y divide-secondary-200">                    
                 {{~ if products_count > 0  || data.checkout.kits.size > 0 ~}}
-                    {{ mini_cart_items checkout:data.checkout }}
+                    <ul role="list" class="-my-6 divide-y divide-gray-100">                    
+                        {{ mini_cart_items checkout:data.checkout }}
+                    </ul>
                 {{~ else ~}}
-                    <div class="flex flex-col items-center justify-center py-60">
-                        <img src="{{- store.urls.static_img}}icons/empty-orders.svg?theme={{store.theme}}&v={{store.last_modified}}" class="w-40 mb-5">
-                        <p class="text-lg">O carrinho está vazio</p>
-                        <button type="button" class="font-medium text-primary-600 hover:text-primary-500" onclick="setCartDivVisibility()">
-                            Navegue pela loja e continue comprando
+                    <div class="flex flex-col items-center justify-center py-32 text-center">
+                        <div class="w-48 h-48 mb-8 bg-gray-50 rounded-full flex items-center justify-center">
+                            <img src="{{- store.urls.static_img}}icons/empty-orders.svg?theme={{store.theme}}&v={{store.last_modified}}" class="w-24 opacity-20">
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Seu carrinho está vazio</h3>
+                        <p class="text-gray-500 mb-8 max-w-[200px]">Que tal explorar nossos produtos e encontrar o que você precisa?</p>
+                        <button type="button" class="w-full bg-gray-900 text-white font-bold py-4 rounded-xl hover:bg-black transition-all active:scale-95 shadow-lg" onclick="setCartDivVisibility()">
+                            Continuar comprando
                         </button>
                     </div>           
                 {{~ end ~}}
-                </ul>
             </div>
         </div>
     </div>
 
-    <div class="border-t border-secondary-200 py-6 px-4 sm:px-6">
-        {{~ if products_count > 0 ~}}    
-            <div class="flex justify-between text-base font-medium text-secondary-900">
-                <p>Subtotal</p>
-                <p>{{subtotal | math.format "c" "pt-BR"}}</p>
-            </div>
-            <p class="mt-0.5 text-sm text-secondary-500">Frete e impostos calculados na finalização da compra.</p>
-            <div class="mt-6">
-                <a href="{{store.urls.checkout_pages.checkout.home}}" class="flex items-center justify-center rounded-md border border-transparent bg-primary-500 
-                px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-primary-900">Finalizar Compra</a>
-            </div>
-            <div class="mt-6 flex justify-center text-center text-sm text-secondary-500">
-                <p>
-                    ou
-                    <button type="button" class="font-medium text-primary-600 hover:text-primary-500" onclick="setCartDivVisibility()">
-                    Continue comprando
-                    <span aria-hidden="true"> &rarr;</span>
-                    </button>
-                </p>
-            </div>
-        {{~ end ~}}
+    {{~ if products_count > 0 ~}}    
+    <div class="border-t border-gray-100 py-8 px-6 sm:px-8 bg-gray-50">
+        <div class="flex justify-between text-lg font-bold text-gray-900 px-1">
+            <p>Subtotal</p>
+            <p>{{subtotal | math.format "c" "pt-BR"}}</p>
+        </div>
+        <p class="mt-2 text-sm text-gray-500 px-1">Frete e impostos calculados no checkout.</p>
+        <div class="mt-8">
+            <a href="{{store.urls.checkout_pages.checkout.home}}" class="flex items-center justify-center w-full bg-gray-900 text-white font-bold py-4 rounded-xl hover:bg-black transition-all active:scale-95 shadow-xl">
+                Finalizar Compra
+            </a>
+        </div>
+        <div class="mt-6 flex justify-center text-center text-sm">
+            <button type="button" class="font-bold text-gray-500 hover:text-gray-900 transition-colors" onclick="setCartDivVisibility()">
+                Continuar comprando &rarr;
+            </button>
+        </div>
     </div>
+    {{~ end ~}}
     {{ data_layer_cart_view checkout: data.checkout}}
 </div>

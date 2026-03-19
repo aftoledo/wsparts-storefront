@@ -43,6 +43,7 @@ async function loadMiniCart() {
 function setCartDivVisibility() {
     if(!document.getElementById("side-card-over-list").classList.contains('open')){
         document.getElementById("side-card-over-list").classList.remove('hidden')
+        document.body.classList.add('cart-open');
         setTimeout(() => {
             document.getElementById("side-card-over-list").classList.remove('opacity-0')        
             document.getElementById("side-card-over-list").classList.add('opacity-100')
@@ -57,6 +58,7 @@ function setCartDivVisibility() {
         document.getElementById("side-card-over-list").classList.remove('open')
         document.getElementById("side-bar-cart").classList.add('translate-x-full')
         document.getElementById("side-bar-cart").classList.remove('translate-x-0')
+        document.body.classList.remove('cart-open');
         setTimeout(() => {document.getElementById("side-card-over-list").classList.add('hidden')},200)        
     }
 }

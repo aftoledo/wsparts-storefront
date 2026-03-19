@@ -4,41 +4,234 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
-  {{ asset type: "css" paths: ["output_base","output_login"]}}
+  {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "swiffy-slider" ]}}
+  {{ asset type: "css" paths: ["output_login"] }}
   {{ wake_recaptcha_script }}
   {{ head title: "Login" store: store }}
   {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
   <link rel="canonical" href="{{ store.urls.current }}" />
+  <style>
+    /* Fix for distorted login form components */
+    .wake-autenticate-wrapper {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+
+    /* Outlined Inputs with Floating Labels (Reference Style) */
+    .wake-autenticate-wrapper .relative {
+      position: relative !important;
+      display: block !important;
+      width: 100% !important;
+      margin-bottom: 2rem !important;
+    }
+    
+    .wake-autenticate-wrapper input {
+      width: 100% !important;
+      height: 56px !important;
+      padding: 1.25rem 1rem 0.75rem !important;
+      border: 1.5px solid #e2e8f0 !important;
+      border-radius: 0.5rem !important;
+      background-color: transparent !important;
+      outline: none !important;
+      transition: all 0.2s ease-in-out !important;
+      font-size: 1rem !important;
+      color: #1a202c !important;
+    }
+
+    .wake-autenticate-wrapper input:focus {
+      border-color: #48bb78 !important;
+      box-shadow: 0 0 0 1px #48bb78 !important;
+    }
+
+    .wake-autenticate-wrapper label {
+      position: absolute !important;
+      left: 1rem !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      transition: all 0.2s ease-in-out !important;
+      pointer-events: none !important;
+      z-index: 10 !important;
+      color: #718096 !important;
+      background: white !important;
+      padding: 0 6px !important;
+      line-height: 1 !important;
+    }
+
+    .wake-autenticate-wrapper .peer:focus ~ label,
+    .wake-autenticate-wrapper .peer:not(:placeholder-shown) ~ label {
+      top: 0 !important;
+      transform: translateY(-50%) scale(0.85) !important;
+      color: #48bb78 !important;
+      font-weight: 700 !important;
+      left: 0.75rem !important;
+    }
+
+    /* Green Buttons (Reference Style) */
+    .wake-autenticate-wrapper .button-login,
+    .btn-cadastrar {
+      width: 100% !important;
+      background-color: #48bb78 !important;
+      color: white !important;
+      padding: 1.1rem !important;
+      border-radius: 0.5rem !important;
+      font-weight: 800 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      display: block !important;
+      text-align: center !important;
+      border: none !important;
+      cursor: pointer !important;
+      font-size: 1rem !important;
+      box-shadow: 0 4px 6px -1px rgba(72, 187, 120, 0.2) !important;
+    }
+
+    .wake-autenticate-wrapper .button-login:hover,
+    .btn-cadastrar:hover {
+      background-color: #38a169 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 10px 15px -3px rgba(72, 187, 120, 0.3) !important;
+    }
+
+    /* Surgical Cleanup: Hide common platform-injected titles/subtitles */
+    .wake-autenticate-wrapper > h1,
+    .wake-autenticate-wrapper > h2,
+    .wake-autenticate-wrapper > h3,
+    .wake-autenticate-wrapper > p,
+    .wake-autenticate-wrapper > span,
+    .social-login-wrapper > h4,
+    .social-login-wrapper > span {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      opacity: 0 !important;
+    }
+
+    /* Target the social login "or" divider if injected by platform */
+    .social-login-wrapper span:first-child:not([class*="px-4"]) {
+      display: none !important;
+    }
+
+    .wake-autenticate-wrapper .hide-show-password {
+      width: 20px !important;
+      height: 20px !important;
+      position: absolute !important;
+      right: 14px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      opacity: 0.4 !important;
+      z-index: 20 !important;
+    }
+    .custom-login-container {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 200px 20px !important;
+    }
+
+    .custom-login-box {
+      width: 100% !important;
+      max-width: 512px !important;
+      background: white !important;
+      padding: 4rem !important;
+      border-radius: 1.5rem !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1) !important;
+      border: 1px solid #f1f5f9 !important;
+      margin: 0 auto !important;
+    }
+
+    .wake-autenticate-wrapper .peer-placeholder-shown ~ label {
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+    }
+
+    .wake-autenticate-wrapper .relative {
+      margin-bottom: 2.5rem !important;
+    }
+
+    .social-divider {
+      position: relative !important;
+      padding: 3rem 0 !important;
+      margin: 1.5rem 0 !important;
+      text-align: center !important;
+    }
+
+    .social-divider::before {
+      content: "" !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 0 !important;
+      right: 0 !important;
+      border-top: 1px solid #f1f5f9 !important;
+      z-index: 1 !important;
+    }
+
+    .social-divider span {
+      position: relative !important;
+      z-index: 2 !important;
+      background: white !important;
+      padding: 0 1.5rem !important;
+      color: #94a3b8 !important;
+      font-size: 0.75rem !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.1em !important;
+    }
+  </style>
 </head>
-<body class="bg-mainBg">
+<body class="bg-[#f8fafc]">
   {{ page_scripts position: "BODY_START" scripts: common.scripts }}
   <header class="shadow-xl lg:shadow-none bg-lightBg">
       {{ links }}
       {{ header }}
-      {{ side_cart }}
-      {{ wake_overlay }}
       {{ navbar store: store menu_groups: common.menu_groups position: "Topo Header" }}
   </header>
-  <div class="wake-autenticate-wrapper">
-    <div>
-      {{ wake_login_authenticate }}
-      {{ wake_login_social }}
-      <div class="register">
-        <h3>Cadastrar</h3>
-        <span class="text-md">Não tem conta ainda? Faça seu cadastro</span>
-        <a href="{{store.urls.checkout_pages.login.signup}}" 
-        class="button-register">
+  
+  <div id="add-cart-alert"></div>
+  {{ side_cart }}
+  {{ wake_overlay }}
+
+  <main class="custom-login-container">
+    <div class="custom-login-box">
+      <div class="text-center" style="margin-bottom: 3rem !important;">
+        <h1 class="text-3xl font-black text-gray-800 uppercase tracking-wider mb-3">Entrar</h1>
+        <p class="text-gray-400 font-medium text-sm">Entre com seu e-mail e senha para continuar</p>
+      </div>
+
+      <div class="wake-autenticate-wrapper">
+        {{ wake_login_authenticate }}
+      </div>
+      
+      <div class="social-divider">
+        <span>Ou entre usando as redes sociais:</span>
+      </div>
+      
+      <div class="social-login-wrapper" style="padding-bottom: 2rem !important;">
+        {{ wake_login_social }}
+      </div>
+      
+      <div style="margin-top: 3rem !important; padding-top: 2rem !important; border-top: 1px solid #f8fafc !important;">
+        <a href="{{store.urls.checkout_pages.login.signup}}" class="btn-cadastrar">
           Cadastrar
         </a>
       </div>
     </div>
-  </div>
+  </main>
+
   {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
   {{ footer is_preview: is_preview store: store }}
   {{ sdk_client }}
   {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
   {{ wake_scripts scripts: ["wake_utils", "wake_login"] }}
-  {{ asset type: "js" paths: ["mini_cart"] options: "async"}}
+  {{ asset type: "js" paths: ["navbar", "mini_cart", "user_login", "product", "event_manager"] options: "async"}}
+  {{ asset type: "js" paths: ["swiffy-slider"] options: "defer"}}
   {{ page_scripts position: "BODY_END" scripts: common.scripts }}
 </body>
 </html>

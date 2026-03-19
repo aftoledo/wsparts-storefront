@@ -7,17 +7,15 @@
         spot_list products: data...products
 ## }}
 {{~ if products?.items # offset pagination case ~}}
-    <div class="flex flex-wrap justify-evenly after:flex-auto md:justify-start items-start">    
+    <div class="spot-grid">    
         {{ for item in products?.items }}
-            <div class="flex w-[180px] lg:w-auto">{{ spot product: item }}</div>
+            {{ spot product: item }}
         {{ end }}
     </div>
 {{~ else if products?.edges && !products.edges.empty? # cursor pagination case ~}}
-    <div class="flex flex-wrap justify-evenly after:flex-auto md:justify-start items-start">
+    <div class="spot-grid">
         {{ for productEdge in products?.edges }}
-            <div class="flex w-[180px] lg:w-auto">
-                {{ spot product: productEdge.node }}
-            </div>
+            {{ spot product: productEdge.node }}
         {{ end }}
     </div>
 {{~ else ~}}
