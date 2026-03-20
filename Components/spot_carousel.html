@@ -8,8 +8,8 @@
       spot_carousel products: data...products class:"best-sellers" title:"Mais Vendidos"
 ## }}
 {{~ if products && products.size > 0 ~}}
-    <div class="flex flex-col my-4 w-full lg:flex-row lg:justify-center {{class}} bg-mainBg">
-        <div class="flex flex-col items-start w-full lg:max-w-[1330px] px-2 relative">
+    <div class="flex flex-col my-12 w-full lg:flex-row lg:justify-center {{class}} bg-mainBg">
+        <div class="flex flex-col items-start w-full lg:max-w-[1330px] px-2 relative py-8">
             <h2 class="w-full text-lg lg:text-2xl uppercase mb-4 pb-4 border-b">{{ title | lang }}</h2>
             <div class="swiffy-slider slider-nav-dark slider-nav-visible slider-nav-autoplay slider-nav-autopause slider-indicators-round 
             slider-indicators-dark slider-indicators-highlight slider-indicators-sm slider-item-show4 slider-item-show2-sm slider-item-snapstart" data-slider-nav-autoplay-interval="5000">
