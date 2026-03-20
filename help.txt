@@ -1,0 +1,17 @@
+fbits.storefront  1.10.9557.16368
+USAGE:
+Starts the server on the current directory:
+  fbits.storefront --token xXxXxXxXxX
+Starts the server on the current directory and save the token:
+  fbits.storefront --save --token xXxXxXxXxX
+Starts the server on different directory:
+  fbits.storefront --directory-path C:\Temp\MyTemplates --save --token
+  xXxXxXxXxX
+
+
+  -t, --token             The storefront API token. Required when saving or
+                          without configuration.
+  -d, --directory-path    The path to the files folder.
+  -p, --port              The localhost port to use.
+  --save                  Saves the current configuration.
+
