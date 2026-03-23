@@ -297,3 +297,9 @@ body {
 .pulse-shadow {
   animation: pulse-whatsapp 4s infinite;
 }
+
+@layer components {
+  .spot-btn {
+    @apply flex items-center justify-center text-white bg-gray-1000 lg:bg-secondary-500 lg:hover:bg-gray-1000 w-full p-2 transition-colors duration-300;
+  }
+}

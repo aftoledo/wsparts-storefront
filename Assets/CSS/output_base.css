@@ -3261,6 +3261,32 @@ body {
 .pulse-shadow {
   animation: pulse-whatsapp 4s infinite;
 }
+@layer components {
+  .spot-btn {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-gray-1000);
+    padding: calc(var(--spacing) * 2);
+    color: var(--color-white);
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+    --tw-duration: 300ms;
+    transition-duration: 300ms;
+    @media (width >= 64rem) {
+      background-color: var(--color-secondary-500);
+    }
+    @media (width >= 64rem) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: var(--color-gray-1000);
+        }
+      }
+    }
+  }
+}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
