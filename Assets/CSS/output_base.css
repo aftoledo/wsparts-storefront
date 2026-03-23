@@ -3286,6 +3286,13 @@ body {
       }
     }
   }
+  .spot-btn img {
+    height: calc(var(--spacing) * 5);
+    width: calc(var(--spacing) * 5);
+    --tw-brightness: brightness(0%);
+    --tw-invert: invert(100%);
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
 }
 @property --tw-translate-x {
   syntax: "*";

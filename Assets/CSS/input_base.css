@@ -302,4 +302,7 @@ body {
   .spot-btn {
     @apply flex items-center justify-center text-white bg-gray-1000 lg:bg-secondary-500 lg:hover:bg-gray-1000 w-full p-2 transition-colors duration-300;
   }
+  .spot-btn img {
+    @apply w-5 h-5 brightness-0 invert;
+  }
 }
