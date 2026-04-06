@@ -4,14 +4,13 @@ name: Devops Specialist
 description: Design and maintain CI/CD pipelines
 agentType: devops-specialist
 phases: [E, C]
-generated: 2026-04-02
-status: active
+generated: 2026-03-16
+status: unfilled
 scaffoldVersion: "2.0.0"
 ---
-
 ## Mission
 
-This agent designs CI/CD pipelines, infrastructure, and deployment automation for the WS Parts e-commerce storefront.
+This agent designs CI/CD pipelines, infrastructure, and deployment automation.
 
 **When to engage:**
 - CI/CD pipeline setup
@@ -49,75 +48,56 @@ This agent designs CI/CD pipelines, infrastructure, and deployment automation fo
 
 ## Key Project Resources
 
-- [AGENTS.md](./../../AGENTS.md) - Main agent guidelines
-- [.context/docs/README.md](./../docs/README.md) - Documentation index
-- [CONTRIBUTING.md](./../../CONTRIBUTING.md) - Contributor guide
+<!-- Link to documentation index, agent handbook, AGENTS.md, and contributor guide. -->
+
+- _Item 1_
+- _Item 2_
+- _Item 3_
 
 ## Repository Starting Points
 
-- **Assets/** - Static assets (JS, CSS, images, fonts)
-- **Components/** - Reusable UI components (header, footer, navbar, email templates)
-- **Pages/** - Page templates (home, search, checkout, product, account, login)
-- **Configs/** - Configuration files (Tailwind, components, email settings)
-- **Emails/** - Transactional email templates
-- **Queries/** - GraphQL queries for data fetching
+<!-- List top-level directories relevant to this agent with brief descriptions. -->
+
+- _Item 1_
+- _Item 2_
+- _Item 3_
 
 ## Key Files
 
-- **package.json** - Project dependencies and scripts
-- **tailwind.config.js** - Tailwind CSS configuration
-- **Configs/settings.json** - StoreFront settings including API token
-- **fbits.storefront.exe** - Proprietary Wake Commerce development server
+<!-- List entry points, pattern implementations, and service files relevant to this agent. -->
+
+- _Item 1_
+- _Item 2_
+- _Item 3_
 
 ## Architecture Context
 
-### Project Structure
-```
-wsparts.com.br/
-├── Assets/
-│   ├── CSS/         - Custom styles, Tailwind outputs
-│   ├── JS/          - JavaScript files
-│   └── img/         - Images and icons
-├── Components/      - Reusable HTML components
-│   ├── header.html  - Site header with logo, search, nav
-│   ├── footer.html - Site footer
-│   ├── navbar.html - Navigation menu
-│   └── emails/     - Email templates (header, footer, stamps)
-├── Pages/           - Page templates
-│   ├── home.html    - Homepage
-│   ├── search.html - Search results
-│   ├── product.html - Product detail
-│   ├── checkout/   - Checkout pages
-│   ├── account/    - User account pages
-│   └── login/       - Login/signup pages
-├── Configs/         - Configuration files
-├── Emails/         - Email template files
-│   └── Orders/     - Order-related emails
-└── Queries/        - GraphQL queries
-```
+<!-- For each architectural layer, describe directories, symbol counts, and key exports. -->
 
-### Build System
-- **Tailwind CSS 4.x** - Utility-first CSS framework
-- **npm scripts** - Build orchestration
-- **Wake Commerce** - Proprietary e-commerce platform
+- _Item 1 (optional)_
+- _Item 2_
+- _Item 3_
 
 ## Key Symbols for This Agent
 
-- **fbits.storefront.exe** - Local development server (runs on port 3000/5501)
-- **npm run build** - Build CSS and JS assets
-- **npm run build:css** - Compile Tailwind CSS
-- **npm run build:js** - Bundle JavaScript files
+<!-- List symbols (classes, functions, types) most relevant to this agent with links. -->
+
+- _Item 1_
+- _Item 2_
+- _Item 3_
 
 ## Documentation Touchpoints
 
-- [AGENTS.md](./../../AGENTS.md) - Project guidelines for developers
-- [README.md](./README.md) - Agent documentation
-- [.context/docs/README.md](./../docs/README.md) - Documentation index
+<!-- Link to relevant documentation files this agent should reference. -->
+
+- _Item 1_
+- _Item 2_
+- _Item 3_
 
 ## Collaboration Checklist
 
-- [x] Define deployment requirements and environments
-- [x] Design CI/CD pipeline stages
+- [ ] Define deployment requirements and environments
+- [ ] Design CI/CD pipeline stages
 - [ ] Implement infrastructure as code
 - [ ] Set up automated testing in pipeline
 - [ ] Configure monitoring and alerting
@@ -126,20 +106,13 @@ wsparts.com.br/
 
 ## Hand-off Notes
 
-The WS Parts storefront is built on Wake Commerce platform using:
-- Tailwind CSS for styling
-- Component-based architecture (header, footer, navbar, spot cards)
-- Custom email templates for transactional emails
-- Proprietary StoreFront server for local development
+<!-- Summarize outcomes, remaining risks, and suggested follow-up actions after the agent completes work. -->
 
-Key operational notes:
-- Local development: `fbits.storefront.exe --token TOKEN --port PORT`
-- Build commands in package.json
-- Email templates use {{ placeholder }} syntax
-- StoreFront components use {{ component_name }} inclusion syntax
-- All page templates should include {{ header }} to get consistent header with links slider
+_Add descriptive content here (optional)._
 
 ## Related Resources
+
+<!-- Link to related documents for cross-navigation. -->
 
 - [../docs/README.md](./../docs/README.md)
 - [README.md](./README.md)

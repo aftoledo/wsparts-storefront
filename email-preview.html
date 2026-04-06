@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .email-container {
+            max-width: 620px;
+            margin: 0 auto;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .email-header {
+            background-color: #f6f6f6;
+            padding: 20px;
+            text-align: center;
+        }
+        .email-body {
+            padding: 20px;
+        }
+        .controls {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #e9e9e9;
+            border-radius: 5px;
+        }
+        select, button {
+            padding: 8px;
+            margin: 5px;
+        }
+        .sample-data {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Email Template Preview Tool</h1>
+    
+    <div class="controls">
+        <label for="templateSelect">Select Email Template:</label>
+        <select id="templateSelect">
+            <option value="order_canceled">Order Cancelled</option>
+            <option value="order_confirmed">Order Confirmed</option>
+            <option value="order_delivered">Order Delivered</option>
+            <option value="welcome">Welcome Email</option>
+        </select>
+        
+        <button onclick="loadTemplate()">Load Template</button>
+        <button onclick="testLogoUrl()">Test Logo URL</button>
+    </div>
+
+    <div class="sample-data" id="sampleData">
+        <!-- Sample data will be shown here -->
+    </div>
+
+    <div class="email-container">
+        <div class="email-header" id="emailHeader">
+            <!-- Header will be loaded here -->
+        </div>
+        <div class="email-body" id="emailBody">
+            <!-- Email body will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample data for template variables
+        const sampleData = {
+            pedido: {
+                usuario: { primeiro_nome: "João" },
+                id: "12345",
+                data: "02/04/2026",
+                hora: "14:30",
+                valor_total: "R$ 299,90",
+                produtos: [
+                    { nome: "Produto Teste 1", quantidade: 2, valor_unitario: "R$ 50,00" },
+                    { nome: "Produto Teste 2", quantidade: 1, valor_unitario: "R$ 199,90" }
+                ]
+            },
+            recompra: { link_externo: "https://www2.wsparts.com.br/" }
+        };
+
+        // Template paths
+        const templatePaths = {
+            order_canceled: "Emails/Orders/order_canceled.html",
+            order_confirmed: "Emails/Orders/order_confirmed.html",
+            order_delivered: "Emails/Orders/order_delivered.html",
+            welcome: "Emails/welcome.html"
+        };
+
+        async function loadTemplate() {
+            const templateName = document.getElementById('templateSelect').value;
+            const templatePath = templatePaths[templateName];
+            
+            try {
+                // Fetch the template
+                const response = await fetch(templatePath);
+                if (!response.ok) throw new Error(`Failed to load template: ${response.status}`);
+                
+                let templateContent = await response.text();
+                
+                // Show sample data
+                document.getElementById('sampleData').innerHTML = 
+                    `<strong>Sample Data:</strong><br>${JSON.stringify(sampleData, null, 2)}`;
+                
+                // Process template (simple variable replacement for demo)
+                templateContent = templateContent.replace(/\{\{ header_mail \}\}/g, `
+                    <table border="0" width="620" cellpadding="0" cellspacing="0" style="width:620px;max-width:620px;">
+                        <tbody>
+                            <tr>
+                                <td align="center" style="padding: 8px 0;">
+                                    <a target="_blank" href="https://www2.wsparts.com.br/">
+                                        <img src="https://wsparts.fbitsstatic.net/sf/img/header/logo.png?theme=checkout2.0&v=202603231739" alt="WSParts Logo" style="display: block;" height="30" title="WSParts Logo">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `);
+                
+                // Replace other common variables
+                templateContent = templateContent.replace(/\{\{ footer_mail \}\}/g, `
+                    <!-- FOOTER -->
+                    <table border="0" cellpadding="0" cellspacing="0" style="width:620px;">
+                        <tbody>
+                            <tr>
+                                <td style="border-bottom: 1px solid #31394e; background: unset; height: 1px; width: 620px; margin: 0px;"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table align="center">
+                                        <tbody>
+                                            <tr align="center">
+                                                <td style="padding: 12px;text-align: center;text-transform: uppercase;font-size: 12px;"><a target="_blank" style="text-decoration: none;color: black;font-weight: 600;" href="https://awake.fbits.store/">Buy box</a></td>
+                                                <td style="padding: 12px;text-align: center;text-transform: uppercase;font-size: 12px;"><a target="_blank" style="text-decoration: none;color: black;font-weight: 600;" href="https://awake.fbits.store/">Assinaturas</a></td>
+                                                <td style="padding: 12px;text-align: center;text-transform: uppercase;font-size: 12px;"><a target="_blank" style="text-decoration: none;color: black;font-weight: 600;" href="https://awake.fbits.store/">Compre Junto</a></td>
+                                                <td style="padding: 12px;text-align: center;text-transform: uppercase;font-size: 12px;"><a target="_blank" style="text-decoration: none;color: black;font-weight: 600;" href="https://awake.fbits.store/">Matriz de Atributos</a></td>
+                                                <td style="padding: 12px;text-align: center;text-transform: uppercase;font-size: 12px;"><a target="_blank" style="text-decoration: none;color: black;font-weight: 600;" href="https://awake.fbits.store/">Personalização</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid #31394e; background: unset; height: 1px; width: 620px; margin: 0px;"></td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    <table cellpadding="0" cellspacing="0" style="padding: 30px 0;">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" valign="top" style="padding-right: 20px;"><a target="_blank" href="https://awake.fbits.store/"><img title="Facebook" src="https://gpjpey.stripocdn.email/content/assets/img/social-icons/circle-black/facebook-circle-black.png" alt="Fb" height="24"></a></td>
+                                                <td align="center" valign="top" style="padding-right: 20px;"><a target="_blank" href="https://awake.fbits.store/"><img title="Twitter" src="https://gpjpey.stripocdn.email/content/assets/img/social-icons/circle-black/twitter-circle-black.png" alt="Tw" height="24"></a></td>
+                                                <td align="center" valign="top" style="padding-right: 20px;"><a target="_blank" href="https://awake.fbits.store/"><img title="Instagram" src="https://gpjpey.stripocdn.email/content/assets/img/social-icons/circle-black/instagram-circle-black.png" alt="Inst" height="24"></a></td>
+                                                <td align="center" valign="top"><a target="_blank" href="https://awake.fbits.store/"><img title="Youtube" src="https://gpjpey.stripocdn.email/content/assets/img/social-icons/circle-black/youtube-circle-black.png" alt="Yt" height="24"></a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- END FOOTER -->
+                `);
+                
+                // Replace pedido variables
+                templateContent = templateContent.replace(/\{\{ pedido\?\.usuario\?\.primeiro_nome \}\}/g, sampleData.pedido.usuario.primeiro_nome);
+                templateContent = templateContent.replace(/\{\{ pedido\?\.id \}\}/g, sampleData.pedido.id);
+                templateContent = templateContent.replace(/\{\{ pedido\?\.data \}\}/g, sampleData.pedido.data);
+                templateContent = templateContent.replace(/\{\{ pedido\?\.hora \}\}/g, sampleData.pedido.hora);
+                templateContent = templateContent.replace(/\{\{ pedido\?\.valor_total \}\}/g, sampleData.pedido.valor_total);
+                templateContent = templateContent.replace(/\{\{ recompra\?\.link_externo \}\}/g, sampleData.recompra.link_externo);
+                
+                // Handle product lists (simplified)
+                const productListHtml = sampleData.pedido.produtos.map(p => 
+                    `<tr><td>${p.nome}</td><td>${p.quantidade}</td><td>${p.valor_unitario}</td></tr>`
+                ).join('');
+                templateContent = templateContent.replace(/\{\{ for product in pedido\?\.produtos \}\}\{\{ product_mail product: product \}\}\{\{ end \}\}/g, 
+                    `<tbody>${productListHtml}</tbody>`
+                );
+                
+                // Split header and body for display
+                const parts = templateContent.split('<!-- END HEADER -->');
+                if (parts.length >= 2) {
+                    document.getElementById('emailHeader').innerHTML = parts[0] + '<!-- END HEADER -->';
+                    const bodyParts = parts[1].split('<!-- END MAIN -->');
+                    if (bodyParts.length >= 2) {
+                        document.getElementById('emailBody').innerBody = bodyParts[0] + '<!-- END MAIN -->';
+                    } else {
+                        document.getElementById('emailBody').innerHTML = parts[1];
+                    }
+                } else {
+                    document.getElementById('emailBody').innerHTML = templateContent;
+                }
+                
+            } catch (error) {
+                alert('Error loading template: ' + error.message);
+                console.error(error);
+            }
+        }
+
+        function testLogoUrl() {
+            const logoUrl = "https://wsparts.fbitsstatic.net/sf/img/header/logo.png?theme=checkout2.0&v=202603231739";
+            fetch(logoUrl, { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Logo URL is accessible! Status: ' + response.status);
+                    } else {
+                        alert('Logo URL returned status: ' + response.status);
+                    }
+                })
+                .catch(error => {
+                    alert('Error testing logo URL: ' + error.message);
+                });
+        }
+
+        // Load default template on page load
+        window.onload = function() {
+            loadTemplate();
+        };
+    </script>
+</body>
+</html>

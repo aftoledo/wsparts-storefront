@@ -1,0 +1,381 @@
+diff --git a/.context/agents/devops-specialist.md b/.context/agents/devops-specialist.md
+index baa4530..7a8cd21 100644
+--- a/.context/agents/devops-specialist.md
++++ b/.context/agents/devops-specialist.md
+@@ -4,13 +4,14 @@ name: Devops Specialist
+ description: Design and maintain CI/CD pipelines
+ agentType: devops-specialist
+ phases: [E, C]
+-generated: 2026-03-16
+-status: unfilled
++generated: 2026-04-02
++status: active
+ scaffoldVersion: "2.0.0"
+ ---
++
+ ## Mission
+ 
+-This agent designs CI/CD pipelines, infrastructure, and deployment automation.
++This agent designs CI/CD pipelines, infrastructure, and deployment automation for the WS Parts e-commerce storefront.
+ 
+ **When to engage:**
+ - CI/CD pipeline setup
+@@ -48,56 +49,75 @@ This agent designs CI/CD pipelines, infrastructure, and deployment automation.
+ 
+ ## Key Project Resources
+ 
+-<!-- Link to documentation index, agent handbook, AGENTS.md, and contributor guide. -->
+-
+-- _Item 1_
+-- _Item 2_
+-- _Item 3_
++- [AGENTS.md](./../../AGENTS.md) - Main agent guidelines
++- [.context/docs/README.md](./../docs/README.md) - Documentation index
++- [CONTRIBUTING.md](./../../CONTRIBUTING.md) - Contributor guide
+ 
+ ## Repository Starting Points
+ 
+-<!-- List top-level directories relevant to this agent with brief descriptions. -->
+-
+-- _Item 1_
+-- _Item 2_
+-- _Item 3_
++- **Assets/** - Static assets (JS, CSS, images, fonts)
++- **Components/** - Reusable UI components (header, footer, navbar, email templates)
++- **Pages/** - Page templates (home, search, checkout, product, account, login)
++- **Configs/** - Configuration files (Tailwind, components, email settings)
++- **Emails/** - Transactional email templates
++- **Queries/** - GraphQL queries for data fetching
+ 
+ ## Key Files
+ 
+-<!-- List entry points, pattern implementations, and service files relevant to this agent. -->
+-
+-- _Item 1_
+-- _Item 2_
+-- _Item 3_
++- **package.json** - Project dependencies and scripts
++- **tailwind.config.js** - Tailwind CSS configuration
++- **Configs/settings.json** - StoreFront settings including API token
++- **fbits.storefront.exe** - Proprietary Wake Commerce development server
+ 
+ ## Architecture Context
+ 
+-<!-- For each architectural layer, describe directories, symbol counts, and key exports. -->
+-
+-- _Item 1 (optional)_
+-- _Item 2_
+-- _Item 3_
++### Project Structure
++```
++wsparts.com.br/
++├── Assets/
++│   ├── CSS/         - Custom styles, Tailwind outputs
++│   ├── JS/          - JavaScript files
++│   └── img/         - Images and icons
++├── Components/      - Reusable HTML components
++│   ├── header.html  - Site header with logo, search, nav
++│   ├── footer.html - Site footer
++│   ├── navbar.html - Navigation menu
++│   └── emails/     - Email templates (header, footer, stamps)
++├── Pages/           - Page templates
++│   ├── home.html    - Homepage
++│   ├── search.html - Search results
++│   ├── product.html - Product detail
++│   ├── checkout/   - Checkout pages
++│   ├── account/    - User account pages
++│   └── login/       - Login/signup pages
++├── Configs/         - Configuration files
++├── Emails/         - Email template files
++│   └── Orders/     - Order-related emails
++└── Queries/        - GraphQL queries
++```
++
++### Build System
++- **Tailwind CSS 4.x** - Utility-first CSS framework
++- **npm scripts** - Build orchestration
++- **Wake Commerce** - Proprietary e-commerce platform
+ 
+ ## Key Symbols for This Agent
+ 
+-<!-- List symbols (classes, functions, types) most relevant to this agent with links. -->
+-
+-- _Item 1_
+-- _Item 2_
+-- _Item 3_
++- **fbits.storefront.exe** - Local development server (runs on port 3000/5501)
++- **npm run build** - Build CSS and JS assets
++- **npm run build:css** - Compile Tailwind CSS
++- **npm run build:js** - Bundle JavaScript files
+ 
+ ## Documentation Touchpoints
+ 
+-<!-- Link to relevant documentation files this agent should reference. -->
+-
+-- _Item 1_
+-- _Item 2_
+-- _Item 3_
++- [AGENTS.md](./../../AGENTS.md) - Project guidelines for developers
++- [README.md](./README.md) - Agent documentation
++- [.context/docs/README.md](./../docs/README.md) - Documentation index
+ 
+ ## Collaboration Checklist
+ 
+-- [ ] Define deployment requirements and environments
+-- [ ] Design CI/CD pipeline stages
++- [x] Define deployment requirements and environments
++- [x] Design CI/CD pipeline stages
+ - [ ] Implement infrastructure as code
+ - [ ] Set up automated testing in pipeline
+ - [ ] Configure monitoring and alerting
+@@ -106,14 +126,21 @@ This agent designs CI/CD pipelines, infrastructure, and deployment automation.
+ 
+ ## Hand-off Notes
+ 
+-<!-- Summarize outcomes, remaining risks, and suggested follow-up actions after the agent completes work. -->
++The WS Parts storefront is built on Wake Commerce platform using:
++- Tailwind CSS for styling
++- Component-based architecture (header, footer, navbar, spot cards)
++- Custom email templates for transactional emails
++- Proprietary StoreFront server for local development
+ 
+-_Add descriptive content here (optional)._
++Key operational notes:
++- Local development: `fbits.storefront.exe --token TOKEN --port PORT`
++- Build commands in package.json
++- Email templates use {{ placeholder }} syntax
++- StoreFront components use {{ component_name }} inclusion syntax
++- All page templates should include {{ header }} to get consistent header with links slider
+ 
+ ## Related Resources
+ 
+-<!-- Link to related documents for cross-navigation. -->
+-
+ - [../docs/README.md](./../docs/README.md)
+ - [README.md](./README.md)
+-- [../../AGENTS.md](./../../AGENTS.md)
++- [../../AGENTS.md](./../../AGENTS.md)
+\ No newline at end of file
+diff --git a/Assets/CSS/spot.css b/Assets/CSS/spot.css
+new file mode 100644
+index 0000000..bc6aeb2
+--- /dev/null
++++ b/Assets/CSS/spot.css
+@@ -0,0 +1,175 @@
++/* spot.css - Refined Minimalism Design System */
++
++.spot-card {
++    display: flex;
++    flex-direction: column;
++    background-color: #ffffff;
++    border: 1px solid #f3f4f6; /* Gray-100 */
++    border-radius: 0.75rem; /* Rounded-xl */
++    padding: 1rem;
++    margin: 0.5rem;
++    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
++    position: relative;
++    overflow: hidden;
++    height: 100%;
++}
++
++@media (min-width: 1024px) {
++    .spot-card {
++        margin: 1rem;
++    }
++}
++
++.spot-card:hover {
++    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); /* Shadow-2xl */
++    transform: translateY(-2px);
++}
++
++/* Wishlist Button Positioning */
++.spot-wishlist {
++    position: absolute;
++    top: 1rem;
++    right: 1rem;
++    z-index: 30;
++    opacity: 0;
++    transition: opacity 0.3s ease;
++}
++
++.spot-card:hover .spot-wishlist {
++    opacity: 1;
++}
++
++/* Image Container - No Clipping */
++.spot-image-wrapper {
++    width: 100%;
++    margin-bottom: 1rem;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    padding: 0.5rem;
++    min-height: 160px;
++}
++
++.spot-image-wrapper div {
++    transition: transform 0.5s ease;
++}
++
++.spot-card:hover .spot-image-wrapper div {
++    transform: scale(1.05);
++}
++
++/* Content Area */
++.spot-content {
++    display: flex;
++    flex-direction: column;
++    justify-content: space-between;
++    width: 100%;
++    padding: 0 0.25rem;
++    min-height: 150px;
++    flex-grow: 1;
++}
++
++/* Typography - True Sentence Case */
++.spot-title {
++    display: block;
++    font-size: 0.8125rem; /* 13px */
++    font-weight: 500;
++    color: #1f2937; /* Gray-800 */
++    line-height: 1.25;
++    min-height: 2.5rem;
++    text-decoration: none;
++    overflow: hidden;
++    display: -webkit-box;
++    -webkit-line-clamp: 2;
++    line-clamp: 2;
++    -webkit-box-orient: vertical;
++    text-transform: lowercase;
++}
++
++.spot-title::first-letter {
++    text-transform: uppercase;
++}
++
++/* Action Buttons */
++.spot-btn {
++    width: 100%;
++    background-color: #111827; /* Gray-900 */
++    color: #ffffff;
++    font-weight: 700;
++    padding: 0.625rem 0.75rem;
++    border-radius: 0.5rem;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    gap: 0.5rem;
++    transition: background-color 0.2s, transform 0.2s;
++    border: none;
++    cursor: pointer;
++    text-decoration: none;
++    font-size: 0.875rem;
++}
++
++.spot-btn:hover {
++    background-color: #000000;
++}
++
++.spot-btn:active {
++    transform: scale(0.95);
++}
++
++.spot-btn img {
++    width: 1rem;
++    height: 1rem;
++    filter: brightness(0) invert(1);
++}
++
++/* Similar Products */
++.spot-similar-grid {
++    display: flex;
++    justify-content: flex-start;
++    align-items: center;
++    width: 100%;
++    margin-bottom: 0.75rem;
++    gap: 0.25rem;
++    padding: 0 0.25rem;
++}
++
++.spot-similar-item {
++    border: 1px solid #f3f4f6;
++    border-radius: 0.25rem;
++    padding: 2px;
++    background-color: #ffffff;
++    transition: border-color 0.2s;
++}
++
++.spot-similar-item:hover {
++    border-color: #ef4444; /* Primary Red */
++}
++
++.spot-similar-item img {
++    width: 1.5rem;
++    height: 1.5rem;
++    object-fit: contain;
++}
++
++/* Responsive Grid Layout for Search and Lists */
++.spot-grid {
++    display: grid;
++    grid-template-columns: repeat(2, minmax(0, 1fr)); /* Mobile: 2 columns */
++    gap: 1rem;
++    align-items: start;
++    width: 100%;
++}
++
++@media (min-width: 1024px) {
++    .spot-grid {
++        grid-template-columns: repeat(3, minmax(0, 1fr)); /* Laptop: 3 columns */
++        gap: 1.5rem;
++    }
++}
++
++@media (min-width: 1536px) {
++    .spot-grid {
++        grid-template-columns: repeat(4, minmax(0, 1fr)); /* Desktop Wide: 4 columns */
++    }
++}
+\ No newline at end of file
+diff --git a/Components/emails/header.html b/Components/emails/header.html
+index 3cbddaf..1812b6c 100644
+--- a/Components/emails/header.html
++++ b/Components/emails/header.html
+@@ -2,8 +2,8 @@
+     <tbody>
+         <tr>
+             <td align="center" style="padding: 8px 0;">
+-                <a target="_blank" href="https://awake.fbits.store/">
+-                    <img src="https://awake.fbitsstatic.net/sf/img/logo.jpg" alt="Logo" style="display: block;" width="270" height="30" title="Logo">
++                <a target="_blank" href="https://www2.wsparts.com.br/">
++                    <img src="https://wsparts.fbitsstatic.net/sf/img/img/logo-wsparts.png" alt="WSParts Logo" style="display: block;" height="30" title="WSParts Logo">
+                 </a>
+             </td>
+         </tr>
+diff --git a/Components/header.html b/Components/header.html
+index b79f93b..b641a98 100644
+--- a/Components/header.html
++++ b/Components/header.html
+@@ -5,7 +5,7 @@
+         </div>
+         <div class="flex-shrink">
+             <a href="/">
+-                <img src="{{- store.urls.static_img}}Logotipo_WS.svg?v={{store.last_modified}}" alt="logo" class="store-logo">
++                <img src="{{- store.urls.static_img}}header/logo.png?theme={{store.theme}}&v={{store.last_modified}}" alt="logo" class="store-logo">
+             </a>
+         </div>
+         <form id="search" class="absolute lg:flex lg:sticky lg:w-auto sm:left-0 sm:top-[100%] bg-white lg:bg-mainBg hidden top-16 w-full items-center border-b border-gray-100 shadow-2xl lg:shadow-none p-4 lg:p-0 z-50 ease-in-out duration-500 opacity-100 lg:opacity-100" onsubmit="search(event, null)">
+diff --git a/Pages/home.html b/Pages/home.html
+index 5290ceb..bb1b728 100644
+--- a/Pages/home.html
++++ b/Pages/home.html
+@@ -5,7 +5,7 @@
+     {{ data_layer_config }}
+     {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
+     {{ head title: "Home" store: store }}
+-    {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "ws-spot", "product", "output_base",
++    {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base",
+     "swiffy-slider" ]}}
+     {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
+     {{ meta_tags seo: data.hotsite.seo }}
