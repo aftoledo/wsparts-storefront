@@ -166,11 +166,11 @@ body {
   }
   
   .wake-overlay .overlay-content .status .success{
-    @apply h-6 w-6 text-green-400;
+    @apply h-6 w-6 text-primary-500;
   }
   
   .wake-overlay .overlay-content .status .error {
-    @apply w-6 h-6 text-red-400;
+    @apply w-6 h-6 text-primary-600;
   }
   
   .wake-overlay .overlay-content .message{
