@@ -28,6 +28,7 @@
   {{ sdk_client }}
   {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
   {{ wake_scripts scripts: ["wake_utils", "wake_account"] }}
+  {{ asset type: "js" paths: ["navbar", "mini_cart", "user_login", "event_manager"] options: "async"}}
   {{ page_scripts position: "BODY_END" scripts: common.scripts }}
 </body>
 </html>

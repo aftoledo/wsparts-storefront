@@ -110,7 +110,7 @@
   }
   
   .wake-account-modal .header button {
-    @apply rounded-md bg-mainBg text-secondary-400 hover:text-secondary-500 focus:outline-none focus:ring-primary-500 focus:ring-offset-2;
+    @apply rounded-md bg-mainBg text-secondary-400 hover:text-secondary-500 focus:outline-none focus:ring-red-600 focus:ring-offset-2;
   }
   
   .wake-account-modal .content {
@@ -848,7 +848,7 @@
   }
   
   .wake-subscription-content .products button {
-    @apply flex justify-start items-center p-2 border rounded-md shadow-md hover:shadow-none text-white text-sm bg-primary-500;
+    @apply flex justify-start items-center p-2 border rounded-md shadow-md hover:shadow-none text-white text-sm bg-black;
   }
   
   .wake-subscription-content .products button img {
@@ -998,7 +998,7 @@
   }
   
   .wake-subscription-modal .content .subscription-products .add {
-    @apply flex justify-center items-center border w-full p-3 rounded-md bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold;
+    @apply flex justify-center items-center border w-full p-3 rounded-md bg-black hover:bg-red-600 text-white text-sm font-semibold;
   }
   
   .wake-subscription-modal .content .subscription-products .remove {
@@ -1318,7 +1318,7 @@
   }
   
   .wake-checkout-footer .footer-content {
-    @apply flex flex-col md:flex-row justify-between items-center w-full md:w-[87%] p-4 my-0 mx-auto bg-primary-500;
+    @apply flex flex-col md:flex-row justify-between items-center w-full md:w-[87%] p-4 my-0 mx-auto bg-black;
   }
   
   .wake-checkout-footer .footer-content .store-info {

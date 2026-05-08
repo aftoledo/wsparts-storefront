@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
-  {{ asset type: "css" paths: ["output_base","output_account"]}}
+  {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "output_account"]}}
   {{ wake_recaptcha_script }}
   {{ head title: "Meus Endereços" store: store }}
   {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
@@ -12,17 +12,23 @@
 </head>
 <body class="bg-mainBg">
   {{ page_scripts position: "BODY_START" scripts: common.scripts }}
-  {{ wake_checkout_header }}
+  <header class="shadow-xl lg:shadow-none bg-lightBg">
+      {{ links }}
+      {{ header }}
+      {{ navbar store: store menu_groups: common.menu_groups position: "Topo Header" }}
+  </header>
+  {{ side_cart }}
   {{ wake_overlay }}
   <div class="wake-account-wrapper">
     {{ wake_account_sidebar customer: data.customer }}
     {{ wake_account_addresses addresses: data.customer.addresses customer_access_token_details:data.customer_access_token_details}}
   </div>
   {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
-  {{ wake_checkout_footer }}
+  {{ footer is_preview: is_preview store: store }}
   {{ sdk_client }}
   {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
   {{ wake_scripts scripts: ["wake_utils", "wake_account"] }}
+  {{ asset type: "js" paths: ["navbar", "mini_cart", "user_login", "event_manager"] options: "async"}}
   {{ page_scripts position: "BODY_END" scripts: common.scripts }}
 </body>
 </html>

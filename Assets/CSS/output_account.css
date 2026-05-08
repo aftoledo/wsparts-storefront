@@ -379,7 +379,7 @@
   outline: 2px solid transparent;
   outline-offset: 2px;
   --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(196 14 239 / var(--tw-ring-opacity));
+  --tw-ring-color: rgb(220 38 38 / var(--tw-ring-opacity));
   --tw-ring-offset-width: 2px;
 }
 
@@ -2199,7 +2199,7 @@
   border-radius: 0.375rem;
   border-width: 1px;
   --tw-bg-opacity: 1;
-  background-color: rgb(196 14 239 / var(--tw-bg-opacity));
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
   padding: 0.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -2223,7 +2223,7 @@
   border-radius: 0.375rem;
   border-width: 1px;
   --tw-bg-opacity: 1;
-  background-color: rgb(196 14 239 / var(--tw-bg-opacity));
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
   padding: 0.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -2721,7 +2721,7 @@
   border-radius: 0.375rem;
   border-width: 1px;
   --tw-bg-opacity: 1;
-  background-color: rgb(196 14 239 / var(--tw-bg-opacity));
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
   padding: 0.75rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -2732,7 +2732,7 @@
 
 .wake-subscription-modal .content .subscription-products .add:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(148 7 181 / var(--tw-bg-opacity));
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 
 .wake-subscription-modal .content .subscription-products .remove {
@@ -3555,7 +3555,7 @@
   align-items: center;
   justify-content: space-between;
   --tw-bg-opacity: 1;
-  background-color: rgb(196 14 239 / var(--tw-bg-opacity));
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
   padding: 1rem;
 }
 
