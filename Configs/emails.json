@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "type": "AgradecimentoNews",
     "path": "news_thank.html",
@@ -74,7 +74,7 @@
   {
     "type": "ClienteRevendedorHabilitado",
     "path": "reseller_authorized.html",
-    "production": true,
+    "production": false,
     "active": true
   },
   {
@@ -104,13 +104,13 @@
   {
     "type": "Contraproposta",
     "path": "counter_offer_confirmation.html",
-    "production": true,
+    "production": false,
     "active": true
   },
   {
     "type": "ContrapropostaAteracao",
     "path": "counter_offer.html",
-    "production": true,
+    "production": false,
     "active": true
   },
   {
@@ -158,13 +158,13 @@
   {
     "type": "ListaCompraIndiqueAmigo",
     "path": "shopping_list_friend_recommendation.html",
-    "production": true,
+    "production": false,
     "active": true
   },
   {
     "type": "PagamentoNegado",
     "path": "payment_denied.html",
-    "production": true,
+    "production": false,
     "active": true
   },
   {
@@ -188,7 +188,7 @@
   {
     "type": "PedidoDevolvidoCredito",
     "path": "Orders/order_product_return.html",
-    "production": true,
+    "production": false,
     "active": true
   },
   {

@@ -35,3 +35,13 @@ Thumbs.db
 
 # local storefront preview artifacts
 tmp/
+committed_diff.txt
+debug_out.txt
+email-preview.html
+index.html
+search_page.html
+simple-verification.html
+tmp_commits.txt
+tmp_status.txt
+uncommitted_diff.txt
+verify-email-fix.html

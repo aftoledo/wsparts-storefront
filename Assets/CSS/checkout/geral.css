@@ -32,7 +32,7 @@
 }
 
 .headerLogo img {
-    content: url("https://wsparts.fbitsstatic.net/sf/img/img/logo-wsparts.png?v=202603181316");
+    content: url("https://wsparts.fbitsstatic.net/sf/img/img/header/logo.png?v=202603181316");
     object-fit: contain;
     width: auto !important;
     max-width: 180px;

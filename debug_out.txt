@@ -1,1 +1,0 @@
-[ERROR] You're running an outdated version, please download the latest version at: https://wakecommerce.readme.io/docs/local
