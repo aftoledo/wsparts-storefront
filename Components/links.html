@@ -4,14 +4,52 @@
             --swiffy-slider-item-count: 4;
             --swiffy-slider-item-gap: 0.5rem;
         }
+        .header-links-slider .slider-container {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .header-links-slider .slider-container > li {
+            min-width: 0;
+        }
+        .header-links-slider .slider-container > li > a,
+        .header-links-slider .slider-container > li > div {
+            justify-content: center;
+            width: 100%;
+        }
         @media (max-width: 1024px) {
             .header-links-slider {
                 --swiffy-slider-item-count: 3;
+            }
+            .header-links-slider .slider-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
         @media (max-width: 768px) {
             .header-links-slider {
                 --swiffy-slider-item-count: 1;
+            }
+            .header-links-slider .slider-container {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
+            }
+            .header-links-slider .slider-container::-webkit-scrollbar {
+                display: none;
+            }
+            .header-links-slider .slider-container > li {
+                flex: 0 0 100%;
+                scroll-snap-align: center;
+            }
+            .header-links-slider .slider-container > li > a,
+            .header-links-slider .slider-container > li > div {
+                border-right: none;
             }
         }
     </style>
@@ -19,40 +57,40 @@
         <div class="w-full lg:max-w-[1330px] px-4">
             <div class="header-links-slider swiffy-slider slider-item-show4 slider-nav-autoplay slider-nav-autopause transition-all duration-500 ease-in-out" data-slider-nav-autoplay-interval="4000">
                 <ul class="slider-container items-center">
-                <li class="flex items-center justify-center">
-                    <a href="tel:1931157891" class="flex items-center gap-2 px-2 py-1 border-r border-gray-100 last:border-none hover:opacity-80 transition-opacity">
-                        <img src="{{- store.urls.static_img}}icons/phone.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="Atendimento" class="w-4 h-4 object-contain" loading="lazy" onerror="this.src='https://recursos.WSParts.com.br/i/icones/delivery-truck-red.svg'">
-                        <div class="whitespace-nowrap text-xs uppercase text-gray-600">
-                            Atendimento <span class="font-bold text-gray-800">(19) 3115-7891</span>
+                    <li class="flex items-center justify-center">
+                        <a href="tel:1931157891" class="flex items-center gap-2 px-2 py-1 border-r border-gray-100 last:border-none hover:opacity-80 transition-opacity">
+                            <img src="{{- store.urls.static_img}}icons/phone.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="Atendimento" class="w-4 h-4 object-contain" loading="lazy" onerror="this.src='https://recursos.WSParts.com.br/i/icones/delivery-truck-red.svg'">
+                            <div class="whitespace-nowrap text-xs uppercase text-gray-600">
+                                Atendimento <span class="font-bold text-gray-800">(19) 3115-7891</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flex items-center justify-center">
+                        <a href="https://api.whatsapp.com/send?phone=5519983770335" target="_blank" class="flex items-center gap-2 px-2 py-1 border-r border-gray-100 last:border-none hover:opacity-80 transition-opacity">
+                            <img src="https://recursos.WSParts.com.br/i/icones/whatsapp-red.svg" alt="Whatsapp" class="w-4 h-4 object-contain" loading="lazy" onerror="this.src='{{- store.urls.static_img}}footer/whatsapp.svg?theme={{store.theme}}&v={{store.last_modified}}'">
+                            <div class="whitespace-nowrap text-xs uppercase text-gray-600">
+                                Compre pelo Whatsapp <span class="font-bold text-gray-800">(19) 98377-0335</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flex items-center justify-center">
+                        <div class="flex items-center gap-2 px-2 py-1 border-r border-gray-100 last:border-none">
+                            <img src="https://recursos.WSParts.com.br/i/icones/pricetag.svg" alt="Desconto" class="w-4 h-4 object-contain" loading="lazy">
+                            <div class="whitespace-nowrap text-xs uppercase text-gray-600">
+                                1ª Compra com <span class="font-bold text-gray-800">10% de desconto</span>
+                            </div>
                         </div>
-                    </a>
-                </li>
-                <li class="flex items-center justify-center">
-                    <a href="https://api.whatsapp.com/send?phone=5519983770335" target="_blank" class="flex items-center gap-2 px-2 py-1 border-r border-gray-100 last:border-none hover:opacity-80 transition-opacity">
-                        <img src="https://recursos.WSParts.com.br/i/icones/whatsapp-red.svg" alt="Whatsapp" class="w-4 h-4 object-contain" loading="lazy" onerror="this.src='{{- store.urls.static_img}}footer/whatsapp.svg?theme={{store.theme}}&v={{store.last_modified}}'">
-                        <div class="whitespace-nowrap text-xs uppercase text-gray-600">
-                            Compre pelo Whatsapp <span class="font-bold text-gray-800">(19) 98377-0335</span>
+                    </li>
+                    <li class="flex items-center justify-center">
+                        <div class="flex items-center gap-2 px-2 py-1 border-r border-gray-100 last:border-none">
+                            <img src="https://recursos.WSParts.com.br/i/icones/creditcard.svg" alt="Pix" class="w-4 h-4 object-contain" loading="lazy">
+                            <div class="whitespace-nowrap text-xs uppercase text-gray-600">
+                                Pague com Pix e ganhe <span class="font-bold text-gray-800">10% OFF</span>
+                            </div>
                         </div>
-                    </a>
-                </li>
-                <li class="flex items-center justify-center">
-                    <div class="flex items-center gap-2 px-2 py-1 border-r border-gray-100 last:border-none">
-                        <img src="https://recursos.WSParts.com.br/i/icones/pricetag.svg" alt="Desconto" class="w-4 h-4 object-contain" loading="lazy">
-                        <div class="whitespace-nowrap text-xs uppercase text-gray-600">
-                            1ª Compra com <span class="font-bold text-gray-800">10% de desconto</span>
-                        </div>
-                    </div>
-                </li>
-                <li class="flex items-center justify-center">
-                    <div class="flex items-center gap-2 px-2 py-1 border-r border-gray-100 last:border-none">
-                        <img src="https://recursos.WSParts.com.br/i/icones/creditcard.svg" alt="Pix" class="w-4 h-4 object-contain" loading="lazy">
-                        <div class="whitespace-nowrap text-xs uppercase text-gray-600">
-                            Pague com Pix e ganhe <span class="font-bold text-gray-800">10% OFF</span>
-                        </div>
-                    </div>
-                </li>
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
-</div>
+</div>

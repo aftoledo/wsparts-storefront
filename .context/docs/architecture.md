@@ -1,81 +1,44 @@
 ---
 type: doc
 name: architecture
-description: System architecture, layers, patterns, and design decisions for Wake Commerce Storefront
+description: Static storefront architecture and ownership map
 category: architecture
-generated: 2026-03-16
+generated: 2026-05-08
 status: filled
 scaffoldVersion: "2.0.0"
 ---
-## Architecture Notes
+# Architecture
 
-This document describes the system architecture, design patterns, and key technical decisions for the Wake Commerce Storefront.
+`wsparts.com.br` is a static storefront/theme workspace for an FBits storefront. Most runtime behavior is delivered as HTML fragments, CSS, browser JavaScript, JSON configuration, and email templates consumed by the storefront platform or by the local `fbits.storefront.exe` helper.
 
-## System Architecture Overview
+## Top-Level Structure
 
-**Architecture Style**: Headless SSR (Server-Side Rendering)
+- `Assets/` contains storefront CSS, JavaScript, fonts, and images. Edit this when changing visual style, browser interactions, analytics hooks, cart behavior, wishlist behavior, search behavior, or checkout styling.
+- `Components/` contains reusable HTML fragments used by pages and storefront slots. Edit this for shared header, footer, filter, sort, pagination, checkout, and product-list pieces.
+- `Configs/` contains JSON configuration that maps components and emails into the storefront build/runtime.
+- `Emails/` contains email HTML templates.
+- `Pages/` contains page-level HTML templates such as search, login, checkout, close, and confirmation pages.
+- `Queries/`, `Root/`, and `Snippets/` hold platform-specific storefront support files and reusable snippets.
+- `fbits.storefront.exe`, `start-dev.bat`, `start-dev.sh`, and `storefront.config` support local storefront preview and extraction workflows.
 
-The project follows a **Headless Commerce** architecture where the presentation layer (Storefront) is decoupled from the backend services (Wake Platform).
+## Runtime Model
 
-**Key Components**:
-- **Storefront SSR**: A server-side environment that renders Scriban templates.
-- **Wake Storefront API**: A GraphQL API that provides all the necessary data (Products, Categories, Cart, etc.).
-- **Scriban Template Engine**: Used for server-side logic and HTML generation.
-- **Client-Side JS**: Handles interactivity, cart operations, and dynamic updates via the Storefront SDK.
+The platform renders page templates and components, then loads assets from `Assets/`. Browser JavaScript in `Assets/JS` binds to rendered DOM, calls storefront/customer/cart APIs exposed by the platform, updates DOM fragments, and records client-side events. Styling is split between source/input CSS and generated/output CSS; do not edit generated output without checking whether an input source also needs the same change.
 
-**Request Flow**:
-1. A user requests a URL (e.g., `/home`).
-2. The Storefront SSR receives the request and identifies the corresponding **Page** template.
-3. The server executes the associated **GraphQL Query** to fetch data.
-4. The data is injected into the **Scriban** context.
-5. Scriban renders the HTML using **Components** and **Snippets**.
-6. The final HTML (including Tailwind styles) is sent to the user's browser.
+## Key Frontend Modules
 
-## Architectural Layers
+- `Assets/JS/product.js` handles product attributes, quantity, buy/add-to-cart flows, wholesale pricing, and customization capture.
+- `Assets/JS/cart*.js` and checkout scripts handle cart and checkout UI behavior.
+- `Assets/JS/wishlist.js` manages wishlist state and customer token checks.
+- `Assets/JS/search.js`, `sort.js`, `products_per_page.js`, and filter scripts control listing/search UX.
+- `Assets/JS/regional_offers.js` and `shipping_quotes.js` handle CEP/regional offer and shipping quote flows.
 
-- **Presentation (Scriban/HTML)**: `Pages/`, `Components/`, `Snippets/`
-- **Data Fetching (GraphQL)**: `Queries/`
-- **Configuration (JSON)**: `Configs/`
-- **Styles (TailwindCSS)**: `Assets/CSS/`
-- **Client Logic (JS)**: `Assets/JS/`
+## Change Boundaries
 
-## Detected Design Patterns
-
-| Pattern | Locations | Description |
-|---------|-----------|-------------|
-| **Component-Based UI** | `Components/` | Reusable UI blocks (e.g., `spot.html`, `header.html`). |
-| **BFF (Backend for Frontend)** | `Queries/` | GraphQL queries tailored specifically for storefront needs. |
-| **SSR (Server-Side Rendering)** | Platform | Content is rendered on the server for SEO and performance. |
-
-## External Service Dependencies
-
-- **Wake Commerce Platform**: The core engine for products, inventory, and checkout.
-- **Wake Storefront API**: GraphQL endpoint for data retrieval.
-- **CDN (static.fbits.net)**: Hosts shared assets like the Storefront SDK.
-
-## Key Decisions & Trade-offs
-
-- **Scriban vs. Client-Side Framework**: Scriban is used for SEO-critical rendering, while Vanilla JS/Tailwind handles interactivity. This minimizes the "Hydration" cost.
-- **GraphQL**: Allows fetching exactly what's needed for each component, reducing payload size.
-- **TailwindCSS**: Chosen for rapid styling and small final CSS footprint.
-
-## Request/Data Flow Diagram
-
-```mermaid
-graph TD
-    User[User Browser] -->|URL Request| SSR[Storefront SSR]
-    SSR -->|Executes| Q[GraphQL Queries]
-    Q -->|Fetches Data| API[Wake Storefront API]
-    API -->|Returns JSON| Q
-    Q -->|Injects Data| Scriban[Scriban Engine]
-    Scriban -->|Renders| HTML[Final HTML]
-    HTML -->|Sends| User
-    User -->|Interacts| SDK[Storefront SDK / Client JS]
-    SDK -->|Updates| API
-```
+Keep storefront HTML, CSS, and JavaScript changes aligned. A component change often requires a matching asset update and a config reference. Generated preview or exported files in `tmp/` are local artifacts and should not be treated as source unless explicitly promoted.
 
 ## Related Resources
 
-- [Project Overview](./project-overview.md)
-- [Tooling](./tooling.md)
-- [codebase-map.json](./codebase-map.json)
+- [project-overview.md](./project-overview.md)
+- [data-flow.md](./data-flow.md)
+- [tooling.md](./tooling.md)

@@ -16,7 +16,7 @@
 
 <body class="bg-mainBg">
     {{ page_scripts position: "BODY_START" scripts: common.scripts }}
-    {{ wake_checkout_header }}
+    {{ checkout_branded_header }}
     {{ wake_overlay }}    
     {{~ first_order = data.checkout.orders | array.first ~}}
     {{~ if first_order ~}}
@@ -239,7 +239,7 @@
     {{~ end ~}}
     {{ wake_payment_change_scripts }}
     {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
-    {{ wake_checkout_footer }}
+    {{ checkout_branded_footer }}
     {{ sdk_client }}
     {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
     {{ data_layer_confirmation_view checkout: data.checkout }}

@@ -1,0 +1,21 @@
+<style>
+  body header.custom-branded-header {
+    padding-top: 32px !important;
+    padding-bottom: 32px !important;
+    margin-bottom: 0 !important;
+  }
+</style>
+
+<header class="bg-white border-b border-gray-100 shadow-sm custom-branded-header">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+    <a href="/">
+      <img src="{{- store.urls.static_img}}header/logo.png?theme={{store.theme}}&v={{store.last_modified}}" alt="WS Parts" class="h-10 lg:h-12 w-auto">
+    </a>
+    <div class="flex items-center text-xs font-bold text-gray-400 uppercase tracking-widest bg-gray-50 px-6 py-3 rounded-full border border-gray-100">
+      <svg class="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04M12 21.359l-1.164-.825a11.955 11.955 0 01-6.836-10.534V7.5a11.955 11.955 0 001.164.825 11.955 11.955 0 006.836 10.534l1.164.825z"></path>
+      </svg>
+      Ambiente 100% Seguro
+    </div>
+  </div>
+</header>

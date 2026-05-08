@@ -1,74 +1,37 @@
 ---
 type: doc
 name: security
-description: Security policies, authentication, secrets management, and compliance requirements
+description: Security notes for storefront and local tooling changes
 category: security
-generated: 2026-03-16
-status: unfilled
+generated: 2026-05-08
+status: filled
 scaffoldVersion: "2.0.0"
 ---
-## Security & Compliance Notes
+# Security
 
-This document outlines security practices, policies, and guidelines for this project.
+This repo is frontend/theme code, but it still handles customer-facing flows. Security work is mostly about avoiding secret leakage, unsafe client-side assumptions, and broken commerce behavior.
 
-**Security Principles**:
-- Defense in depth — Multiple security layers
-- Principle of least privilege — Minimal necessary access
-- Secure by default — Safe configurations out of the box
+## Sensitive Files
 
-## Authentication & Authorization
+- Do not commit certificates, local config secrets, storefront export zips, or generated temp files from `tmp/`.
+- Treat `storefront.config` and local preview helper outputs as potentially environment-specific.
+- Keep real tokens out of `Configs/`, `Assets/JS`, templates, and email files.
 
-**Authentication**:
-- [Describe authentication mechanism: JWT, sessions, OAuth, etc.]
-- Token/session expiration: [Duration]
-- Refresh strategy: [How tokens are refreshed]
+## Browser Security
 
-**Authorization**:
-- Permission model: [RBAC, ABAC, etc.]
-- Role definitions: [Admin, User, etc.]
-- Access control enforcement: [Where/how permissions are checked]
+- Do not inject unsanitized customer, product, or query data into HTML.
+- Prefer text assignment over raw HTML when adding dynamic DOM behavior.
+- Keep customer tokens/session data handling scoped to platform-supported flows.
+- Do not add third-party scripts without documenting their purpose and load point.
 
-## Secrets & Sensitive Data
+## Review Focus
 
-**Secrets Management**:
-- Storage: Environment variables / secrets manager
-- Never commit secrets to version control
-- Use `.env.example` as a template (without real values)
-
-**Sensitive Data Handling**:
-- Encryption at rest: [Yes/No, method]
-- Encryption in transit: TLS 1.2+
-- Data classification: [Public, Internal, Confidential, Restricted]
-
-**Best Practices**:
-- Rotate secrets regularly
-- Use strong, unique passwords
-- Audit access to sensitive data
-
-## Compliance & Policies
-
-**Applicable Standards**:
-- [List relevant compliance frameworks]
-
-**Security Policies**:
-- Code review required for all changes
-- Dependency scanning for vulnerabilities
-- Regular security assessments
-
-## Incident Response
-
-**Reporting Security Issues**:
-- Report security vulnerabilities to [security contact]
-- Do not disclose publicly before fix is available
-
-**Incident Response**:
-1. Identify and contain the issue
-2. Assess impact and scope
-3. Remediate and recover
-4. Document and learn from the incident
+- New forms and checkout changes.
+- Scripts that read/write customer tokens, cart state, local storage, or session storage.
+- Search, newsletter, and regional-offer inputs.
+- Email template links and customer-specific variables.
 
 ## Related Resources
 
-<!-- Link to related documents for cross-navigation. -->
-
 - [architecture.md](./architecture.md)
+- [testing-strategy.md](./testing-strategy.md)

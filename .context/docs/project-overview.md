@@ -1,80 +1,39 @@
 ---
 type: doc
 name: project-overview
-description: High-level overview of the Wake Commerce Storefront project, its purpose, and key components
+description: What this repository is and how to approach it
 category: overview
-generated: 2026-03-16
+generated: 2026-05-08
 status: filled
 scaffoldVersion: "2.0.0"
 ---
-## Project Overview
+# Project Overview
 
-This project is a **Wake Commerce Storefront** implementation. It uses a headless architecture where the frontend is rendered on the server (SSR) using the **Scriban** template engine and fetches data from the **Wake Storefront API** via **GraphQL**.
+`wsparts.com.br` stores the customer-facing storefront implementation for WS Parts on top of an FBits storefront runtime. It is mostly static frontend source: HTML templates, reusable components, CSS, JavaScript, images, fonts, email templates, and JSON configuration.
 
-The codebase is organized into reusable components, GraphQL queries, and static assets, following the standard Wake Storefront structure.
+## Primary Workflows
 
-## Codebase Reference
+- Update storefront pages in `Pages/`.
+- Update reusable fragments in `Components/`.
+- Adjust style and behavior in `Assets/CSS` and `Assets/JS`.
+- Configure template references in `Configs/components.json` and `Configs/emails.json`.
+- Maintain email templates in `Emails/`.
+- Use local storefront helpers and generated preview artifacts only as validation/support files.
 
-> **Detailed Analysis**: For complete symbol counts, architecture layers, and dependency graphs, see [`codebase-map.json`](./codebase-map.json).
+## Important Constraints
 
-## Quick Facts
+The repository does not look like a conventional TypeScript application despite older AGENTS guidance mentioning TypeScript sessions. `package.json` currently only declares Tailwind dependencies and no npm scripts. Treat platform preview tooling and browser validation as the main feedback loop unless new scripts are added.
 
-- **Root**: `./`
-- **Primary Language**: HTML (Scriban), GraphQL, CSS (Tailwind), JavaScript
-- **Local Dev Server**: `fbits.storefront.exe`
-- **Full Analysis**: [`codebase-map.json`](./codebase-map.json)
+## Good Starting Points
 
-## Key Directories
-
-- `Assets/` — CSS, JavaScript, Images, and Fonts.
-- `Components/` — Reusable Scriban templates (`.html`).
-- `Queries/` — GraphQL queries used to fetch data for pages and components.
-- `Pages/` — Main page templates (Home, Product, Search, etc.).
-- `Configs/` — JSON configuration files for store settings, colors, and components.
-- `Emails/` — Transactional email templates.
-- `Snippets/` — Smaller reusable code snippets.
-- `Root/` — Root-level files like `robots.txt` and Service Workers (`sw.js`).
-
-## Technology Stack Summary
-
-**Runtime**: Wake Storefront SSR Environment
-
-**Template Engine**: Scriban
-
-**Data Fetching**: GraphQL (Wake Storefront API)
-
-**Styling**: TailwindCSS
-
-**Development Tools**:
-- `fbits.storefront.exe` — Local development server and CLI for syncing with the Wake platform.
-
-## Core Framework Stack
-
-- **Frontend**: Vanilla JavaScript / TailwindCSS.
-- **Template Engine**: Scriban (Liquid-like syntax for .NET).
-- **API**: GraphQL (Storefront API).
-
-## UI & Interaction Libraries
-
-- **TailwindCSS**: Utility-first CSS framework for styling.
-- **Glider.js**: Lightweight carousel library (inferred from `Assets/CSS/glider.css`).
-
-## Development Tools Overview
-
-See [Tooling](./tooling.md) for detailed development environment setup.
-
-**Essential Commands**:
-- `fbits.storefront.exe` — Start the local development server.
-
-## Next Steps
-
-- Review [Architecture](./architecture.md) for system design details.
-- See [Development Workflow](./development-workflow.md) for contribution guidelines.
-- Check [Tooling](./tooling.md) for local setup instructions.
+- `README.md` for existing repo notes.
+- `AGENTS.md` for collaboration rules.
+- `Assets/JS/product.js` for product-page behavior.
+- `Pages/checkout/` and checkout components for checkout changes.
+- `Configs/` when new components or emails are introduced.
 
 ## Related Resources
 
 - [architecture.md](./architecture.md)
 - [development-workflow.md](./development-workflow.md)
 - [tooling.md](./tooling.md)
-- [codebase-map.json](./codebase-map.json)

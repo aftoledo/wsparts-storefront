@@ -1,49 +1,37 @@
 ---
 type: doc
 name: tooling
-description: Development environment setup, tools, and automation for Wake Commerce Storefront
+description: Local tools and commands used by this storefront repository
 category: tooling
-generated: 2026-03-16
+generated: 2026-05-08
 status: filled
 scaffoldVersion: "2.0.0"
 ---
-## Tooling & Environment
+# Tooling
 
-This document describes the development environment, local tools, and automation used in this project.
+## Node And Tailwind
 
-## Local Development Server
+`package.json` currently declares `tailwindcss` and `@tailwindcss/cli`. It does not currently define `build`, `test`, or `dev` scripts. Use direct `npx tailwindcss ...` commands or add scripts deliberately when the workflow is standardized.
 
-The primary tool for development is the **Wake Storefront CLI** (`fbits.storefront.exe`).
+## Storefront Preview
 
-### Prerequisites
-- **Wake CLI**: Usually provided as `fbits.storefront.exe` in the project root.
-- **Node.js**: Required for some build scripts and potential frontend tools.
-- **TailwindCSS**: Used for styling; ensure you have the necessary environment for processing CSS if needed.
+- `fbits.storefront.exe` is the local storefront helper executable.
+- `start-dev.bat` and `start-dev.sh` are convenience wrappers.
+- `tmp/run-storefront-local.ps1` is a local PowerShell helper and should be treated as a generated/local artifact unless promoted.
+- `tmp/fbits.storefront.latest.zip` and `tmp/localhost-devcert.pfx` are local artifacts, not source.
 
-### Essential Commands
-- **Start Server**: Run `fbits.storefront.exe` to start the local development server. This allows you to preview the store with real data from the Wake API.
-- **Syncing**: The CLI automatically syncs your local files (`Components/`, `Pages/`, `Assets/`, etc.) with the Wake platform during development.
+## DotContext
 
-## Project Structure & Tooling
+Generated knowledge and agent context lives under `.context/`. Keep docs, agents, skills, and harness policy/sensors versioned when they describe repo behavior. Workflow sessions, traces, caches, and plans are local runtime state unless explicitly promoted.
 
-- **Scriban Templates**: Located in `Pages/`, `Components/`, and `Snippets/`. These are rendered on the server.
-- **GraphQL Queries**: Defined in `Queries/`. These define the data available to the Scriban templates.
-- **TailwindCSS**: The project uses Tailwind for styling. The configuration is in `tailwind.config.js`.
-- **JavaScript**: Client-side logic is in `Assets/JS/`.
+## Useful Validation
 
-## Build & Asset Management
+- `git status --short`
+- `Get-Content -Raw Configs/components.json | ConvertFrom-Json`
+- `Get-Content -Raw Configs/emails.json | ConvertFrom-Json`
+- Browser preview of changed pages and components.
 
-- **Assets**: CSS, JS, and images are managed in the `Assets/` directory.
-- **Tailwind Processing**: If you need to rebuild the Tailwind CSS, ensure you have the Tailwind CLI or a compatible task runner installed.
+## Related Resources
 
-## Best Practices
-
-1. **Use Fragments**: When writing GraphQL queries, use fragments to keep queries clean and reusable.
-2. **Component Isolation**: Keep logic within `Components/` focused on rendering. Use `Queries/` for data fetching.
-3. **Scriban Documentation**: Refer to [scriban.github.io](https://scriban.github.io) for template syntax.
-4. **Tailwind Utilities**: Prefer Tailwind utility classes over custom CSS whenever possible.
-
-## Next Steps
-
-- Review [Architecture](./architecture.md) for system design.
-- See [Development Workflow](./development-workflow.md) for contribution guidelines.
+- [development-workflow.md](./development-workflow.md)
+- [testing-strategy.md](./testing-strategy.md)

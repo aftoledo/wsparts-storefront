@@ -26,14 +26,18 @@
       </div>
 
       <div class="mt-8">
-        {{ wake_login_simple }}
+        <div class="ws-login-simple-platform">
+          {{ wake_login_simple }}
+        </div>
         
         <div class="social-divider relative py-6 text-center">
           <span class="bg-white px-4 text-xs font-bold text-gray-400 uppercase tracking-widest relative z-10">Ou entre usando as redes sociais:</span>
           <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-100"></div></div>
         </div>
 
-        {{ wake_login_social }}
+        <div class="ws-login-social-platform">
+          {{ wake_login_social }}
+        </div>
       </div>    
     </div>
   </main>
@@ -42,6 +46,14 @@
   {{ sdk_client }}
   {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
   {{ wake_scripts scripts: ["wake_utils", "wake_login"] }}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll(".ws-login-simple-platform input:not([type='submit'])").forEach(function (input) {
+        input.setAttribute("placeholder", "E-mail ou CPF");
+        input.setAttribute("aria-label", "E-mail ou CPF");
+      });
+    });
+  </script>
   {{ page_scripts position: "BODY_END" scripts: common.scripts }}
 </body>
 </html>

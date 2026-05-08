@@ -26,6 +26,16 @@
         "availableInAllPages": true
     },
     {
+        "name": "checkout_branded_header",
+        "path": "checkout_branded_header.html",
+        "availableInAllPages": true
+    },
+    {
+        "name": "checkout_branded_footer",
+        "path": "checkout_branded_footer.html",
+        "availableInAllPages": true
+    },
+    {
         "name": "links",
         "path": "links.html",
         "params": [],

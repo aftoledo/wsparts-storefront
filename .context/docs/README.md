@@ -13,11 +13,18 @@ Welcome to the repository knowledge base. Start with the project overview, then 
 - [Tooling & Productivity Guide](./tooling.md)
 
 ## Repository Snapshot
+- `_agents/`
+- `AGENTS.md/`
 - `Assets/`
+- `committed_diff.txt/`
 - `Components/`
 - `Configs/`
+- `debug_out.txt/`
+- `email-preview.html/`
 - `Emails/`
-- `fbits.storefront.exe/`
+- `help_full.txt/`
+- `help.txt/`
+- `index.html/`
 - `jsconfig.json/`
 - `package-lock.json/`
 - `package.json/`
@@ -26,8 +33,20 @@ Welcome to the repository knowledge base. Start with the project overview, then 
 - `README.md/`
 - `resolve_color.js/`
 - `Root/`
+- `search_page.html/`
+- `SECURITY.md/`
+- `simple-verification.html/`
 - `Snippets/`
+- `start-dev.bat/`
+- `start-dev.sh/`
+- `storefront.config/`
 - `tailwind.config.js/`
+- `tmp/`
+- `tmp_commits.txt/`
+- `tmp_status.txt/`
+- `uncommitted_diff.txt/`
+- `verify-email-fix.html/`
+- `wsparts.code-workspace/`
 
 ## Document Map
 | Guide | File | Primary Inputs |

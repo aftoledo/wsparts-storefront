@@ -19,3 +19,19 @@ Thumbs.db
 # Gemini/Antigravity Context (optional, but usually recommended to ignore to avoid bloat)
 .gemini/
 .context/logs/
+
+# dotcontext runtime state
+.context/plans/
+.context/cache/semantic/
+.context/workflow/
+.context/harness/sessions/
+.context/harness/traces/
+.context/harness/artifacts/
+.context/harness/contracts/
+.context/harness/workflows/
+.context/harness/replays/
+.context/harness/datasets/
+.context/**/archive/
+
+# local storefront preview artifacts
+tmp/

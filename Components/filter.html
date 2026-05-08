@@ -13,9 +13,9 @@
         </div>
         <div class="flex mb-4">
             <a href="#" onclick="clearFilters();" 
-            class="flex justify-start items-center border w-full p-2 rounded-md uppercase text-sm hover:bg-secondary-200">
+            class="flex justify-center items-center border border-gray-200 w-full p-2.5 rounded-lg uppercase text-xs font-semibold tracking-wider text-gray-600 hover:bg-gray-50 hover:border-gray-300 transition-colors">
                 Limpar filtros
-                <img src="{{- store.urls.static_img}}icons/clean.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="clean" class="w-5 h-5 ml-2">
+                <img src="{{- store.urls.static_img}}icons/clean.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="clean" class="w-4 h-4 ml-2 opacity-60">
             </a>
             <input type="hidden" id="hidden-min-price-value" name="hidden-min-price-value" 
                 value="{{ aggregations.minimum_price }}">
@@ -31,7 +31,7 @@
         </div>
         <div class="flex flex-col mb-4 overflow-auto">
             {{ for filter in aggregations.filters }}
-                <h4 class="text-base font-semibold uppercase mb-2">{{ filter.field }}</h4>
+                <h4 class="text-sm font-bold uppercase mb-2 tracking-wider text-gray-800">{{ filter.field }}</h4>
                 {{~ if filter.field == "Cor" || filter.field == "cor" ~}}
                     <div class="flex flex-row flex-wrap justify-start mb-4 max-w-[210px]">
                         {{ for value in filter.values }}

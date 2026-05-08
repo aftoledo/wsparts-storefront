@@ -121,7 +121,7 @@
   },
   {
     "type": "EmailGenerico",
-    "path": "",
+    "path": "generic.html",
     "production": true,
     "active": true
   },
@@ -151,7 +151,7 @@
   },
   {
     "type": "LembreteSenha",
-    "path": "new_password.html",
+    "path": "new_password_new_checkout.html",
     "production": true,
     "active": true
   },

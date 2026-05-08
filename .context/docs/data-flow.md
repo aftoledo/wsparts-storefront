@@ -1,76 +1,44 @@
 ---
 type: doc
 name: data-flow
-description: How data moves through the system and external integrations
+description: Data movement through storefront templates and browser assets
 category: data-flow
-generated: 2026-03-16
-status: unfilled
+generated: 2026-05-08
+status: filled
 scaffoldVersion: "2.0.0"
 ---
-## Data Flow & Integrations
+# Data Flow
 
-This document describes how data flows through the system, including internal processing and external integrations.
+The repository does not own a backend service or database. Data enters through the FBits storefront platform, rendered page templates, platform-provided globals, browser storage, customer/session state, and storefront API calls made by client JavaScript.
 
-Understanding data flow helps with debugging, performance optimization, and maintaining system reliability.
+## High-Level Flow
+
+1. Platform page data is rendered into `Pages/` templates and `Components/` fragments.
+2. Assets from `Assets/CSS`, `Assets/JS`, `Assets/img`, and `Assets/Fonts` are loaded by the browser.
+3. JavaScript modules bind event handlers to storefront DOM elements.
+4. Customer actions trigger cart, wishlist, search, sort, shipping, regional-offer, newsletter, or product flows.
+5. Results are reflected back into the DOM, browser storage, platform cart/customer state, or analytics/data-layer events.
 
 ## Module Dependencies
 
-Module dependency overview:
-
-- **Entry Layer** → Services, Utils
-- **Services** → Data Access, External APIs
-- **Data Access** → Database, Cache
-
-*See [`codebase-map.json`](./codebase-map.json) for detailed dependency graphs.*
-
-## Service Layer
-
-Key services in the system:
-
-- **[ServiceName]** — [Purpose] (`src/services/path.ts`)
-
-*See [`codebase-map.json`](./codebase-map.json) for complete service listings.*
-
-## High-level Flow
-
-```mermaid
-flowchart LR
-    A[Input] --> B[Processing]
-    B --> C[Storage]
-    B --> D[Output]
-```
-
-**Data Flow Steps**:
-1. Data enters through entry points (API, CLI, etc.)
-2. Services process and transform data
-3. Results are stored and/or returned to caller
-
-*Replace with actual system data flow.*
-
-## Internal Movement
-
-<!-- Describe how modules collaborate (queues, events, RPC calls, shared databases). -->
-
-_Add descriptive content here (optional)._
+- `Pages/` depends on `Components/`, `Assets/`, and platform placeholders.
+- `Components/` depends on CSS class contracts, JavaScript selectors, and entries in `Configs/components.json`.
+- `Emails/` depends on template variables and references in `Configs/emails.json`.
+- `Assets/JS` depends on browser DOM, platform APIs, customer/cart tokens, and selectors emitted by templates.
+- `Assets/CSS` depends on class names used by `Pages/`, `Components/`, and email templates.
 
 ## External Integrations
 
-**External Services**:
+- FBits storefront runtime: renders templates and provides commerce context.
+- Browser APIs: DOM, events, local/session storage, fetch/XHR where used.
+- Customer/cart APIs: used by product, wishlist, checkout, and login scripts.
+- Analytics/data layer: product and checkout scripts emit or prepare tracking data where platform conventions require it.
 
-| Service | Purpose | Auth Method |
-|---------|---------|-------------|
-| [Service] | [Purpose] | [API Key/OAuth/etc.] |
+## Failure Modes
 
-*Document error handling and retry strategies for each integration.*
-
-## Observability & Failure Modes
-
-<!-- Describe metrics, traces, or logs that monitor the flow. Note backoff, dead-letter, or compensating actions. -->
-
-_Add descriptive content here (optional)._
+Most failures are selector drift, missing config references, stale generated CSS, platform variable mismatch, or scripts running before the expected DOM exists. Validate changes through local preview where possible and by inspecting the affected page in a browser.
 
 ## Related Resources
 
-<!-- Link to related documents for cross-navigation. -->
-
 - [architecture.md](./architecture.md)
+- [testing-strategy.md](./testing-strategy.md)

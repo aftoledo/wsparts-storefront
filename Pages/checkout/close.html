@@ -16,7 +16,7 @@
 
 <body class="bg-mainBg">
     {{ page_scripts position: "BODY_START" scripts: common.scripts }}
-    {{ wake_checkout_header }}
+    {{ checkout_branded_header }}
     {{ wake_overlay }}
     {{ wake_meta_pixel_content checkout: data.checkout }}
     <div class="wake-checkout-wrapper">
@@ -144,7 +144,7 @@
     {{ wake_confirmation_modal }}
     {{ wake_checkout_scripts }}
     {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
-    {{ wake_checkout_footer }}
+    {{ checkout_branded_footer }}
     {{ sdk_client }}
     {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
     {{ data_layer_checkout_complete_view checkout: data.checkout }}

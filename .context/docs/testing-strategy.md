@@ -1,102 +1,38 @@
 ---
 type: doc
 name: testing-strategy
-description: Test frameworks, patterns, coverage requirements, and quality gates
+description: Validation strategy for storefront changes
 category: testing
-generated: 2026-03-16
-status: unfilled
+generated: 2026-05-08
+status: filled
 scaffoldVersion: "2.0.0"
 ---
-## Testing Strategy
+# Testing Strategy
 
-This document outlines the testing strategy for maintaining code quality.
-
-**Testing Philosophy**:
-- Tests should be fast, isolated, and deterministic
-- Follow the test pyramid: many unit tests, fewer integration tests, minimal E2E tests
-- Test behavior, not implementation details
-- Every bug fix should include a regression test
+There is no configured Jest/Vitest suite in the current `package.json`. Validation is therefore a mix of static inspection, local storefront preview, browser checks, and targeted manual regression of affected flows.
 
 ## Test Types
 
-**Unit Tests**:
-- Framework: Jest / Vitest
-- Location: `__tests__/` or co-located `*.test.ts` files
-- Purpose: Test individual functions and components in isolation
-- Mocking: Use jest mocks for external dependencies
+- Static checks: verify JSON validity for `Configs/*.json`, broken file references, and obvious HTML/CSS/JS syntax errors.
+- Browser checks: open the affected page or preview artifact and confirm layout, interactions, console errors, and responsive behavior.
+- Flow checks: validate product add-to-cart, wishlist, search/sort/filter, checkout, login, email preview, or regional/shipping flow depending on the files changed.
+- Build checks: if Tailwind input/output files are changed, regenerate the matching output CSS with the repo's Tailwind CLI workflow.
 
-**Integration Tests**:
-- Framework: Jest / Vitest
-- Location: `tests/integration/` or `*.integration.test.ts`
-- Purpose: Test feature workflows and component interactions
-- Setup: May require test database or external services
+## Suggested Commands
 
-**E2E Tests** (if applicable):
-- Framework: Playwright / Cypress
-- Location: `e2e/` or `tests/e2e/`
-- Purpose: Test critical user paths end-to-end
-- Environment: Requires full application stack
-
-## Running Tests
-
-**Commands**:
-```bash
-# Run all tests
-npm run test
-
-# Run tests in watch mode (for development)
-npm run test -- --watch
-
-# Run tests with coverage report
-npm run test -- --coverage
-
-# Run specific test file
-npm run test -- path/to/file.test.ts
-
-# Run tests matching pattern
-npm run test -- --testNamePattern="pattern"
-```
+- `npm install` to restore dependencies.
+- `npx tailwindcss --help` to confirm Tailwind CLI availability.
+- `node -e "JSON.parse(require('fs').readFileSync('Configs/components.json','utf8'))"` to validate JSON when config changes.
 
 ## Quality Gates
 
-**Coverage Requirements**:
-- Minimum overall coverage: 80%
-- New code should have higher coverage
-- Critical paths require 100% coverage
-
-**Pre-merge Checks**:
-- [ ] All tests pass
-- [ ] Coverage thresholds met
-- [ ] Linting passes (`npm run lint`)
-- [ ] Type checking passes (`npm run typecheck`)
-- [ ] Build succeeds (`npm run build`)
-
-**CI Pipeline**:
-- Tests run automatically on every PR
-- Coverage reports generated and compared to baseline
-- Failed checks block merge
-
-## Troubleshooting
-
-**Common Issues**:
-
-*Tests timing out*:
-- Increase timeout for slow operations
-- Check for unresolved promises
-- Verify mocks are properly configured
-
-*Flaky tests*:
-- Avoid time-dependent assertions
-- Use proper async/await patterns
-- Isolate tests from external state
-
-*Environment issues*:
-- Ensure Node version matches project requirements
-- Clear node_modules and reinstall if dependencies are corrupted
-- Check for conflicting global installations
+- No broken config references.
+- No console errors in affected browser flows.
+- Generated CSS matches source CSS changes.
+- Temporary files in `tmp/` stay uncommitted unless explicitly needed.
+- Changes to shared components are checked on every page that uses them.
 
 ## Related Resources
 
-<!-- Link to related documents for cross-navigation. -->
-
 - [development-workflow.md](./development-workflow.md)
+- [tooling.md](./tooling.md)

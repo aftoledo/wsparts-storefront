@@ -97,6 +97,70 @@
     @apply w-6 h-6;
   }
 
+  /* simple login */
+  .ws-login-simple-platform {
+    @apply w-full;
+  }
+
+  .ws-login-simple-platform h1,
+  .ws-login-simple-platform h2,
+  .ws-login-simple-platform h3,
+  .ws-login-simple-platform p,
+  .ws-login-simple-platform > span,
+  .ws-login-simple-platform > div > span {
+    @apply hidden;
+  }
+
+  .ws-login-simple-platform form {
+    @apply flex flex-col gap-4 w-full;
+  }
+
+  .ws-login-simple-platform form > div {
+    @apply flex flex-col gap-2 w-full;
+  }
+
+  .ws-login-simple-platform label {
+    @apply hidden;
+  }
+
+  .ws-login-simple-platform input {
+    @apply h-12 w-full rounded-md border border-gray-300 bg-white px-4 text-base text-gray-900 outline-none transition-colors duration-200;
+  }
+
+  .ws-login-simple-platform input:focus {
+    @apply border-red-600 ring-2 ring-red-400 ring-offset-0;
+  }
+
+  .ws-login-simple-platform input::placeholder {
+    @apply text-gray-400;
+  }
+
+  .ws-login-simple-platform button,
+  .ws-login-simple-platform a,
+  .ws-login-simple-platform input[type="submit"] {
+    @apply flex h-12 w-full cursor-pointer items-center justify-center rounded-md bg-black px-5 text-sm font-black uppercase tracking-widest text-white transition-all duration-200;
+  }
+
+  .ws-login-simple-platform button:hover,
+  .ws-login-simple-platform a:hover,
+  .ws-login-simple-platform input[type="submit"]:hover {
+    @apply bg-red-600 shadow-lg;
+  }
+
+  .ws-login-social-platform .wake-login-social span {
+    @apply hidden;
+  }
+
+  .ws-login-social-platform .wake-login-social button,
+  .ws-login-social-platform .wake-login-social a {
+    @apply cursor-pointer rounded-full p-2 transition-all duration-200;
+  }
+
+  .ws-login-social-platform .wake-login-social button:hover,
+  .ws-login-social-platform .wake-login-social a:hover {
+    @apply -translate-y-0.5 bg-gray-100 shadow-md;
+  }
+
   .wake-autenticate-wrapper .register {
     @apply flex flex-col justify-center items-center mt-12;
   }

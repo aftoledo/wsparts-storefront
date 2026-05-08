@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "generatedAt": "2026-05-08T14:35:51.349Z",
+  "source": "manual",
+  "stack": {
+    "primaryLanguage": "javascript",
+    "languages": [
+      "javascript",
+      "html",
+      "css",
+      "json"
+    ],
+    "frameworks": [
+      "FBits storefront"
+    ],
+    "buildTools": [
+      "tailwindcss"
+    ],
+    "testFrameworks": [],
+    "packageManager": "npm"
+  },
+  "sensors": [
+    {
+      "id": "git-status",
+      "name": "Git status review",
+      "description": "Confirm changed files and avoid mixing unrelated storefront work.",
+      "command": "git status --short",
+      "severity": "info",
+      "blocking": false
+    },
+    {
+      "id": "components-json-valid",
+      "name": "Components config JSON is valid",
+      "description": "Parse Configs/components.json after component reference changes.",
+      "command": "powershell -NoProfile -Command \"Get-Content -Raw Configs/components.json | ConvertFrom-Json | Out-Null\"",
+      "severity": "critical",
+      "blocking": true
+    },
+    {
+      "id": "emails-json-valid",
+      "name": "Emails config JSON is valid",
+      "description": "Parse Configs/emails.json after email template changes.",
+      "command": "powershell -NoProfile -Command \"Get-Content -Raw Configs/emails.json | ConvertFrom-Json | Out-Null\"",
+      "severity": "critical",
+      "blocking": true
+    },
+    {
+      "id": "tailwind-cli-available",
+      "name": "Tailwind CLI available",
+      "description": "Verify the installed Tailwind CLI before CSS regeneration.",
+      "command": "npx tailwindcss --help",
+      "severity": "warning",
+      "blocking": false
+    }
+  ]
+}

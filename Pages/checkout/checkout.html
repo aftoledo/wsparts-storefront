@@ -12,12 +12,6 @@
   <link rel="canonical" href="{{ store.urls.current }}" />
   <style type="text/css">
     /* Balanced Premium Spacing (Refined Minimalism) */
-    body header.custom-branded-header {
-      padding-top: 32px !important;
-      padding-bottom: 32px !important;
-      margin-bottom: 0 !important;
-    }
-
     body main.custom-checkout-main {
       padding-top: 40px !important;
       padding-bottom: 120px !important;
@@ -65,21 +59,6 @@
     /* Summary Card with "Fresh Air" */
     .custom-summary-card {
       padding: 40px !important;
-    }
-
-    /* Custom Footer Styling */
-    .custom-checkout-footer {
-      background-color: #800000 !important; /* Dark Red */
-      color: white !important;
-      padding: 60px 0 !important;
-      margin-top: 100px !important;
-    }
-
-    .wake-logo-footer {
-      width: 100px !important;
-      height: auto !important;
-      display: inline-block !important;
-      filter: brightness(0) invert(1) !important;
     }
 
     /* Unified Button Pattern (Platform Standard) */
@@ -131,17 +110,7 @@
 </head>
 <body class="bg-[#f9fafb]">
   {{ page_scripts position: "BODY_START" scripts: common.scripts }}
-  <header class="bg-white border-b border-gray-100 shadow-sm custom-branded-header">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-      <a href="/">
-        <img src="{{- store.urls.static_img}}Logotipo_WS.svg?v={{store.last_modified}}" alt="wsparts" class="h-10 lg:h-12 w-auto">
-      </a>
-      <div class="flex items-center text-xs font-bold text-gray-400 uppercase tracking-widest bg-gray-50 px-6 py-3 rounded-full border border-gray-100">
-        <svg class="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04M12 2.944a11.955 11.955 0 01-8.618 3.04M12 21.359l-1.164-.825a11.955 11.955 0 01-6.836-10.534V7.5a11.955 11.955 0 001.164.825 11.955 11.955 0 006.836 10.534l1.164.825z"></path></svg>
-        Ambiente 100% Seguro
-      </div>
-    </div>
-  </header>
+  {{ checkout_branded_header }}
   {{ wake_overlay }}
 
   <main class="max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8 custom-checkout-main">
@@ -226,23 +195,7 @@
   </main>
   {{ wake_confirmation_modal }}
   {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
-  <footer class="custom-checkout-footer">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-        <div class="text-center md:text-left">
-          <p class="text-[10px] md:text-xs font-bold tracking-widest uppercase opacity-90 leading-relaxed max-w-2xl">
-            WS AUTO PARTS LTDA - CNPJ: 31.393.538/0001-37 - IE: 122.024.419.119 - TODOS OS DIREITOS RESERVADOS
-          </p>
-        </div>
-        <div class="flex flex-col items-center md:items-end gap-2 text-white">
-          <span class="text-[9px] uppercase tracking-widest opacity-60">Tecnologia:</span>
-          <a href="https://wake.tech" target="_blank">
-             <img src="{{- store.urls.static_img}}logo-wake.svg?theme={{store.theme}}&v={{store.last_modified}}" alt="Wake" class="wake-logo-footer">
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
+  {{ checkout_branded_footer }}
   {{ sdk_client }}
   {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
   {{ data_layer_checkout_view checkout: data.checkout}}

@@ -1,61 +1,32 @@
 ---
 type: doc
 name: glossary
-description: Project terminology, type definitions, domain entities, and business rules
+description: Storefront terminology and domain concepts
 category: glossary
-generated: 2026-03-16
-status: unfilled
+generated: 2026-05-08
+status: filled
 scaffoldVersion: "2.0.0"
 ---
-## Glossary & Domain Concepts
+# Glossary
 
-This document defines project-specific terminology, concepts, and domain knowledge.
+- FBits: The storefront platform/runtime targeted by this repository.
+- Storefront theme: The collection of templates, components, assets, snippets, and config that define the customer-facing store.
+- Component: A reusable HTML fragment in `Components/`, referenced directly or through `Configs/components.json`.
+- Page template: A page-level HTML file in `Pages/`.
+- Asset: CSS, JavaScript, image, or font file under `Assets/`.
+- Generated CSS: Output CSS produced from an input/source CSS file or Tailwind workflow. Prefer editing source/input files when present.
+- Checkout close/confirmation: Post-checkout pages under `Pages/checkout/`.
+- CEP: Brazilian postal code used by regional offer and shipping quote flows.
+- Wishlist: Customer-saved product flow implemented by `Assets/JS/wishlist.js`.
+- Data layer: Analytics/event payload surface used by storefront scripts.
 
-Use this as a reference when encountering unfamiliar terms in the codebase or documentation.
+## Domain Rules
 
-## Type Definitions
-
-Key type definitions in this project:
-
-- **[TypeName]** — [Description] (`src/types/path.ts`)
-
-*See [`codebase-map.json`](./codebase-map.json) for complete type listings.*
-
-## Enumerations
-
-Enums defined in this project:
-
-- **[EnumName]** — [Description] (`src/types/path.ts`)
-
-*See [`codebase-map.json`](./codebase-map.json) for complete enum listings.*
-
-## Core Terms
-
-**[Term]**: [Definition and context]
-
-Add project-specific terminology here as the codebase evolves.
-
-## Acronyms & Abbreviations
-
-| Acronym | Expansion | Context |
-|---------|-----------|---------|
-| API | Application Programming Interface | External/internal interfaces |
-| CLI | Command Line Interface | User interaction |
-
-## Personas / Actors
-
-<!-- Describe user goals, key workflows, and pain points addressed by the system. -->
-
-_Add descriptive content here (optional)._
-
-## Domain Rules & Invariants
-
-<!-- Capture business rules, validation constraints, or compliance requirements. Note region/localization nuances. -->
-
-_Add descriptive content here (optional)._
+- HTML class and ID contracts are important because JavaScript selectors depend on them.
+- Config JSON references must match actual component and email file names.
+- Email templates should remain self-contained and conservative because email clients have limited CSS support.
+- Avoid committing local secrets, certificates, exported zips, or temporary preview artifacts.
 
 ## Related Resources
-
-<!-- Link to related documents for cross-navigation. -->
 
 - [project-overview.md](./project-overview.md)
