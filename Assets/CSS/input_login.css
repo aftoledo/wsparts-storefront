@@ -652,7 +652,7 @@
   }
 
   .wake-impersonate-wrapper > div button{
-    @apply  flex justify-center font-semibold text-center text-lg rounded-xl p-2 mb-2 antialiased text-white bg-primary-500 hover:bg-primary-600;
+    @apply  flex justify-center font-semibold text-center text-lg rounded-xl p-2 mb-2 antialiased text-white bg-black hover:bg-red-600;
   }
   
   .wake-impersonate-wrapper > div > button{
