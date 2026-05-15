@@ -102,12 +102,12 @@
     @apply w-full;
   }
 
-  .ws-login-simple-platform h1,
-  .ws-login-simple-platform h2,
-  .ws-login-simple-platform h3,
-  .ws-login-simple-platform p,
-  .ws-login-simple-platform > span,
-  .ws-login-simple-platform > div > span {
+  .ws-login-simple-platform .mainSimpleLogin h1,
+  .ws-login-simple-platform .mainSimpleLogin h2,
+  .ws-login-simple-platform .mainSimpleLogin h3,
+  .ws-login-simple-platform .mainSimpleLogin p,
+  .ws-login-simple-platform .mainSimpleLogin > span,
+  .ws-login-simple-platform .mainSimpleLogin > div > span {
     @apply hidden;
   }
 
@@ -115,12 +115,45 @@
     @apply flex flex-col gap-4 w-full;
   }
 
+  .ws-login-simple-platform form.hidden {
+    @apply hidden;
+  }
+
   .ws-login-simple-platform form > div {
     @apply flex flex-col gap-2 w-full;
   }
 
-  .ws-login-simple-platform label {
+  .ws-login-simple-platform .mainSimpleLogin label {
     @apply hidden;
+  }
+
+  .ws-login-simple-platform #returnMessage {
+    @apply flex flex-col gap-3 text-sm leading-relaxed text-gray-700;
+  }
+
+  .ws-login-simple-platform #returnMessage p {
+    @apply block m-0;
+  }
+
+  .ws-login-simple-platform .wake-authenticate-simple-questions {
+    @apply flex flex-col gap-3 w-full;
+  }
+
+  .ws-login-simple-platform .wake-authenticate-simple-questions h3 {
+    @apply block m-0 text-sm font-medium text-gray-900;
+  }
+
+  .ws-login-simple-platform .wake-authenticate-simple-questions > div {
+    @apply flex flex-col gap-2 w-full;
+  }
+
+  .ws-login-simple-platform .wake-authenticate-simple-questions label {
+    @apply flex min-h-11 w-full cursor-pointer items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-center text-sm font-semibold text-gray-800 transition-colors duration-200;
+  }
+
+  .ws-login-simple-platform .wake-authenticate-simple-questions label:hover,
+  .ws-login-simple-platform .wake-authenticate-simple-questions .wake-authenticate-simple-answer-selected {
+    @apply border-black bg-gray-50;
   }
 
   .ws-login-simple-platform input {
