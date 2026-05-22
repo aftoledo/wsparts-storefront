@@ -23,12 +23,56 @@
         #category-filters {
             max-height: calc(100vh - 5rem);
             overflow-y: auto;
+            overflow-x: hidden;
             scrollbar-width: thin;
             scrollbar-color: #d1d5db transparent;
+            box-sizing: border-box;
         }
         #category-filters::-webkit-scrollbar { width: 4px; }
         #category-filters::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
         #category-filters::-webkit-scrollbar-track { background: transparent; }
+        #category-filters > div,
+        #category-filters ul,
+        #category-filters li,
+        #category-filters label {
+            min-width: 0;
+            max-width: 100%;
+        }
+        #category-filters > div {
+            width: 100%;
+            overflow-x: hidden;
+        }
+        #category-filters ul {
+            overflow: visible;
+        }
+        #category-filters li {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+        #category-filters li input[type="checkbox"] {
+            flex: 0 0 1rem;
+            margin-top: 0.125rem;
+        }
+        #category-filters li label {
+            flex: 1 1 auto;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        @media (min-width: 1024px) {
+            .search-results-shell {
+                max-width: 1330px;
+            }
+            #category-filters {
+                width: 260px;
+                max-width: 260px;
+                flex: 0 0 260px;
+            }
+        }
 
         /* Premium Select Styling */
         .search-select {
@@ -93,10 +137,10 @@
 
     {{~ ## Main Content Area ## ~}}
     <div class="flex flex-col my-4 w-full lg:flex-row lg:justify-center px-2 lg:px-4">
-        <div class="flex relative w-full lg:max-w-[1330px]">
+        <div class="search-results-shell flex relative w-full">
             
             {{~ ## Filter Sidebar ## ~}}
-            <div id="category-filters" class="hidden absolute lg:sticky top-20 left-0 shadow-2xl lg:shadow-none z-10 bg-mainBg lg:flex lg:w-[260px] lg:flex-none lg:mr-6 h-full lg:border-r p-4 lg:p-2 ease-in-out duration-500 opacity-0 lg:opacity-100">
+            <div id="category-filters" class="hidden absolute lg:sticky top-20 left-0 shadow-2xl lg:shadow-none z-10 bg-mainBg lg:flex lg:flex-none lg:mr-6 h-full lg:border-r p-4 lg:p-2 ease-in-out duration-500 opacity-0 lg:opacity-100">
                 {{ filter aggregations: data.search.aggregations }}
             </div>
 
