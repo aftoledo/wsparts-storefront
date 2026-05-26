@@ -1,3 +1,10 @@
 User-agent: *
-Disallow: /
-Disallow: /sitemap.xml
+Disallow: /account
+Disallow: /checkout
+Disallow: /login
+Disallow: /cart
+Disallow: /carrinho
+Disallow: /listadedesejos
+Allow: /
+
+Sitemap: https://www.wsparts.com.br/sitemap.xml

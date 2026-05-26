@@ -4,11 +4,11 @@
         {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
         {{ head title: data.product.product_name store: store }}
         {{ data_layer_config }}
-        {{ product_structured_data product: data.product current_url: store.urls.current }}
+        {{ product_structured_data product: data.product current_url: (store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br') }}
         {{ asset type: "css" paths: ["navbar", "buy_box", "footer", "mini_cart", "product", "user_login", "spot", "output_base", "swiffy-slider"]}}
         {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
         {{ meta_tags seo: data.product.seo }} 
-        <link rel="canonical" href="{{ store.urls.current }}" />
+        <link rel="canonical" href="{{ store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br' }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     

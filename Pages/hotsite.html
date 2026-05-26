@@ -4,12 +4,12 @@
         {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
         {{ head title: data.hotsite.name store: store }}
         {{ data_layer_config }}
-        {{ hotsite_structured_data hotsite: data.hotsite base_url: store.urls.base current_url: store.urls.current }}
+        {{ hotsite_structured_data hotsite: data.hotsite base_url: (store.urls.base | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br') current_url: (store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br') }}
         {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "glider", "slider_price", "swiffy-slider" ]}}
         {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
         {{ meta_tags seo: data.hotsite.seo }}
         {{ wake_meta_pixel_script }}
-        <link rel="canonical" href="{{ store.urls.current }}" />
+        <link rel="canonical" href="{{ store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br' }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             /* Layout Structure: Hide redundant 3rd column and redundant headers */

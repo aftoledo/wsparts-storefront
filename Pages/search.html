@@ -5,7 +5,7 @@
     {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
     {{ head title: "Search" store: store }}
     {{ data_layer_config }}
-    {{ search_structured_data search: data.search base_url: store.urls.base current_url: store.urls.current }}
+    {{ search_structured_data search: data.search base_url: (store.urls.base | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br') current_url: (store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br') }}
     {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "slider_price", "swiffy-slider"]}}
     {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
     {{ wake_meta_pixel_script }}
@@ -16,7 +16,7 @@
     <meta name="title" content="WS Parts - Busca">
     <meta name="description" content="Os melhores preços em autopeças você encontra na WS Parts!">
     <meta name="robots" content="all">
-    <link rel="canonical" href="{{ store.urls.current }}" />
+    <link rel="canonical" href="{{ store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br' }}" />
     <input hidden id="data-layer-page-type" value="SEARCH"/>
     <style>
         /* Search Page - Filter Sidebar Containment */

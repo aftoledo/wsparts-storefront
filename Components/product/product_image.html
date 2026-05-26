@@ -1,14 +1,30 @@
-<div class="flex flex-col">
-    <div class="">
+<div class="flex flex-col w-full">
+    <div class="w-full bg-white" style="aspect-ratio: 1 / 1;">
+        {{~ fetch_priority = fetch_priority ?? false ~}}
         {{~ firstImage = images | array.first ~}}    
         {{ if firstImage }}
-            <img src="{{ firstImage.url }}" alt="Product main image - {{math.uuid}}" class="img-fluid w-full" id="firstImage">
+            <img
+                src="{{ firstImage.url }}"
+                alt="Product main image - {{math.uuid}}"
+                class="img-fluid w-full h-full object-contain"
+                id="firstImage"
+                width="800"
+                height="800"
+                {{ if fetch_priority }}fetchpriority="high"{{ end }}
+                decoding="async">
         {{ end }}
     </div>    
     <div class="flex flex-wrap justify-start items-center my-2">
         {{ for image in images }}
-            <img src="{{ image.url }}" class="w-20 h-20 lg:w-28 lg:h-28 object-cover object-center border bg-secondary-300 m-1 cursor-pointer" 
-            alt="image_{{ math.uuid }}" onclick="changeFirstImage('{{image.url}}')">
+            <img
+                src="{{ image.url }}"
+                class="w-20 h-20 lg:w-28 lg:h-28 object-cover object-center border bg-secondary-300 m-1 cursor-pointer"
+                alt="image_{{ math.uuid }}"
+                width="112"
+                height="112"
+                loading="lazy"
+                decoding="async"
+                onclick="changeFirstImage('{{image.url}}')">
         {{ end }}
     </div>   
 </div>

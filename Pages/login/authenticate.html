@@ -9,7 +9,7 @@
   {{ wake_recaptcha_script }}
   {{ head title: "Login" store: store }}
   {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
-  <link rel="canonical" href="{{ store.urls.current }}" />
+  <link rel="canonical" href="{{ store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br' }}" />
   <style>
     /* Fix for distorted login form components */
     .wake-autenticate-wrapper {

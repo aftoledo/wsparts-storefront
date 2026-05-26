@@ -11,7 +11,7 @@
         {{ meta_tags seo: buy_list.seo }} 
         {{~ end ~}}
         {{ wake_meta_pixel_script }}
-        <link rel="canonical" href="{{ store.urls.current }}" />
+        <link rel="canonical" href="{{ store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br' }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <input hidden id="data-layer-page-type" value="PRODUCT - BUYLIST"/>
     </head>

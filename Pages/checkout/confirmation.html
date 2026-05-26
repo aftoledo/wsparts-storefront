@@ -11,7 +11,7 @@
     {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
     {{ data_layer_config }}
     {{ wake_meta_pixel_script }}
-    <link rel="canonical" href="{{ store.urls.current }}" />
+    <link rel="canonical" href="{{ store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br' }}" />
 </head>
 
 <body class="bg-mainBg">

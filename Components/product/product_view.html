@@ -6,14 +6,15 @@
         product_view product: product
 ## }}
 {{~ selected_variant = product.attribute_selections?.selected_variant ~}}
+{{~ image_fetch_priority = image_fetch_priority ?? false ~}}
 <div id="add-cart-alert"></div>
-<div class="flex flex-col relative sm:flex-row justify-start w-full">
-    <div class="flex mr-5 lg:min-w-[40%]">
+<div class="flex flex-col relative lg:flex-row justify-start w-full">
+    <div class="flex w-full mb-4 lg:mb-0 lg:mr-5 lg:min-w-[40%]">
         {{~ 
             if selected_variant && selected_variant.images && selected_variant.images.size > 0
-                product_image images: product.attribute_selections.selected_variant.images
+                product_image images: product.attribute_selections.selected_variant.images fetch_priority: image_fetch_priority
             else
-                product_image images: product.images
+                product_image images: product.images fetch_priority: image_fetch_priority
             end 
         ~}}
     </div>
