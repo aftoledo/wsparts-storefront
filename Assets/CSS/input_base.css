@@ -283,10 +283,7 @@ body {
 }
 
 .grecaptcha-badge {
-  left: 24px !important;
-  right: auto !important;
-  bottom: 24px !important;
-  z-index: 998 !important;
+  visibility: hidden !important;
 }
 
 @keyframes pulse-whatsapp {
