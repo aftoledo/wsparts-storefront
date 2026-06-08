@@ -1,24 +1,75 @@
+{{~
+    item_list_elements = []
+    number_of_items = 0
+
+    if hotsite.products_by_offset
+        number_of_items = hotsite.products_by_offset.total_count
+        for product in hotsite.products_by_offset.items
+            product_name = product.product_name ?? product.name
+            product_url = base_url | string.append "/" | string.append product.alias
+
+            product_item = {}
+            product_item["@type"] = "Product"
+            if product.images.size > 0 && product.images[0].url
+                product_item.image = product.images[0].url
+            else
+                product_item.image = "https://" | string.append store.store_name | string.append ".fbitsstatic.net/img/p/produto-nao-possui-foto-no-momento/sem-foto.jpg?w=250&h=250&v=20220125251131&qs=ignore"
+            end
+            product_item.url = product_url
+            product_item.name = product_name
+
+            offers = {}
+            offers["@type"] = "Offer"
+            offers.url = product_url
+            offers.priceCurrency = "BRL"
+            if product.prices
+                offers.price = product.prices.price
+            end
+            offers.availability = product.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+            offers.itemCondition = "https://schema.org/NewCondition"
+            product_item.offers = offers
+
+            item_list_elements = item_list_elements | array.add product_item
+        end
+    else if hotsite.products
+        number_of_items = hotsite.products.total_count
+        for edge in hotsite.products.edges
+            product = edge.node
+            product_name = product.product_name ?? product.name
+            product_url = base_url | string.append "/" | string.append product.alias
+
+            product_item = {}
+            product_item["@type"] = "Product"
+            if product.images.size > 0 && product.images[0].url
+                product_item.image = product.images[0].url
+            else
+                product_item.image = "https://" | string.append store.store_name | string.append ".fbitsstatic.net/img/p/produto-nao-possui-foto-no-momento/sem-foto.jpg?w=250&h=250&v=20220125251131&qs=ignore"
+            end
+            product_item.url = product_url
+            product_item.name = product_name
+
+            offers = {}
+            offers["@type"] = "Offer"
+            offers.url = product_url
+            offers.priceCurrency = "BRL"
+            if product.prices
+                offers.price = product.prices.price
+            end
+            offers.availability = product.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+            offers.itemCondition = "https://schema.org/NewCondition"
+            product_item.offers = offers
+
+            item_list_elements = item_list_elements | array.add product_item
+        end
+    end
+
+    structured_data = {}
+    structured_data["@context"] = "https://schema.org"
+    structured_data["@type"] = "ItemList"
+    structured_data.url = current_url
+    structured_data.numberOfItems = number_of_items
+    structured_data.itemListElement = item_list_elements
+~}}
 <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "url": "{{ current_url }}",
-        {{~ if hotsite.products_by_offset ~}}
-            "numberOfItems": "{{ hotsite.products_by_offset.total_count }}",
-            "itemListElement": [
-            {{~ for product in hotsite.products_by_offset.items ~}}
-                {{~ generic_structured_data product: product base_url: base_url ~}}
-                {{~ if !for.last ~}},{{ end }}
-            {{~ end ~}}
-            ]
-        {{~ else if hotsite.products ~}}
-            "numberOfItems": "{{ hotsite.products.total_count }}",
-            "itemListElement": [
-            {{~ for product in hotsite.products.edges ~}}
-                {{~ generic_structured_data product: product.node base_url: base_url ~}}
-                {{~ if !for.last ~}},{{ end }}
-            {{~ end ~}}
-            ]
-        {{~ end ~}}
-    }
+    {{ structured_data | map.to_json }}
 </script>

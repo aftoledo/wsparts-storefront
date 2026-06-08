@@ -1,8 +1,10 @@
+{{~
+    structured_data = {}
+    structured_data["@context"] = "https://schema.org"
+    structured_data["@type"] = "WebSite"
+    structured_data.name = site_name
+    structured_data.url = current_url
+~}}
 <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "{{ site_name }}",
-        "url": "{{ current_url }}"
-    }
+    {{ structured_data | map.to_json }}
 </script>

@@ -1,25 +1,30 @@
-{
-    "@type": "Product",
-    {{~ product_name = product.product_name ?? product.name ~}}
-    {{~ if product.images.size > 0 ~}}
-        "image": "{{ product.images[0].url }}",                   
-    {{~ else ~}}
-        "image": "https://{{store.store_name}}.fbitsstatic.net/img/p/produto-nao-possui-foto-no-momento/sem-foto.jpg?w=250&h=250&v=20220125251131&qs=ignore",
-    {{~ end ~}}
-    "url": "{{ base_url | string.append "/" | string.append product.alias }}",
-    "name": "{{ product_name }}",
-    "offers": {
-        "@type": "Offer",
-        "url": "{{ base_url | string.append "/" | string.append product.alias }}",
-        "priceCurrency": "BRL",
-        {{~ if product.prices -}}
-            "price": "{{ product.prices.price }}",
-        {{~ end ~}}
-        {{~ if product.available ~}}
-            "availability": "https://schema.org/InStock",
-        {{~ else ~}}
-            "availability": "https://schema.org/OutOfStock",
-        {{~ end ~}}
-        "itemCondition": "https://schema.org/NewCondition"
-    }
-}
+{{~
+    product_name = product.product_name ?? product.name
+    product_url = base_url | string.append "/" | string.append product.alias
+
+    product_item = {}
+    product_item["@type"] = "Product"
+
+    if product.images.size > 0 && product.images[0].url
+        product_item.image = product.images[0].url
+    else
+        product_item.image = "https://" | string.append store.store_name | string.append ".fbitsstatic.net/img/p/produto-nao-possui-foto-no-momento/sem-foto.jpg?w=250&h=250&v=20220125251131&qs=ignore"
+    end
+
+    product_item.url = product_url
+    product_item.name = product_name
+
+    offers = {}
+    offers["@type"] = "Offer"
+    offers.url = product_url
+    offers.priceCurrency = "BRL"
+
+    if product.prices
+        offers.price = product.prices.price
+    end
+
+    offers.availability = product.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+    offers.itemCondition = "https://schema.org/NewCondition"
+    product_item.offers = offers
+~}}
+{{ product_item | map.to_json }}

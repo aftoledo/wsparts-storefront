@@ -1,80 +1,90 @@
-{{~ grouped_informations = product.informations | group.by @(do; ret $0.title;end) ~}}
-{{~ description_information = grouped_informations | group.get "Descrição" ~}}
-{{~ description = description_information | array.first ~}}
+{{~
+    grouped_informations = product.informations | group.by @(do; ret $0.title;end)
+    description_information = grouped_informations | group.get "Descrição"
+    description = description_information | array.first
+
+    images = []
+    for image in product.images
+        if image.url
+            images = images | array.add image.url
+        end
+    end
+
+    structured_data = {}
+    structured_data["@context"] = "https://schema.org/"
+    structured_data["@type"] = "Product"
+    structured_data.name = product.product_name
+    structured_data.image = images
+    structured_data.sku = product.sku
+    structured_data.url = current_url
+
+    if description
+        structured_data.description = description.value
+    end
+
+    if product.ean
+        ean_size = product.ean | string.size
+        if ean_size == 8
+            structured_data.gtin8 = product.ean
+        else if ean_size == 12
+            structured_data.gtin12 = product.ean
+        else if ean_size == 13
+            structured_data.gtin13 = product.ean
+        else if ean_size == 14
+            structured_data.gtin14 = product.ean
+        else
+            structured_data.gtin = product.ean
+        end
+    end
+
+    if product.product_brand
+        brand = {}
+        brand["@type"] = "Brand"
+        brand.name = product.product_brand.name
+        structured_data.brand = brand
+    end
+
+    if product.reviews.size > 0
+        sort_rating = product.reviews | array.sort "rating" | array.map "rating"
+        best_rating = sort_rating | array.last
+        worst_rating = sort_rating | array.first
+        reviews = []
+
+        for review in product.reviews
+            review_rating = {}
+            review_rating["@type"] = "Rating"
+            review_rating.bestRating = best_rating
+            review_rating.ratingValue = review.rating
+            review_rating.worstRating = worst_rating
+
+            review_item = {}
+            review_item["@type"] = "Review"
+            review_item.author = review.customer
+            review_item.datePublished = review.review_date
+            review_item.reviewBody = review.review
+            review_item.reviewRating = review_rating
+            reviews = reviews | array.add review_item
+        end
+
+        aggregate_rating = {}
+        aggregate_rating["@type"] = "AggregateRating"
+        aggregate_rating.ratingValue = product.average_rating
+        aggregate_rating.reviewCount = product.reviews.size
+        structured_data.aggregateRating = aggregate_rating
+        structured_data.review = reviews
+    end
+
+    offers = {}
+    offers["@type"] = "Offer"
+    offers.url = current_url
+    offers.priceCurrency = "BRL"
+    if product.prices
+        offers.price = product.prices.price
+    end
+    offers.availability = product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+    offers.itemCondition = "https://schema.org/NewCondition"
+    structured_data.offers = offers
+~}}
 <script type="application/ld+json">
-    {
-        "@context": "https://schema.org/",
-        "@type": "Product",
-        "name": "{{ product.product_name }}",
-        "image": [
-            {{~ for image in product.images ~}}
-                {{~ if image.url ~}}
-                    "{{ image.url }}"{{ if !for.last }},{{ end }}
-                {{~ end ~}}
-            {{~ end ~}}
-        ],
-        {{~ if description ~}}
-            "description": "{{ description.value ~}}",
-        {{~ end ~}}
-        "sku": "{{ product.sku }}",
-        {{~ if product.ean ~}}
-            {{~ eanSize = product.ean | string.size ~}}
-            {{~ if eanSize == 8 ~}}
-                "gtin8": "{{ product.ean }}",
-            {{~ else if eanSize == 12 ~}}
-                "gtin12": "{{ product.ean }}",
-            {{~ else if eanSize == 13 ~}}
-                "gtin13": "{{ product.ean }}",
-            {{~ else if eanSize == 14 ~}}
-                "gtin14": "{{ product.ean }}",
-            {{~ else ~}}
-                "gtin": "{{ product.ean }}",
-            {{~ end ~}}
-        {{~ end ~}}
-        "url": "{{ current_url }}",
-        {{~ if product.product_brand ~}}
-            "brand": {
-                "@type": "Brand",
-                "name": "{{ product.product_brand.name }}"
-            },
-        {{~ end ~}}
-        {{~ if product.reviews.size > 0 ~}}
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "{{ product.average_rating }}",
-                "reviewCount": "{{ product.reviews.size }}"
-            },
-            "review": [
-            {{~ sortRating = product.reviews | array.sort "rating" | array.map "rating" ~}}
-            {{~ bestRating = sortRating | array.last ~}}
-            {{~ worstRating = sortRating | array.first ~}}
-            {{~ for review in product.reviews ~}}
-                {
-                    "@type": "Review",
-                    "author": "{{ review.customer }}",
-                    "datePublished": "{{ review.review_date }}",
-                    "reviewBody": "{{ review.review }}",
-                    "reviewRating": {
-                    "@type": "Rating",
-                    "bestRating": "{{ bestRating }}",
-                    "ratingValue": "{{ review.rating }}",
-                    "worstRating": "{{ worstRating }}"
-                    }
-                }{{~ if !for.last ~}},{{ end }}
-            {{~ end ~}}
-            ],
-        {{~ end ~}}    
-        "offers": {
-            "@type": "Offer",
-            "url": "{{ current_url }}",
-            "priceCurrency": "BRL",
-            "price": "{{ product.prices.price }}",
-            {{~ if product.stock > 0 ~}}
-                "availability": "https://schema.org/InStock",
-            {{~ else ~}}
-                "availability": "https://schema.org/OutOfStock",
-            {{~ end ~}}
-            "itemCondition": "https://schema.org/NewCondition"
-        }
-    }
+    {{ structured_data | map.to_json }}
 </script>
