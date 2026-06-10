@@ -2,12 +2,30 @@
 <html lang="pt-BR">
     <head>
         {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
-        {{ head title: data.product.product_name store: store }}
+        {{~
+            product_page_title = data.product.product_name | string.truncate 30
+            if data.product.sku
+                product_page_sku_title = data.product.sku | string.append "" | string.truncate 10 ""
+                product_page_title = product_page_title | string.append " | SKU " | string.append product_page_sku_title
+            else if data.product.product_id
+                product_page_id_title = data.product.product_id | string.append "" | string.truncate 10 ""
+                product_page_title = product_page_title | string.append " | Produto " | string.append product_page_id_title
+            end
+            product_page_title = product_page_title | string.append " | WS Parts"
+            product_meta_description = "Compre autopeças na WS Parts"
+            if data.product.sku
+                product_meta_description = product_meta_description | string.append " para o SKU " | string.append data.product.sku
+            else if data.product.product_id
+                product_meta_description = product_meta_description | string.append " para o produto " | string.append data.product.product_id
+            end
+            product_meta_description = product_meta_description | string.append ". Atendimento especializado, entrega para todo o Brasil e pagamento facilitado."
+        ~}}
+        {{ head title: product_page_title store: store }}
         {{ data_layer_config }}
         {{ product_structured_data product: data.product current_url: (store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br') }}
         {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "product", "user_login", "spot", "output_base", "swiffy-slider"]}}
         {{ page_scripts position: "HEADER_END" scripts: common.scripts }}
-        {{ meta_tags seo: data.product.seo }}
+        {{ meta_tags seo: data.product.seo fallback_description: product_meta_description }}
         {{ wake_meta_pixel_script }}
         <link rel="canonical" href="{{ store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br' }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1">

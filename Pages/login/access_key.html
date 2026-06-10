@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
+  {{ data_layer_config }}
   {{ asset type: "css" paths: ["output_base", "output_login"]}}
   {{ wake_recaptcha_script }}
   {{ head title: "Chave de Acesso" store: store }}
@@ -29,7 +30,7 @@
   {{ sdk_client }}
   {{ page_scripts position: "FOOTER_END" scripts: common.scripts }}
   {{ wake_scripts scripts: ["wake_utils", "wake_login"] }}
-  {{ asset type: "js" paths: ["mini_cart"] options: "async"}}
+  {{ asset type: "js" paths: ["mini_cart", "event_manager"] options: "async"}}
   {{ page_scripts position: "BODY_END" scripts: common.scripts }}
 </body>
 </html>

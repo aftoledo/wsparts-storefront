@@ -18,8 +18,12 @@
     structured_data.sku = product.sku
     structured_data.url = current_url
 
-    if description
-        structured_data.description = description.value
+    product_structured_description = product.product_name
+    if product.sku
+        product_structured_description = product_structured_description | string.append " SKU " | string.append product.sku
+    end
+    if product_structured_description
+        structured_data.description = product_structured_description
     end
 
     if product.ean
@@ -32,7 +36,7 @@
             structured_data.gtin13 = product.ean
         else if ean_size == 14
             structured_data.gtin14 = product.ean
-        else
+        else if ean_size > 0
             structured_data.gtin = product.ean
         end
     end

@@ -70,6 +70,8 @@
     structured_data.numberOfItems = number_of_items
     structured_data.itemListElement = item_list_elements
 ~}}
+{{~ if item_list_elements.size > 0 ~}}
 <script type="application/ld+json">
     {{ structured_data | map.to_json }}
 </script>
+{{~ end ~}}

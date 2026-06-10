@@ -2,7 +2,15 @@
 <html lang="pt-BR">
     <head>
         {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
-        {{ head title: data.hotsite.name store: store }}
+        {{~
+            wishlist_page_title = data.hotsite.name
+            if wishlist_page_title
+                wishlist_page_title = wishlist_page_title | string.append " | WS Parts"
+            else
+                wishlist_page_title = "Lista de Desejos | WS Parts"
+            end
+        ~}}
+        {{ head title: wishlist_page_title store: store }}
         {{ data_layer_config }}
         {{ hotsite_structured_data hotsite: data.hotsite base_url: (store.urls.base | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br') current_url: (store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br') }}
         {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base"]}}

@@ -3,6 +3,7 @@
     Params:
         - seo: SEO list (available for hotsites and products on Admin)
                Make sure to fill the MetaTags fields
+        - fallback_description: Meta description used when Admin does not provide one
     Usage:
         meta_tags seo: data...seo
 ## }}
@@ -12,9 +13,14 @@
         ret case_insensitive_type == "meta"
     end 
 ~}}
+{{~ has_description = false ~}}
 {{~ if seo ~}}
     {{ for item in seo | array.filter @is_meta }}
         {{
+            case_insensitive_name = item.name != null ? (item.name | string.downcase) : ""
+            if case_insensitive_name == "description" && item.content != null && item.content != ""
+                has_description = true
+            end
             name_tag = item.name != null ? (" name=" + "\"" + item.name + "\"") : ""
             content_tag = item.content != null ? (" content=" + "\"" + item.content + "\"") : ""
             http_equiv_tag = item.http_equiv != null ? (" http-equiv=" + "\"" + item.http_equiv + "\"") : ""
@@ -22,4 +28,7 @@
         }}
         {{ meta_tag }}
     {{ end }}
+{{~ end ~}}
+{{~ if !has_description && fallback_description != null && fallback_description != "" ~}}
+    <meta name="description" content="{{ fallback_description }}" />
 {{~ end ~}}

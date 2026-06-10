@@ -2,7 +2,15 @@
 <html lang="pt-BR">
     <head>
         {{ page_scripts position: "HEADER_START" scripts: common.scripts }}
-        {{ head title: data.hotsite.name store: store }}
+        {{~
+            hotsite_page_title = data.hotsite.name
+            if hotsite_page_title
+                hotsite_page_title = hotsite_page_title | string.append " | Autopeças WS Parts"
+            else
+                hotsite_page_title = "Autopeças | WS Parts"
+            end
+        ~}}
+        {{ head title: hotsite_page_title store: store }}
         {{ data_layer_config }}
         {{ hotsite_structured_data hotsite: data.hotsite base_url: (store.urls.base | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br') current_url: (store.urls.current | string.replace 'https://www2.wsparts.com.br' 'https://www.wsparts.com.br') }}
         {{ asset type: "css" paths: ["navbar", "footer", "mini_cart", "user_login", "spot", "product", "output_base", "glider", "slider_price"  ]}}
