@@ -2,6 +2,9 @@
     {{~ grouped_scripts = scripts | group.by @(do; ret $0.position;end) ~}}
     {{~ scripts = grouped_scripts | group.get position ~}}
     {{for script in scripts}}
-        {{script.content}}
+        {{ hotjar_script = script.content | string.contains "static.hotjar.com/c/hotjar-" }}
+        {{ if !hotjar_script }}
+            {{script.content}}
+        {{ end }}
     {{end}}
 {{~ end ~}}
