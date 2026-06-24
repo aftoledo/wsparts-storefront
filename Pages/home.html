@@ -26,12 +26,16 @@
     {{ side_cart }}
     {{ wake_overlay }}
     <h1 class="sr-only">Autopeças online na WS Parts</h1>
-    {{ banners_carousel id: "banners_top" banners: data.hotsite.banners position: "Topo" }}
-    {{ benefits }}
-    {{ spot_carousel products: data.mais_vendidos.products.nodes class:"best-sellers" title:"Mais Vendidos" }}
-    {{ spot_carousel products: data.mais_ofertas.products.nodes class:"best-sellers" title:"Promoções" }}
-    {{ spot_carousel products: data.lancamentos.products.nodes class:"new-release" title:"Lançamentos" }}
-    {{ brands_carousel brands: data.brands.nodes }}
+    {{ if wake_has_content_for_page }}
+        {{ wake_content_for_page }}
+    {{ else }}
+        {{ banners_carousel id: "banners_top" banners: data.hotsite.banners position: "Topo" }}
+        {{ benefits }}
+        {{ spot_carousel products: data.mais_vendidos.products.nodes class:"best-sellers" title:"Mais Vendidos" }}
+        {{ spot_carousel products: data.mais_ofertas.products.nodes class:"best-sellers" title:"Promoções" }}
+        {{ spot_carousel products: data.lancamentos.products.nodes class:"new-release" title:"Lançamentos" }}
+        {{ brands_carousel brands: data.brands.nodes }}
+    {{ end }}
     {{ wake_modal }}
     {{ page_scripts position: "FOOTER_START" scripts: common.scripts }}
     {{ footer is_preview: is_preview store: store }}

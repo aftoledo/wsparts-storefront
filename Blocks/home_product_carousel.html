@@ -1,0 +1,18 @@
+{{~
+    source = block_data.product_source ?? "home_best_sellers"
+    title = block_data.title ?? "Mais Vendidos"
+    class_name = block_data.class_name ?? "best-sellers"
+
+    if source == "home_promotions"
+        products = data.mais_ofertas.products.nodes
+    else if source == "home_new_releases"
+        products = data.lancamentos.products.nodes
+    else if source == "custom_products"
+        products = block_data.products
+    else if source == "hotsite_products"
+        products = block_data.hotsite_products
+    else
+        products = data.mais_vendidos.products.nodes
+    end
+~}}
+{{ spot_carousel products: products class: class_name title: title }}

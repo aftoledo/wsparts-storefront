@@ -1,0 +1,5 @@
+{{~
+    banner_id = block_data.banner_id ?? "banners_top"
+    position = block_data.position ?? "Topo"
+~}}
+{{ banners_carousel id: banner_id banners: data.hotsite.banners position: position }}

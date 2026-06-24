@@ -1,0 +1,12 @@
+{
+    "name": "Home - Carrossel de marcas",
+    "type": "home_brands_carousel",
+    "settings": [
+        {
+            "label": "Exibir marcas",
+            "name": "show_brands",
+            "type": "checkbox",
+            "required": false
+        }
+    ]
+}

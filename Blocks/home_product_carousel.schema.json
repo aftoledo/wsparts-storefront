@@ -1,0 +1,47 @@
+{
+    "name": "Home - Carrossel de produtos",
+    "type": "home_product_carousel",
+    "settings": [
+        {
+            "label": "Titulo",
+            "name": "title",
+            "type": "text",
+            "required": true
+        },
+        {
+            "label": "Origem dos produtos",
+            "name": "product_source",
+            "type": "select",
+            "required": true,
+            "options": [
+                { "label": "Mais vendidos da Home", "value": "home_best_sellers" },
+                { "label": "Promocoes da Home", "value": "home_promotions" },
+                { "label": "Lancamentos da Home", "value": "home_new_releases" },
+                { "label": "Lista manual de produtos", "value": "custom_products" },
+                { "label": "Produtos de um hotsite", "value": "hotsite_products" }
+            ]
+        },
+        {
+            "label": "Lista manual de produtos",
+            "name": "products",
+            "type": "product_list",
+            "required": false
+        },
+        {
+            "label": "Hotsite de produtos",
+            "name": "hotsite_products",
+            "type": "hotsite_products",
+            "required": false
+        },
+        {
+            "label": "Classe visual",
+            "name": "class_name",
+            "type": "select",
+            "required": false,
+            "options": [
+                { "label": "Mais vendidos", "value": "best-sellers" },
+                { "label": "Lancamentos", "value": "new-release" }
+            ]
+        }
+    ]
+}

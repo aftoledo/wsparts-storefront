@@ -1,0 +1,12 @@
+{
+    "name": "Home - Beneficios",
+    "type": "home_benefits",
+    "settings": [
+        {
+            "label": "Exibir beneficios",
+            "name": "show_benefits",
+            "type": "checkbox",
+            "required": false
+        }
+    ]
+}

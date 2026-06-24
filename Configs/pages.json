@@ -12,7 +12,13 @@
             {
                 "urlMatch": "",
                 "path": "home.html",
-                "query": "home.graphql"
+                "query": "home.graphql",
+                "content_for_page": [
+                    { "type": "home_banner_carousel" },
+                    { "type": "home_benefits" },
+                    { "type": "home_product_carousel" },
+                    { "type": "home_brands_carousel" }
+                ]
             },
             {
                 "urlMatch": "listadedesejos",

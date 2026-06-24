@@ -19,6 +19,7 @@ Thumbs.db
 # Gemini/Antigravity Context (optional, but usually recommended to ignore to avoid bloat)
 .gemini/
 .context/logs/
+.context/tools/
 
 # dotcontext runtime state
 .context/plans/
